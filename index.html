@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Gerador de Proposta | OASIS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f2f4f8;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: #ffffff;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      border-radius: 12px;
+      margin-top: 40px;
+      margin-bottom: 40px;
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .logo img {
+      max-width: 220px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    p.subtitle {
+      text-align: center;
+      color: #555;
+      margin-bottom: 30px;
+    }
+
+    label {
+      font-weight: bold;
+      margin-top: 15px;
+      display: block;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 25px;
+      padding: 14px;
+      font-size: 16px;
+      background: #0f766e;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #115e59;
+    }
+
+    textarea {
+      width: 100%;
+      height: 420px;
+      margin-top: 25px;
+      padding: 15px;
+      font-size: 14px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      resize: vertical;
+    }
+
+    .copy {
+      background: #2563eb;
+      margin-top: 10px;
+    }
+
+    .copy:hover {
+      background: #1e40af;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 13px;
+      color: #777;
+      margin-top: 25px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="logo">
+      <img src="logo-oasisturdf.png" alt="Oasis Tour DF">
+    </div>
+
+    <h1>Gerador de Proposta ANADEM</h1>
+    <p class="subtitle">Ferramenta exclusiva • OASIS TOUR DF</p>
+
+    <label>Grupo / Especialidade</label>
+    <input id="p1" placeholder="Ex: D1 – Odontologia">
+
+    <label>Capital Segurado</label>
+    <input id="p2" placeholder="Ex: R$ 1.000.000">
+
+    <label>Cartão – Tabela Verde</label>
+    <input id="p3" placeholder="Ex: R$ 189,00">
+
+    <label>Boleto – Tabela Verde</label>
+    <input id="p4" placeholder="Ex: R$ 199,00">
+
+    <label>Cartão – Tabela Black</label>
+    <input id="p5" placeholder="Ex: R$ 239,00">
+
+    <label>Boleto – Tabela Black</label>
+    <input id="p6" placeholder="Ex: R$ 249,00">
+
+    <button onclick="gerarTexto()">Gerar proposta</button>
+    <button class="copy" onclick="copiarTexto()">Copiar texto</button>
+
+    <textarea id="resultado" placeholder="O texto final aparecerá aqui..."></textarea>
+
+    <footer>
+      © OASIS TOUR DF • Ferramenta interna de uso comercial
+    </footer>
+
+  </div>
+
+<script>
+function gerarTexto() {
+  const p1 = document.getElementById("p1").value;
+  const p2 = document.getElementById("p2").value;
+  const p3 = document.getElementById("p3").value;
+  const p4 = document.getElementById("p4").value;
+  const p5 = document.getElementById("p5").value;
+  const p6 = document.getElementById("p6").value;
+
+  const texto =
+`🔒 *Proposta Personalizada – ANADEM*
+_Proteção Jurídica Completa para Profissionais da Saúde_
+
+Doutor(a), pensando na sua especialidade (${p1}), a ANADEM possui uma proposta sob medida para garantir sua tranquilidade profissional em um cenário de crescente judicialização.
+
+Hoje, qualquer procedimento pode virar um processo — mesmo quando tudo é feito corretamente.
+
+💼 Opções de Cobertura | Capital Segurado: ${p2}
+
+🔹 *Sem Retroatividade*
+💳 Cartão: ${p3}/mês
+📄 Boleto: ${p4}/mês
+
+🔹 *Com Retroatividade de 5 anos* (mais recomendada)
+💳 Cartão: ${p5}/mês
+📄 Boleto: ${p6}/mês
+
+👉 _A retroatividade protege também atos já realizados nos últimos 5 anos._
+
+⭐ *Por que a ANADEM é diferente de um seguro comum?*
+
+✔ Atuação jurídica preventiva e defesa completa
+✔ Advogados especializados em Direito Médico
+✔ Plantão jurídico 24h
+✔ Processos ilimitados, sem franquia
+✔ Cobertura nacional
+
+🛡️ *Diferencial exclusivo ANADEM*
+
+✅ Gerenciamento de crise de imagem e reputação on-line  
+✅ Extensão gratuita para CNPJ, quando houver
+
+⚠️ *Importante*
+
+A defesa correta desde o início faz toda a diferença.
+
+Se quiser, podemos ativar sua proteção ainda hoje.
+
+Fico à disposição.`;
+
+  document.getElementById("resultado").value = texto;
+}
+
+function copiarTexto() {
+  const campo = document.getElementById("resultado");
+  campo.select();
+  campo.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+  alert("Texto copiado com sucesso!");
+}
+</script>
+
+</body>
+</html>
