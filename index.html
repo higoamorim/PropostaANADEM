@@ -61,38 +61,48 @@
 
     button {
       width: 100%;
-      margin-top: 25px;
+      margin-top: 15px;
       padding: 14px;
       font-size: 16px;
-      background: #0f766e;
-      color: #fff;
       border: none;
       border-radius: 8px;
       cursor: pointer;
+      color: #fff;
     }
 
-    button:hover {
+    .btn-gerar {
+      background: #0f766e;
+    }
+
+    .btn-gerar:hover {
       background: #115e59;
+    }
+
+    .btn-copiar {
+      background: #2563eb;
+    }
+
+    .btn-copiar:hover {
+      background: #1e40af;
+    }
+
+    .btn-limpar {
+      background: #6b7280;
+    }
+
+    .btn-limpar:hover {
+      background: #4b5563;
     }
 
     textarea {
       width: 100%;
       height: 420px;
-      margin-top: 25px;
+      margin-top: 20px;
       padding: 15px;
       font-size: 14px;
       border-radius: 8px;
       border: 1px solid #ccc;
       resize: vertical;
-    }
-
-    .copy {
-      background: #2563eb;
-      margin-top: 10px;
-    }
-
-    .copy:hover {
-      background: #1e40af;
     }
 
     footer {
@@ -133,8 +143,9 @@
     <label>Boleto – Tabela Black</label>
     <input id="p6" placeholder="Ex: R$ 249,00">
 
-    <button onclick="gerarTexto()">Gerar proposta</button>
-    <button class="copy" onclick="copiarTexto()">Copiar texto</button>
+    <button class="btn-gerar" onclick="gerarTexto()">Gerar proposta</button>
+    <button class="btn-copiar" onclick="copiarTexto()">Copiar texto</button>
+    <button class="btn-limpar" onclick="limparCampos()">Limpar campos</button>
 
     <textarea id="resultado" placeholder="O texto final aparecerá aqui..."></textarea>
 
@@ -175,15 +186,17 @@ Hoje, qualquer procedimento pode virar um processo — mesmo quando tudo é feit
 
 ⭐ *Por que a ANADEM é diferente de um seguro comum?*
 
-✔ Atuação jurídica preventiva e defesa completa
-✔ Advogados especializados em Direito Médico
-✔ Plantão jurídico 24h
-✔ Processos ilimitados, sem franquia
-✔ Cobertura nacional
+✔ Atuação jurídica preventiva e defesa completa  
+✔ Advogados especializados em Direito Médico  
+✔ Plantão jurídico 24h  
+✔ Processos ilimitados, sem franquia  
+✔ Cobertura nacional  
 
 🛡️ *Diferencial exclusivo ANADEM*
 
 ✅ Gerenciamento de crise de imagem e reputação on-line  
+Proteção no Google, redes sociais e mídias digitais.
+
 ✅ Extensão gratuita para CNPJ, quando houver consultório, com um sócio da área da saúde, e não tenha leitos/internação ou PJ de faturamento.
 
 ⚠️ *Importante*
@@ -202,7 +215,17 @@ function copiarTexto() {
   campo.select();
   campo.setSelectionRange(0, 99999);
   document.execCommand("copy");
-  alert("Texto copiado com sucesso!");
+  alert("Pode mandar pro médico!");
+}
+
+function limparCampos() {
+  document.getElementById("p1").value = "";
+  document.getElementById("p2").value = "";
+  document.getElementById("p3").value = "";
+  document.getElementById("p4").value = "";
+  document.getElementById("p5").value = "";
+  document.getElementById("p6").value = "";
+  document.getElementById("resultado").value = "";
 }
 </script>
 
