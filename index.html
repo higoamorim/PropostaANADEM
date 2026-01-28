@@ -1,233 +1,37 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Gerador de Proposta | OASIS</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <style>
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f2f4f8;
-      margin: 0;
-      padding: 0;
-    }
-
-    .container {
-      max-width: 900px;
-      margin: auto;
-      background: #ffffff;
-      padding: 30px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-      border-radius: 12px;
-      margin-top: 40px;
-      margin-bottom: 40px;
-    }
-
-    .logo {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .logo img {
-      max-width: 220px;
-    }
-
-    h1 {
-      text-align: center;
-      margin-bottom: 10px;
-    }
-
-    p.subtitle {
-      text-align: center;
-      color: #555;
-      margin-bottom: 30px;
-    }
-
-    label {
-      font-weight: bold;
-      margin-top: 15px;
-      display: block;
-    }
-
-    input {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      font-size: 14px;
-    }
-
-    button {
-      width: 100%;
-      margin-top: 15px;
-      padding: 14px;
-      font-size: 16px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      color: #fff;
-    }
-
-    .btn-gerar {
-      background: #0f766e;
-    }
-
-    .btn-gerar:hover {
-      background: #115e59;
-    }
-
-    .btn-copiar {
-      background: #2563eb;
-    }
-
-    .btn-copiar:hover {
-      background: #1e40af;
-    }
-
-    .btn-limpar {
-      background: #6b7280;
-    }
-
-    .btn-limpar:hover {
-      background: #4b5563;
-    }
-
-    textarea {
-      width: 100%;
-      height: 420px;
-      margin-top: 20px;
-      padding: 15px;
-      font-size: 14px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      resize: vertical;
-    }
-
-    footer {
-      text-align: center;
-      font-size: 13px;
-      color: #777;
-      margin-top: 25px;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>OASIS • Operacional</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body{font-family:Arial;background:#f2f4f8;margin:0}
+.container{max-width:800px;margin:auto;padding:40px}
+.card{background:#fff;padding:30px;border-radius:12px;box-shadow:0 10px 25px rgba(0,0,0,.08);margin-bottom:20px;text-align:center}
+a{display:block;padding:15px;background:#0f766e;color:#fff;text-decoration:none;border-radius:8px;margin-top:10px}
+a:hover{background:#115e59}
+.logo{text-align:center;margin-bottom:30px}
+.logo img{max-width:220px}
+</style>
 </head>
 
 <body>
+<div class="container">
 
-  <div class="container">
+<div class="logo">
+<img src="logo-oasisturdf.png">
+</div>
 
-    <div class="logo">
-      <img src="logo-oasisturdf.png" alt="Oasis Tour DF">
-    </div>
+<div class="card">
+<h2>Gerador de Propostas ANADEM</h2>
+<a href="gerador.html">Acessar Gerador</a>
+</div>
 
-    <h1>Gerador de Proposta ANADEM</h1>
-    <p class="subtitle">Ferramenta exclusiva • OASIS TOUR DF</p>
+<div class="card">
+<h2>Base de Conhecimento ANADEM</h2>
+<a href="base-conhecimento.html">Acessar Base</a>
+</div>
 
-    <label>Grupo / Especialidade</label>
-    <input id="p1" placeholder="Ex: D1 – Odontologia">
-
-    <label>Capital Segurado</label>
-    <input id="p2" placeholder="Ex: R$ 500.000,00">
-
-    <label>Cartão – Tabela Verde</label>
-    <input id="p3" placeholder="Ex: R$ 189,00">
-
-    <label>Boleto – Tabela Verde</label>
-    <input id="p4" placeholder="Ex: R$ 199,00">
-
-    <label>Cartão – Tabela Black</label>
-    <input id="p5" placeholder="Ex: R$ 239,00">
-
-    <label>Boleto – Tabela Black</label>
-    <input id="p6" placeholder="Ex: R$ 249,00">
-
-    <button class="btn-gerar" onclick="gerarTexto()">Gerar proposta</button>
-    <button class="btn-copiar" onclick="copiarTexto()">Copiar texto</button>
-    <button class="btn-limpar" onclick="limparCampos()">Limpar campos</button>
-
-    <textarea id="resultado" placeholder="O texto final aparecerá aqui..."></textarea>
-
-    <footer>
-      © OASIS TOUR DF • Ferramenta interna de uso comercial
-    </footer>
-
-  </div>
-
-<script>
-function gerarTexto() {
-  const p1 = document.getElementById("p1").value;
-  const p2 = document.getElementById("p2").value;
-  const p3 = document.getElementById("p3").value;
-  const p4 = document.getElementById("p4").value;
-  const p5 = document.getElementById("p5").value;
-  const p6 = document.getElementById("p6").value;
-
-  const texto =
-`🔒 *Proposta Personalizada – ANADEM*
-_Proteção Jurídica Completa para Profissionais da Saúde_
-
-Doutor(a), pensando na sua especialidade (${p1}), a ANADEM possui uma proposta sob medida para garantir sua tranquilidade profissional em um cenário de crescente judicialização.
-
-Hoje, qualquer procedimento pode virar um processo — mesmo quando tudo é feito corretamente.
-
-💼 Opções de Cobertura | Capital Segurado: ${p2}
-
-🔹 *Sem Retroatividade*
-💳 Cartão: R$ ${p3}/mês
-📄 Boleto: R$ ${p4}/mês
-
-🔹 *Com Retroatividade de 5 anos* (mais recomendada)
-💳 Cartão: R$ ${p5}/mês
-📄 Boleto: R$ ${p6}/mês
-
-👉 _A retroatividade protege também atos já realizados nos últimos 5 anos._
-
-⭐ *Por que a ANADEM é diferente de um seguro comum?*
-
-✔ Atuação jurídica preventiva e defesa completa  
-✔ Advogados especializados em Direito Médico  
-✔ Plantão jurídico 24h  
-✔ Processos ilimitados, sem franquia  
-✔ Cobertura nacional  
-
-🛡️ *Diferencial exclusivo ANADEM*
-
-✅ Gerenciamento de crise de imagem e reputação on-line  
-Proteção no Google, redes sociais e mídias digitais.
-
-✅ Extensão gratuita para CNPJ, quando houver consultório, com um sócio da área da saúde, e não tenha leitos/internação ou PJ de faturamento.
-
-⚠️ *Importante*
-
-A defesa correta desde o início faz toda a diferença.
-
-Se quiser, podemos ativar sua proteção ainda hoje.
-
-Fico à disposição.`;
-
-  document.getElementById("resultado").value = texto;
-}
-
-function copiarTexto() {
-  const campo = document.getElementById("resultado");
-  campo.select();
-  campo.setSelectionRange(0, 99999);
-  document.execCommand("copy");
-  alert("Pode mandar pro médico!");
-}
-
-function limparCampos() {
-  document.getElementById("p1").value = "";
-  document.getElementById("p2").value = "";
-  document.getElementById("p3").value = "";
-  document.getElementById("p4").value = "";
-  document.getElementById("p5").value = "";
-  document.getElementById("p6").value = "";
-  document.getElementById("resultado").value = "";
-}
-</script>
-
+</div>
 </body>
 </html>
