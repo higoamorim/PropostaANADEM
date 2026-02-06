@@ -32,7 +32,7 @@
     </div>
 
     <h1>Gerador de Proposta ANADEM</h1>
-    <p class="subtitle">Ferramenta Comercial • OASIS TOUR DF</p>
+    <p class="subtitle">Ferramenta Comercial • GRUPO OASIS DF</p>
 
     <label>Nome do Médico(a)</label>
     <input id="pNome" placeholder="Ex: Dr. Fulano de Tal">
@@ -91,24 +91,7 @@ function gerarTexto() {
   const p6 = document.getElementById("p6").value;
 
   const texto = 
-`Proposta Personalizada – ANADEM
-Proteção Jurídica Completa para Profissionais da Saúde
-
-Prezado(a) ${nome}, segue detalhamento conforme conversamos:
-
-Especialidade: ${p1}
-Capital Segurado: R$ ${p2}
-
-SEM Retroatividade
-Cartão: R$ ${p3}/mês
-Boleto: R$ ${p4}/mês
-
-COM Retroatividade 5 anos (Recomendado)
-Cartão: R$ ${p5}/mês
-Boleto: R$ ${p6}/mês
-
-Doutor(a), pensando na sua especialidade (${p1}), a ANADEM possui uma proposta sob medida para garantir sua tranquilidade profissional em um cenário de crescente judicialização. 
-Hoje em dia, qualquer procedimento pode virar um processo — mesmo quando tudo é feito corretamente, e a ANADEM atua para que nenhuma situação dessa ocorra sem o devido suporte.
+`Prezado(a) ${nome}, segue detalhamento conforme conversamos:
 
 Diferenciais ANADEM:
 • A retroatividade protege também, atos já realizados nos últimos 5 anos (conforme rege o regulamento).
@@ -120,7 +103,7 @@ Diferenciais ANADEM:
 Vantagens Exclusivas:
 • Gerenciamento de crise de imagem e reputação on-line.
 • Proteção no Google, redes sociais e mídias digitais.
-• Extensão gratuita para faturamento em CNPJ (conforme regras de faturamento).
+• Extensão gratuita para o CNPJ (desde que para fins de faturamento, sem leito/internação e que haja somente um sócio da área da saúde no contrato social).
 
 Fico à disposição para ativar sua proteção hoje mesmo!`;
 
@@ -168,7 +151,7 @@ async function gerarPDF() {
   doc.text(`Doutor(a): ${nomeMed}`, 15, 48);
   doc.text(`Especialidade: ${p1}`, 15, 54);
   doc.setFontSize(12);
-  doc.text(`Capital Segurado: R$ ${p2}`, 15, 61);
+  doc.text(`Capital Segurado*: R$ ${p2}`, 15, 61);
 
   // Tabela (Mais robusta)
   doc.autoTable({
