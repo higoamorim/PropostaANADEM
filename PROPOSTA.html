@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adesão ANADEM - Grupo Oasis DF</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        :root { --oasis-blue: #001f3f; --oasis-gold: #c5a059; }
+        .bg-oasis { background-color: var(--oasis-blue); }
+        .text-oasis { color: var(--oasis-blue); }
+        .section-title { border-left: 4px solid var(--oasis-gold); padding-left: 10px; font-weight: bold; color: var(--oasis-blue); margin-top: 2rem; margin-bottom: 1rem; text-transform: uppercase; font-size: 0.85rem; background: #f8fafc; padding-top: 5px; padding-bottom: 5px; }
+        .hidden-field { display: none; }
+        input[type="text"], input[type="email"], input[type="date"], select { border: 1px solid #d1d5db; padding: 0.6rem; border-radius: 0.375rem; width: 100%; font-size: 0.9rem; }
+        .instrucao { font-size: 0.75rem; color: #64748b; font-style: italic; margin-bottom: 0.5rem; display: block; }
+    </style>
+</head>
+<body class="bg-gray-100 p-4 md:p-10">
+
+    <div class="max-w-5xl mx-auto bg-white shadow-2xl rounded-xl overflow-hidden border-t-8 border-oasis">
+        
+        <div class="p-8 text-center bg-white">
+            <h1 class="text-3xl font-black text-oasis tracking-tighter">GRUPO OASIS DF</h1>
+            <p class="text-gray-500 font-light">Consultoria em Blindagem e Gestão de Risco</p>
+            <div class="mt-4 h-1 w-24 bg-oasis mx-auto"></div>
+            <h2 class="mt-6 text-xl font-bold text-gray-800">FORMULÁRIO DE ADESÃO ANADEM</h2>
+        </div>
+
+        <form id="formCompleto" class="p-8 space-y-8">
+            
+            <div class="bg-blue-50 p-6 rounded-lg border border-blue-100">
+                <h3 class="font-bold text-oasis mb-3 uppercase text-sm">Ciência de Intermediação</h3>
+                <p class="text-xs text-gray-700 leading-relaxed text-justify mb-4">
+                    1. Declaro que estou ciente de que a contratação do seguro de responsabilidade civil profissional da ANADEM está sendo realizada por minha livre iniciativa, mediante intermediação de Higo Gerson Cardoso, responsável pelo Grupo OASIS, o qual atua na divulgação e promoção institucional do referido seguro, entre outros produtos. Reconheço que o Sr. Higo Gerson Cardoso exerce a função de intermediador comercial, prestando informações e orientações gerais sobre o produto, não sendo responsável pela emissão da apólice, análise de risco, condições contratuais ou obrigações assumidas entre o contratante e a ANADEM.
+                </p>
+                <label class="flex items-center space-x-2 font-bold text-oasis cursor-pointer">
+                    <input type="checkbox" name="Acordo_Intermediacao" value="Estou de acordo!" required class="w-5 h-5"> 
+                    <span>Estou de acordo!</span>
+                </label>
+            </div>
+
+            <div class="section-title">Dados do Profissional</div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input type="text" name="1. Email" placeholder="1. Email" required>
+                <input type="text" name="2. CPF" placeholder="2. CPF" required>
+                <input type="text" name="3. Nome Completo" placeholder="3. Nome completo" required class="md:col-span-2">
+                <input type="text" name="4. Telefone (DDD)" placeholder="4. Telefone (com DDD)">
+                <input type="text" name="5. Registro" placeholder="5. CRM/CRO/CREFITO/COREN" required>
+                <input type="text" name="6. Data de Nascimento" placeholder="6. Data de nascimento (DD/MM/AAAA)">
+                <input type="text" name="7. Celular 01" placeholder="7. Celular 01" required>
+                <input type="text" name="8. Celular 02" placeholder="8. Celular 02">
+                <input type="text" name="9. Especialidade Principal" placeholder="9. Especialidade Principal" required>
+                <input type="text" name="10. Especialidade Secundaria" placeholder="10. Especialidade Secundária">
+            </div>
+
+            <div class="section-title">Endereço Residencial</div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <input type="text" name="Res_CEP" placeholder="1. CEP">
+                <input type="text" name="Res_Logradouro" placeholder="2. Logradouro" class="md:col-span-2">
+                <input type="text" name="Res_Numero" placeholder="3. Numero">
+                <input type="text" name="Res_Complemento" placeholder="4. Complemento">
+                <input type="text" name="Res_Bairro" placeholder="5. Bairro">
+                <input type="text" name="Res_Municipio" placeholder="6. Municipio">
+                <input type="text" name="Res_UF" placeholder="7. UF">
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-semibold mb-1">8. Possui endereço Comercial?</label>
+                    <select name="Possui_Comercial" onchange="toggle('div_comercial', this.value)">
+                        <option value="Não">Não</option>
+                        <option value="Sim">Sim</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="div_comercial" class="hidden-field bg-gray-50 p-4 rounded-lg border border-gray-200 grid grid-cols-1 md:grid-cols-3 gap-4">
+                <span class="md:col-span-3 font-bold text-xs text-gray-500">DADOS DO ENDEREÇO COMERCIAL:</span>
+                <input type="text" name="Com_CEP" placeholder="CEP Comercial">
+                <input type="text" name="Com_Logradouro" placeholder="Logradouro Comercial" class="md:col-span-2">
+                <input type="text" name="Com_Numero" placeholder="Número">
+                <input type="text" name="Com_Complemento" placeholder="Complemento">
+                <input type="text" name="Com_Bairro" placeholder="Bairro">
+                <input type="text" name="Com_Municipio" placeholder="Município">
+                <input type="text" name="Com_UF" placeholder="UF">
+            </div>
+
+            <div class="section-title">Informações Profissionais</div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="text-sm font-medium">1. É residente nesta data?</label>
+                    <select name="Residente_Data"><option>Não</option><option>Sim</option></select>
+                </div>
+                <div>
+                    <label class="text-sm font-medium">2. Fez residencia?</label>
+                    <select name="Fez_Residencia" onchange="toggle('res_onde', this.value)"><option>Não</option><option>Sim</option></select>
+                    <input type="text" id="res_onde" name="Onde_Residencia" placeholder="Aonde?" class="hidden-field mt-2">
+                </div>
+                <div>
+                    <label class="text-sm font-medium">3. Pertence a alguma associação de Classe?</label>
+                    <select name="Associacao_Classe" onchange="toggle('ass_qual', this.value)"><option>Não</option><option>Sim</option></select>
+                    <input type="text" id="ass_qual" name="Qual_Associacao" placeholder="Qual?" class="hidden-field mt-2">
+                </div>
+                <div>
+                    <label class="text-sm font-medium">4. Proprietário de alguma entidade?</label>
+                    <select name="Proprietario_Entidade" onchange="toggle('ent_qual', this.value)"><option>Não</option><option>Sim</option></select>
+                    <input type="text" id="ent_qual" name="Qual_Entidade" placeholder="Qual?" class="hidden-field mt-2">
+                </div>
+                <div>
+                    <label class="text-sm font-medium">5. Realiza algum procedimento cirurgico?</label>
+                    <select name="Procedimento_Cirurgico" onchange="toggle('cir_qual', this.value)"><option>Não</option><option>Sim</option></select>
+                    <input type="text" id="cir_qual" name="Qual_Cirurgia" placeholder="Qual?" class="hidden-field mt-2">
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-red-600 font-bold">6. Anadem Essencial? (Recém-formados)</label>
+                    <select name="Anadem_Essencial" onchange="toggle('data_formatura', this.value)"><option>Não</option><option>Sim</option></select>
+                    <input type="text" id="data_formatura" name="Data_Formatura" placeholder="Data da formatura?" class="hidden-field mt-2">
+                </div>
+            </div>
+
+            <div class="section-title">Especialidade a Contratar</div>
+            <div class="space-y-4">
+                <label class="text-sm font-semibold">1. Atividade Profissional a ser contratada:</label>
+                <select name="Atividade_Contratada" required>
+                    <option value="">Selecione...</option>
+                    <option>ACUPUNTURA</option><option>ALERGIA E IMUNOLOGIA</option><option>ANESTESIOLOGIA</option><option>ANGIOLOGIA</option><option>CANCEROLOGIA</option><option>CARDIOLOGIA</option><option>CIRURGIA CARDIOVASCULAR</option><option>CIRURGIA DE CABEÇA E PESCOÇO</option><option>CIRURGIA DE MÃO</option><option>CIRURGIA DO APARELHO DIGESTIVO</option><option>CIRURGIA ENDOVASCULAR</option><option>CIRURGIA GERAL</option><option>CIRURGIA ONCOLÓGICA</option><option>CIRURGIA PLÁSTICA</option><option>CIRURGIA TORÁCICA</option><option>CIRURGIA VASCULAR</option><option>CIRURGIÃO DENTISTA D1 - CIRURGIAS ODONTOLÓGICAS</option><option>CIRURGIÃO DENTISTA D2 - PROCEDIMENTOS ESTÉTICOS</option><option>CIRURGIÃO DENTISTA D3 - CIRURGIA BUCOMAXILO</option><option>CLÍNICA MÉDICA</option><option>COLOPROCTOLOGIA</option><option>DERMATOLOGIA INVASIVA</option><option>DERMATOLOGIA NÃO INVASIVA</option><option>ENDOCRINOLOGIA E METABOLOGIA</option><option>ENDOSCOPIA</option><option>GASTROENTEROLOGIA</option><option>GENÉTICA MÉDICA</option><option>GERIATRIA</option><option>GINECOLOGIA E OBSTETRÍCIA</option><option>GINECOLOGIA SEM OBSTETRÍCIA</option><option>HEMATOLOGIA E HEMOTERAPIA</option><option>HOMEOPATIA</option><option>INFECTOLOGIA</option><option>MASTOLOGIA</option><option>MEDICINA DA FAMÍLIA E COMUNIDADE</option><option>MEDICINA DE URGÊNCIA</option><option>MEDICINA DO TRABALHO</option><option>MEDICINA DO TRÁFEGO</option><option>MEDICINA ESPORTIVA</option><option>MEDICINA FÍSICA E REABILITAÇÃO</option><option>MEDICINA INTENSIVA</option><option>MEDICINA LEGAL E PERÍCIA MÉDICA</option><option>MEDICINA NUCLEAR</option><option>MEDICINA PREVENTIVA E SOCIAL</option><option>NEFROLOGIA</option><option>NEUROCIRURGIA</option><option>NEUROLOGIA</option><option>NUTROLOGIA</option><option>OFTALMOLOGIA</option><option>OTORRINOLARINGOLOGIA</option><option>PATOLOGIA</option><option>PATOLOGIA CLÍNICA</option><option>MEDICINA LABORATORIAL</option><option>PEDIATRIA</option><option>PEDIATRIA INTENSIVA</option><option>PNEUMOLOGIA</option><option>PSIQUIATRIA</option><option>RADIOLOGIA E DIAGNÓSTICO POR IMAGEM</option><option>RADIOTERAPIA</option><option>REUMATOLOGIA</option><option>UROLOGIA</option><option>TRAUMATOLOGIA E ORTOPEDIA</option><option>DEMAIS ESPECIALIDADES**</option>
+                </select>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-sm font-semibold">2. Capital Segurado:</label>
+                        <select name="Capital_Segurado">
+                            <option>R$ 500 mil</option><option>R$ 800 mil</option><option>R$ 1 milhão</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-sm font-semibold">3. Tabela de contratação:</label>
+                        <select name="Tabela_Contratacao">
+                            <option>COM RETROATIVIDADE DE 5 ANOS</option><option>SEM RETROATIVIDADE</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title">Outras Informações</div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div><label class="text-xs">1. Pena Restritiva de Liberdade?</label><select name="Pena_Liberdade"><option>Não</option><option>Sim</option></select></div>
+                <div><label class="text-xs">2. Seguro de Vida?</label><select name="Seguro_Vida"><option>Não</option><option>Sim</option></select></div>
+                <div><label class="text-xs">3. Plano de Saude?</label><select name="Plano_Saude"><option>Não</option><option>Sim</option></select></div>
+                <div><label class="text-xs">4. Dependente químico?</label><select name="Dependente_Quimico"><option>Não</option><option>Sim</option></select></div>
+                <div>
+                    <label class="text-xs">5. Pena administrativa/Conselho?</label>
+                    <select name="Pena_Adm" onchange="toggle('pena_qual', this.value)"><option>Não</option><option>Sim</option></select>
+                    <input type="text" id="pena_qual" name="Pena_Qual" placeholder="Qual?" class="hidden-field mt-2">
+                </div>
+                <div><label class="text-xs">6. Previdencia Privada?</label><select name="Previdencia_Privada"><option>Não</option><option>Sim</option></select></div>
+                <div><label class="text-xs">7. Reclamação/Medida Judicial?</label><select name="Medida_Judicial"><option>Não</option><option>Sim</option></select></div>
+                <div><label class="text-xs">8. Proposta recusada anteriormente?</label><select name="Proposta_Recusada"><option>Não</option><option>Sim</option></select></div>
+            </div>
+
+            <div class="section-title">Pagamento</div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <select name="Forma_Pagamento"><option>Boleto</option><option>Cartão</option></select>
+                <select name="Ciclo_Pagamento"><option>Mensal</option><option>Anual</option></select>
+                <select name="Dia_Pagamento">
+                    <option value="">Melhor dia...</option>
+                    <script>for(let i=1; i<=28; i++) document.write(`<option>${i}</option>`);</script>
+                </select>
+            </div>
+
+            <div class="section-title">Extensão ao CNPJ</div>
+            <span class="instrucao">A extensão para o CNPJ é uma proteção complementar que pode, ou não, ter custos ao Associado... [Ver orientações completas no PDF]</span>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="text-sm">1. Deseja contratar Extensão para seu CNPJ?</label>
+                    <select name="Contratar_CNPJ" onchange="toggle('div_cnpj', this.value)"><option>Não</option><option>Sim</option></select>
+                </div>
+            </div>
+            
+            <div id="div_cnpj" class="hidden-field space-y-4 bg-gray-50 p-4 border rounded">
+                <input type="text" name="CNPJ_Numero" placeholder="Número do CNPJ">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <select name="CNPJ_Faturamento"><option value="">É para fins de faturamento?</option><option>Sim</option><option>Não</option></select>
+                    <select name="CNPJ_Estrutura"><option value="">Possui estrutura física?</option><option>Sim</option><option>Não</option></select>
+                    <select id="cnpj_leitos" onchange="checkCnpjAlert()"><option value="">Possui leitos/internação?</option><option value="Sim">Sim</option><option value="Não">Não</option></select>
+                    <div class="flex flex-col">
+                        <select id="cnpj_outros" onchange="toggle('cnpj_quantos_div', this.value); checkCnpjAlert()">
+                            <option value="">Existem outros profissionais da saúde?</option><option value="Sim">Sim</option><option value="Não">Não</option>
+                        </select>
+                        <input type="text" id="cnpj_quantos_div" name="CNPJ_Quantos_Prof" placeholder="Quantos?" class="hidden-field mt-2">
+                    </div>
+                </div>
+                <div id="cnpj_alert_neg" class="hidden text-red-600 font-bold text-xs p-3 bg-red-50 border border-red-200">
+                    A extensão não será gratuita e terá custos. Verifique posteriormente seu custo no atendimento.
+                </div>
+                <div id="cnpj_alert_pos" class="hidden text-green-700 font-bold text-xs p-3 bg-green-50 border border-green-200">
+                    Envie o contrato social para análise junto a proposta no mesmo atendimento.
+                </div>
+            </div>
+
+            <div class="section-title">Finalização e Declarações</div>
+            <div class="space-y-6 text-xs text-gray-700">
+                <div class="bg-yellow-50 p-4 border border-yellow-100">
+                    <p class="mb-2">1. Tem conhecimento de algum fato ou circunstância profissional que possa resultar em reclamações? (BO/Processo/Denúncia)</p>
+                    <select name="Conhecimento_Fatos" onchange="toggle('fato_qual', this.value)" class="mb-2"><option>Não</option><option>Sim</option></select>
+                    <input type="text" id="fato_qual" name="Qual_Fato" placeholder="Qual?" class="hidden-field">
+                </div>
+
+                <div class="space-y-4">
+                    <label class="flex items-start space-x-2"><input type="checkbox" required class="mt-1"> <span>2. Estou ciente do cadastramento do Cartão de Crédito via link após deferimento.</span></label>
+                    <label class="flex items-start space-x-2"><input type="checkbox" required class="mt-1"> <span>3. Declaro estar de acordo com o Regulamento do FUMDAP (link no formulário).</span></label>
+                    <label class="flex items-start space-x-2"><input type="checkbox" required class="mt-1"> <span>4. Declaro estar ciente do pagamento da Taxa de Adesão (1 mensalidade) ao Representante.</span></label>
+                    <label class="flex items-start space-x-2"><input type="checkbox" required class="mt-1"> <span>5. Estou ciente do envio dos documentos (CRM, Identidade, Especialização) para higo.amorim@outlook.com.</span></label>
+                    <label class="flex items-start space-x-2 font-bold text-oasis"><input type="checkbox" required class="mt-1"> <span>6. Li todas as informações acima! (Concordo! Envie meu formulário)</span></label>
+                    <label class="flex items-start space-x-2"><input type="checkbox" required class="mt-1"> <span>7. Estou ciente que receberei o link Clicksign para assinatura eletrônica.</span></label>
+                </div>
+            </div>
+
+            <button type="button" onclick="gerarPDFCompleto()" class="w-full bg-oasis text-white py-5 rounded-xl font-black text-xl shadow-2xl hover:bg-blue-900 transition-all uppercase tracking-widest border-b-4 border-yellow-600">
+                Gerar Proposta PDF
+            </button>
+        </form>
+
+        <footer class="p-8 bg-gray-50 border-t border-gray-200 text-[10px] text-gray-500 text-justify">
+            <p class="font-bold text-gray-700 mb-2">Higo Gerson Cardoso de Amorim | Representante ANADEM | CNPJ 64.382.483/0001-19</p>
+            <p>É objetivo do FumDAP: Dar assistência jurídica, judicial e pericial... (conforme regulamento). Esta proposta será submetida ao Conselho Jurídico e Científico da ANADEM. Não serão amparadas as ações anteriores à adesão.</p>
+        </footer>
+    </div>
+
+    <script>
+        function toggle(id, val) {
+            const el = document.getElementById(id);
+            if (val === 'Sim' || val === 'Boleto' || val === 'Cartão') el.style.display = 'block';
+            else el.style.display = 'none';
+        }
+
+        function checkCnpjAlert() {
+            const leitos = document.getElementById('cnpj_leitos').value;
+            const outros = document.getElementById('cnpj_outros').value;
+            const alertNeg = document.getElementById('cnpj_alert_neg');
+            const alertPos = document.getElementById('cnpj_alert_pos');
+
+            if(leitos === 'Sim' || outros === 'Sim') {
+                alertNeg.classList.remove('hidden');
+                alertPos.classList.add('hidden');
+            } else if (leitos === 'Não' && outros === 'Não') {
+                alertNeg.classList.add('hidden');
+                alertPos.classList.remove('hidden');
+            }
+        }
+
+        function gerarPDFCompleto() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const form = document.getElementById('formCompleto');
+            const formData = new FormData(form);
+
+            // Estética Oasis no PDF
+            doc.setFillColor(0, 31, 63);
+            doc.rect(0, 0, 210, 40, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(14);
+            doc.text("PROPOSTA DE ADESÃO ANADEM - GRUPO OASIS DF", 105, 15, { align: "center" });
+            doc.setFontSize(10);
+            doc.text("Consultoria Higo Gerson Cardoso - CNPJ 64.382.483/0001-19", 105, 25, { align: "center" });
+
+            doc.setTextColor(0, 0, 0);
+            let y = 50;
+            doc.setFontSize(9);
+
+            formData.forEach((value, key) => {
+                if(value && value !== "" && value !== "on") {
+                    if (y > 280) { doc.addPage(); y = 20; }
+                    doc.setFont("helvetica", "bold");
+                    doc.text(`${key}:`, 20, y);
+                    doc.setFont("helvetica", "normal");
+                    // Trata textos longos
+                    let txt = doc.splitTextToSize(value.toString(), 110);
+                    doc.text(txt, 80, y);
+                    y += (txt.length * 6);
+                }
+            });
+
+            doc.save("Proposta_Adesao_Oasis.pdf");
+        }
+    </script>
+</body>
+</html>
