@@ -83,11 +83,11 @@
 
             <div class="section-title">Informações Profissionais</div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div><label class="text-xs font-semibold">É residente nesta data?</label><select name="Residente na Data"><option>Não</option><option>Sim</option></select></div>
-                <div><label class="text-xs font-semibold">Fez residencia?</label><select name="Fez Residencia" onchange="toggle('res_onde', this.value)"><option>Não</option><option>Sim</option></select><input type="text" id="res_onde" name="Onde Residencia" placeholder="Aonde?" class="hidden-field mt-1"></div>
-                <div><label class="text-xs font-semibold">Pertence a alguma associação de Classe?</label><select name="Associacao de Classe" onchange="toggle('ass_qual', this.value)"><option>Não</option><option>Sim</option></select><input type="text" id="ass_qual" name="Qual Associacao" placeholder="Qual?" class="hidden-field mt-1"></div>
+                <div><label class="text-xs font-semibold">É residente nesta data?</label><select name="É residente nesta data?"><option>Não</option><option>Sim</option></select></div>
+                <div><label class="text-xs font-semibold">Fez residencia?</label><select name="Fez Residencia?" onchange="toggle('res_onde', this.value)"><option>Não</option><option>Sim</option></select><input type="text" id="res_onde" name="Onde Residencia" placeholder="Aonde?" class="hidden-field mt-1"></div>
+                <div><label class="text-xs font-semibold">Pertence a alguma associação de Classe?</label><select name="Pertence a alguma associação de Classe?" onchange="toggle('ass_qual', this.value)"><option>Não</option><option>Sim</option></select><input type="text" id="ass_qual" name="Qual Associacao" placeholder="Qual?" class="hidden-field mt-1"></div>
                 <div><label class="text-sm font-medium">Proprietário de alguma entidade?</label>
-                    <select name="Proprietario_Entidade" onchange="toggle('ent_qual', this.value)"><option>Não</option><option>Sim</option></select><input type="text" id="ent_qual" name="Qual_Entidade" placeholder="Qual?" class="hidden-field mt-2">
+                    <select name="Proprietário de alguma entidade?" onchange="toggle('ent_qual', this.value)"><option>Não</option><option>Sim</option></select><input type="text" id="ent_qual" name="Qual_Entidade" placeholder="Qual?" class="hidden-field mt-2">
                 </div>
                 <div><label class="text-xs font-semibold">Anadem Essencial? (Recém-formado)</label><select name="Anadem Essencial" onchange="toggle('data_formatura', this.value)"><option>Não</option><option>Sim</option></select><input type="text" id="data_formatura" name="Data Formatura" placeholder="Data da formatura?" class="hidden-field mt-1"></div>
             </div>
@@ -102,27 +102,83 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div><label class="text-sm font-semibold">Capital Segurado:</label><select name="Capital Segurado"><option>R$ 500 mil</option><option>R$ 800 mil</option><option>R$ 1 milhão</option></select></div>
-                    <div><label class="text-sm font-semibold">Tabela de contratação:</label><select name="Tabela Contratacao"><option>COM RETROATIVIDADE DE 5 ANOS</option><option>SEM RETROATIVIDADE</option></select></div>
+                    <div><label class="text-sm font-semibold">Tabela de contratação:</label><select name="Tabela a ser contratada:"><option>COM RETROATIVIDADE DE 5 ANOS</option><option>SEM RETROATIVIDADE</option></select></div>
                 </div>
             </div>
 
             <div class="section-title">Extensão ao CNPJ</div>
             <div>
-                <label class="text-sm font-bold">Deseja contratar Extensão para seu CNPJ?</label>
-                <select name="Deseja Extensão CNPJ?" onchange="toggle('div_cnpj', this.value)"><option>Não</option><option>Sim</option></select>
-            </div>
-            
-            <div id="div_cnpj" class="hidden-field space-y-4 bg-gray-50 p-4 border rounded-lg">
-                <input type="text" name="CNPJ Numero" placeholder="Número do CNPJ">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div><label class="text-xs">1. Para fins de faturamento (emite NF)?</label><select name="CNPJ para Faturamento"><option>Não</option><option>Sim</option></select></div>
-                    <div><label class="text-xs">2. Há estrutura física?</label><select name="CNPJ com Estrutura Fisica"><option>Não</option><option>Sim</option></select></div>
-                    <div><label class="text-xs">3. Há outros profissionais da saúde?</label><select name="CNPJ com outros Profissionais da área da Saúde" onchange="toggleCnpjCusto()"><option>Não</option><option>Sim</option></select></div>
-                    <div><label class="text-xs">4. Internação ou Leitos?</label><select name="CNPJ com Internacao ou Leitos" onchange="toggleCnpjCusto()"><option>Não</option><option>Sim</option></select></div>
-                    <div class="md:col-span-2"><label class="text-xs font-bold">5. Atividades profissionais no CNPJ:</label><textarea name="Atividades realizadas no CNPJ" rows="2" placeholder="Descreva quais atividades são realizadas..."></textarea></div>
-                </div>
-                <div id="aviso_custo" class="hidden text-red-600 font-bold text-xs p-3 bg-red-50 border border-red-200">Atenção: Para este perfil, a extensão terá custos adicionais sob consulta.</div>
-            </div>
+               
+<label class="text-sm font-bold">Deseja contratar Extensão para seu CNPJ?</label>
+<select name="Deseja Extensão CNPJ?" onchange="toggle('div_cnpj', this.value)">
+<option>Não</option>
+<option>Sim</option>
+</select>
+
+<div id="div_cnpj" class="hidden space-y-4 bg-gray-50 p-4 border rounded-lg">
+
+<input type="text" name="CNPJ Numero" placeholder="Número do CNPJ">
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+<div>
+<label class="text-xs">1. Para fins de faturamento (emite NF)?</label>
+<select name="1. Para fins de faturamento">
+<option>Não</option>
+<option>Sim</option>
+</select>
+</div>
+
+<div>
+<label class="text-xs">2. Há estrutura física?</label>
+<select name="2. Há estrutura física">
+<option>Não</option>
+<option>Sim</option>
+</select>
+</div>
+
+<div>
+<label class="text-xs">3. Há outros profissionais da saúde?</label>
+<select name="3. Há outros profissionais da saúde?"
+        onchange="this.nextElementSibling.style.display = (this.value === 'Sim') ? 'block' : 'none'">
+<option value="Não">Não</option>
+<option value="Sim">Sim</option>
+</select>
+
+<p style="display:none;"
+   class="text-red-600 font-bold text-xs mt-2">
+Atenção: A extensão terá custos adicionais sob consulta.
+</p>
+</div>
+
+<div>
+<label class="text-xs">4. Há procedimentos que necessitem Internação ou Leitos?</label>
+<select name="4. Há procedimentos que necessitem Internação ou Leitos?"
+        onchange="this.nextElementSibling.style.display = (this.value === 'Sim') ? 'block' : 'none'">
+<option value="Não">Não</option>
+<option value="Sim">Sim</option>
+</select>
+
+<p style="display:none;"
+   class="text-red-600 font-bold text-xs mt-2">
+Atenção: A extensão terá custos adicionais sob consulta.
+</p>
+</div>
+
+
+<div class="md:col-span-2">
+<label class="text-xs font-bold">5. Atividades profissionais no CNPJ:</label>
+<textarea name="5. Atividades profissionais no CNPJ"
+rows="2"
+placeholder="Descreva quais atividades são realizadas no CNPJ."></textarea>
+</div>
+
+</div>
+
+
+
+</div>
+
 
             <div class="section-title">Pagamento</div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -131,11 +187,78 @@
                 <div><label class="text-xs">Melhor dia de Vencimento</label><select name="Dia de Vencimento"><script>for(let i=1; i<=28; i++) document.write(`<option>${i}</option>`);</script></select></div>
             </div>
 
+<!-- ================= INFORMAÇÕES COMPLEMENTARES ================= -->
+
+<div class="section-title">INFORMAÇÕES COMPLEMENTARES</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+<div>
+<label class="block text-sm font-medium">1. Pena Restritiva de Liberdade por atuação profissional?</label>
+<select name="1. Pena Restritiva de Liberdade por atuação profissional?" class="mt-1">
+<option value="Não">Não</option>
+<option value="Sim">Sim</option>
+</select>
+</div>
+
+<div>
+<label class="block text-sm font-medium">2. Pena administrativa aplicada por Autarquia, Associação, Sociedade ou Conselho Profissional?</label>
+<select name="2. Pena administrativa aplicada por Autarquia, Associação, Sociedade ou Conselho Profissional?" class="mt-1">
+<option value="Não">Não</option>
+<option value="Sim">Sim</option>
+</select>
+</div>
+
+<div>
+<label class="block text-sm font-medium">3. Teve proposta de seguro de responsabilidade civil negada recentemente?</label>
+<select name="3. Teve proposta de seguro de responsabilidade civil negada recentemente?" class="mt-1">
+<option value="Não">Não</option>
+<option value="Sim">Sim</option>
+</select>
+</div>
+
+<div>
+<label class="block text-sm font-medium">4. Dependente químico ou utilizou substâncias químicas?</label>
+<select name="4. Dependente químico ou utilizou substâncias químicas?" class="mt-1">
+<option value="Não">Não</option>
+<option value="Sim">Sim</option>
+</select>
+</div>
+
+<div class="md:col-span-2">
+<label class="block text-sm font-medium">
+
+<div>
+<label class="block text-sm font-medium">5. Tem plano de saúde?</label>
+<select name="5. Tem plano de saúde?" class="mt-1">
+<option value="Não">Não</option>
+<option value="Sim">Sim</option>
+</select>
+</div>
+
+<div>
+<label class="block text-sm font-medium">6. Tem previdência privada?</label>
+<select name="6. Tem previdência privada?" class="mt-1">
+<option value="Não">Não</option>
+<option value="Sim">Sim</option>
+</select>
+</div>
+
+<div>
+<label class="block text-sm font-medium">7. Tem seguro de vida?</label>
+<select name="7. Tem seguro de vida?" class="mt-1">
+<option value="Não">Não</option>
+<option value="Sim">Sim</option>
+</select>
+</div>
+
             <div class="section-title">Declarações e Finalização</div>
             <div class="space-y-6">
                 <div class="bg-yellow-50 p-4 border border-yellow-200 rounded">
-                    <label class="block text-sm font-bold text-gray-800 mb-2">1. Tem conhecimento de algum fato ou circunstância profissional que possa resultar em reclamações? (BO/Processo/Denúncia)</label>
-                    <select name="Conhecimento de Fatos Antecedentes" onchange="toggle('div_fato_detalhe', this.value)" class="mb-2">
+                    <label class="block text-sm font-bold text-gray-800 mb-2">Tem conhecimento de algum fato ou circunstância durante a sua vida profissional, onde seus atos possam resultar em reclamações e/ou medidas judiciais, no âmbito da responsabilidade civil profissional?
+
+ATENÇÃO: Somente marque essa opção se já existe, de fato, uma demanda no âmbito judicial em andamento no ato dessa contratação (boletim de ocorrência/denuncia/processo ético/administrativo/judicial). É importante estar ciente que a marcação dessa opção trará, no próximo item, a descrição dos fatos e os pacientes envolvidos, e conforme rege o Regulamento do FumDAP, um processo judicial/reclamação já existente no âmbito jurídico não terá cobertura pela Anadem.</label>
+                    <select name="Tem conhecimento de algum fato ou circunstância durante a sua vida profissional, onde seus atos possam resultar em reclamações e/ou medidas judiciais, no âmbito da responsabilidade civil profissional?" onchange="toggle('div_fato_detalhe', this.value)" class="mb-2">
                         <option value="Não">Não</option>
                         <option value="Sim">Sim</option>
                     </select>
@@ -235,6 +358,55 @@
                 doc.text(doc.splitTextToSize(value, 75), 112, y);
                 y += 8;
             });
+
+
+doc.setFontSize(7);
+
+const textoInstitucional = `
+Higo Gerson Cardoso de Amorim
+Representante ANADEM
+Responsável pela Proposta
+CNPJ 64.382.483/0001-19
+
+É objetivo do FumDAP:
+
+- Dar assistência jurídica, judicial e pericial aos Médicos e Odontólogos quando processados civil, ética ou criminalmente por atos decorrentes do exercício profissional;
+
+- Proteger médicos e Odontólogos, respeitados os limites de ajuda mutualista, em eventuais condenações sofridas em processos indenizatórios por danos morais, corporais e materiais movidos por pacientes, em decorrência do ato médico praticado.
+
+Esta proposta de Adesão será submetida ao Conselho Jurídico e Científico da ANADEM para aprovação.
+
+Após homologação da adesão, o participante receberá o regulamento do FUMDAP, Certificado de Participante, Cartão pessoal com o respectivo código identificador e demais orientações.
+
+O Conselho Jurídico e Científico examina as propostas semanalmente.
+
+Todos os atos praticados pelo participante estão amparados, desde que as ações sejam protocolizadas depois de sua adesão.
+
+*OBS: Não serão amparadas as ações anteriores à adesão do participante.
+
+Leia atentamente o regulamento.
+`;
+
+const linhas = doc.splitTextToSize(textoInstitucional, 170);
+
+// calcula altura total que o bloco vai ocupar
+const alturaBloco = linhas.length * 4;
+
+// verifica se cabe na página atual
+if (y + alturaBloco > 280) {
+    doc.addPage();
+    y = 20;
+}
+
+doc.text(linhas, 20, y);
+y += alturaBloco + 10;
+
+
+
+
+
+
+
 // --- NOVA SEÇÃO: DECLARAÇÕES (Antes das Assinaturas) ---
             y += 10;
             checkY(60); // Garante que há espaço para o bloco de texto
@@ -251,7 +423,10 @@
                 "4. Estou ciente do envio dos documentos (CRM, Identidade, Especialização) para o Representante.",
                 "5. Estou ciente que receberei o link Clicksign para assinatura eletrônica.",
                 "6. Li todas as informações acima, e CONCORDO enviando meu formulário."
-            ];
+
+	];
+
+
 
             declaracoes.forEach(texto => {
                 checkY(8);
@@ -259,6 +434,9 @@
                 doc.text(splitTexto, 22, y);
                 y += (splitTexto.length * 4) + 2;
             });
+
+
+
 
             // Rodapé de Assinaturas
 
