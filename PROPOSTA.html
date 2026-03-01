@@ -91,6 +91,12 @@
                 </div>
                 <div><label class="text-xs font-semibold">Anadem Essencial? (Recém-formado)</label><select name="Anadem Essencial" onchange="toggle('data_formatura', this.value)"><option>Não</option><option>Sim</option></select><input type="text" id="data_formatura" name="Data Formatura" placeholder="Data da formatura?" class="hidden-field mt-1"></div>
             </div>
+              
+
+   <div><label class="text-sm font-medium">Realiza algum Procedimento Cirurgico?</label>
+                    <select name="Realiza algum Procedimento Cirurgico?" onchange="toggle('Quais', this.value)"><option>Não</option><option>Sim</option></select><input type="text" id="Quais" name="Realiza algum Procedimento Cirurgico?" placeholder="Qual?" class="hidden-field mt-2">
+                </div>
+
 
             <div class="section-title">Especialidade a Contratar</div>
             <div class="space-y-4">
@@ -269,12 +275,12 @@ ATENÇÃO: Somente marque essa opção se já existe, de fato, uma demanda no â
                 </div>
 
                 <div class="space-y-3 text-sm text-gray-700">
-                    <label class="flex items-start space-x-2"><input type="checkbox" required class="mt-1"> <span>2. Estou ciente do cadastramento do Cartão de Crédito via link caso eu tenha optado por essa modalidade.</span></label>
+                    <label class="flex items-start space-x-2"><input type="checkbox" required class="mt-1"> <span>2. Estou ciente do cadastramento do Cartão de Crédito em sistema próprio da Anadem, caso eu tenha optado por essa modalidade.</span></label>
                     <label class="flex items-start space-x-2"><input type="checkbox" required class="mt-1"> <span>3. Declaro estar de acordo com o Regulamento da ANADEM S/A.</span></label>
-                    <label class="flex items-start space-x-2"><input type="checkbox" required class="mt-1"> <span>4. Declaro estar de acordo com o Regulamento da ANADEM S/A, disponível em https://drive.google.com/file/d/1p7rQfu7KANkkUOoB8efra-g056APO1Cv/view?usp=sharing..</span></label>
-                    <label class="flex items-start space-x-2"><input type="checkbox" required class="mt-1"> <span>5. Estou ciente do envio dos documentos (CRM, Identidade, Especialização) para o Representante.</span></label>
-                    <label class="flex items-start space-x-2"><input type="checkbox" required class="mt-1"> <span>6. Estou ciente que receberei o link Clicksign para assinatura eletrônica.</span></label>
-                    <label class="flex items-start space-x-2 font-black text-oasis"><input type="checkbox" required class="mt-1"> <span>7. Li todas as informações acima, e CONCORDO enviando meu formulário.</span></label>
+                    <label class="flex items-start space-x-2"><input type="checkbox" required class="mt-1"> <span>4. Declaro estar de acordo com o Regulamento da ANADEM S/A, disponível em https://drive.google.com/file/d/1p7rQfu7KANkkUOoB8efra-g056APO1Cv/view?usp=sharing.</span></label>
+                    <label class="flex items-start space-x-2"><input type="checkbox" required class="mt-1"> <span>5. Estou ciente do envio dos documentos (CRM, Identidade, Especialização) para o Representante anexar à esta proposta.</span></label>
+                    <label class="flex items-start space-x-2"><input type="checkbox" required class="mt-1"> <span>6. Estou ciente que receberei o link Clicksign/Authentique para assinatura eletrônica.</span></label>
+                    <label class="flex items-start space-x-2 font-black text-oasis"><input type="checkbox" required class="mt-1"> <span>7. Li todas as informações acima, e CONCORDO enviando meu formulário ao Representante via WhatsApp.</span></label>
                 </div>
             </div>
 
@@ -359,8 +365,13 @@ ATENÇÃO: Somente marque essa opção se já existe, de fato, uma demanda no â
                 y += 8;
             });
 
+// 🔥 QUEBRA DE PÁGINA AQUI
+doc.addPage();
+y = 20; // MUITO IMPORTANTE: resetar posição vertical
 
-doc.setFontSize(7);
+            sectionHeader("ORIENTAÇÕES GERAIS");
+            doc.setFontSize(7);
+            doc.setFont("helvetica", "normal");
 
 const textoInstitucional = `
 Higo Gerson Cardoso de Amorim
@@ -368,19 +379,19 @@ Representante ANADEM
 Responsável pela Proposta
 CNPJ 64.382.483/0001-19
 
-É objetivo do FumDAP:
+É objetivo da ANADEM:
 
-- Dar assistência jurídica, judicial e pericial aos Médicos e Odontólogos quando processados civil, ética ou criminalmente por atos decorrentes do exercício profissional;
+- Dar assistência jurídica, judicial e pericial aos Médicos e Cirurgiões Dentistas quando processados civil, ética ou criminalmente por atos decorrentes do exercício profissional;
 
-- Proteger médicos e Odontólogos, respeitados os limites de ajuda mutualista, em eventuais condenações sofridas em processos indenizatórios por danos morais, corporais e materiais movidos por pacientes, em decorrência do ato médico praticado.
+- Proteger Médicos e Cirurgiões Dentistas, respeitados os limites de ajuda mutualista, em eventuais condenações sofridas em processos indenizatórios por danos morais, corporais e materiais movidos por pacientes, em decorrência do ato médico praticado.
 
-Esta proposta de Adesão será submetida ao Conselho Jurídico e Científico da ANADEM para aprovação.
+- Esta proposta de Adesão será submetida ao Conselho Jurídico e Científico da ANADEM para aprovação.
 
-Após homologação da adesão, o participante receberá o regulamento do FUMDAP, Certificado de Participante, Cartão pessoal com o respectivo código identificador e demais orientações.
+- Após homologação da adesão, o participante receberá o regulamento do FUMDAP, Guia do Associado, Certificado de Participante, Cartão pessoal com o respectivo código identificador e demais orientações no kit de Boas-Vindas.
 
-O Conselho Jurídico e Científico examina as propostas semanalmente.
+- O Conselho Jurídico e Científico examina as propostas semanalmente.
 
-Todos os atos praticados pelo participante estão amparados, desde que as ações sejam protocolizadas depois de sua adesão.
+- Todos os atos praticados pelo participante estão amparados, desde que as ações sejam protocolizadas depois de sua adesão.
 
 *OBS: Não serão amparadas as ações anteriores à adesão do participante.
 
@@ -390,7 +401,7 @@ Leia atentamente o regulamento.
 const linhas = doc.splitTextToSize(textoInstitucional, 170);
 
 // calcula altura total que o bloco vai ocupar
-const alturaBloco = linhas.length * 4;
+const alturaBloco = linhas.length * 3;
 
 // verifica se cabe na página atual
 if (y + alturaBloco > 280) {
@@ -399,7 +410,7 @@ if (y + alturaBloco > 280) {
 }
 
 doc.text(linhas, 20, y);
-y += alturaBloco + 10;
+y += alturaBloco + 1;
 
 
 
@@ -408,7 +419,8 @@ y += alturaBloco + 10;
 
 
 // --- NOVA SEÇÃO: DECLARAÇÕES (Antes das Assinaturas) ---
-            y += 10;
+
+
             checkY(60); // Garante que há espaço para o bloco de texto
             
             sectionHeader("DECLARAÇÕES E ACEITE DE TERMOS");
@@ -417,12 +429,12 @@ y += alturaBloco + 10;
 
             // Lista das declarações baseada nos seus itens
             const declaracoes = [
-                "1. Estou ciente do cadastramento do Cartão de Crédito via link caso eu tenha optado por essa modalidade.",
+                "1. Estou ciente do cadastramento do Cartão de Crédito em sistema próprio da Anadem, caso eu tenha optado por essa modalidade.",
                 "2. Declaro estar de acordo com o Regulamento da ANADEM S/A, disponível em https://drive.google.com/file/d/1p7rQfu7KANkkUOoB8efra-g056APO1Cv/view?usp=sharing.",
                 "3. Declaro estar ciente do pagamento da Taxa de Adesão ao Representante.",
-                "4. Estou ciente do envio dos documentos (CRM, Identidade, Especialização) para o Representante.",
-                "5. Estou ciente que receberei o link Clicksign para assinatura eletrônica.",
-                "6. Li todas as informações acima, e CONCORDO enviando meu formulário."
+                "4. Estou ciente do envio dos documentos (CRM, Identidade, Especialização) para o Representante anexar à esta proposta.",
+                "5. Estou ciente que receberei o link Clicksign/Authentique para assinatura eletrônica.",
+                "6. 7. Li todas as informações acima, e CONCORDO enviando meu formulário ao Representante via WhatsApp."
 
 	];
 
