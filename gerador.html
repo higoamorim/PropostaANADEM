@@ -37,6 +37,9 @@
     <label>Nome do Médico(a)</label>
     <input id="pNome" placeholder="Ex: Dr. Fulano de Tal">
 
+    <label>Telefone / WhatsApp</label>
+    <input id="pTel" placeholder="Ex: (61) 99999-9999">
+
     <label>Grupo / Especialidade</label>
     <input id="p1" placeholder="Ex: D1 – Odontologia">
 
@@ -83,6 +86,7 @@
 <script>
 function gerarTexto() {
   const nome = document.getElementById("pNome").value || "Doutor(a)";
+  const tel = document.getElementById("pTel").value || "Não informado";
   const p1 = document.getElementById("p1").value;
   const p2 = document.getElementById("p2").value;
   const p3 = document.getElementById("p3").value;
@@ -91,7 +95,10 @@ function gerarTexto() {
   const p6 = document.getElementById("p6").value;
 
   const texto = 
-`Prezado(a) ${nome}, segue detalhamento conforme conversamos:
+`Prezado(a) Dr. ${nome},
+Contato: ${tel}
+
+Segue detalhamento conforme conversamos:
 
 Diferenciais ANADEM:
 • A retroatividade protege também, atos já realizados nos últimos 5 anos (conforme rege o regulamento).
@@ -119,7 +126,7 @@ function copiarTexto() {
 }
 
 function limparCampos() {
-  ["pNome","p1","p2","p3","p4","p5","p6","resultado"].forEach(id => document.getElementById(id).value = "");
+  ["pNome","pTel","p1","p2","p3","p4","p5","p6","resultado"].forEach(id => document.getElementById(id).value = "");
 }
 
 async function gerarPDF() {
@@ -127,6 +134,7 @@ async function gerarPDF() {
   const doc = new jsPDF();
   
   const nomeMed = document.getElementById("pNome").value || "---";
+  const telMed = document.getElementById("pTel").value || "---";
   const p1 = document.getElementById("p1").value || "---";
   const p2 = document.getElementById("p2").value || "---";
   const p3 = document.getElementById("p3").value || "---";
@@ -134,7 +142,6 @@ async function gerarPDF() {
   const p5 = document.getElementById("p5").value || "---";
   const p6 = document.getElementById("p6").value || "---";
 
-  // Cabeçalho (Expandido)
   doc.setFillColor(30, 64, 175);
   doc.rect(0, 0, 210, 38, 'F');
   doc.setTextColor(255, 255, 255);
@@ -144,18 +151,17 @@ async function gerarPDF() {
   doc.setFontSize(14);
   doc.text('Blindagem Profissional ANADEM', 105, 30, { align: 'center' });
 
-  // Dados do Cliente
   doc.setTextColor(0, 0, 0);
   doc.setFontSize(11);
   doc.setFont('Helvetica', 'Bold');
   doc.text(`Doutor(a): ${nomeMed}`, 15, 48);
-  doc.text(`Especialidade: ${p1}`, 15, 54);
+  doc.text(`Contato: ${telMed}`, 15, 54);
+  doc.text(`Especialidade: ${p1}`, 15, 60);
   doc.setFontSize(12);
-  doc.text(`Capital Segurado*: R$ ${p2}`, 15, 61);
+  doc.text(`Capital Segurado*: R$ ${p2}`, 15, 67);
 
-  // Tabela (Mais robusta)
   doc.autoTable({
-    startY: 68,
+    startY: 74,
     head: [['Modalidade de Cobertura', 'Cartão de Crédito', 'Boleto Bancário']],
     body: [
       ['Tabela Verde (Sem Retroatividade)', `R$ ${p3}`, `R$ ${p4}`],
@@ -166,13 +172,12 @@ async function gerarPDF() {
     styles: { fontSize: 10.5, halign: 'center', cellPadding: 4 }
   });
 
-  // Diferenciais (Fonte 10.5pt para preencher a folha)
   let y = doc.lastAutoTable.finalY + 10;
   doc.setFontSize(12);
   doc.setFont('Helvetica', 'Bold');
   doc.text('Diferenciais e Vantagens Exclusivas:', 15, y);
   
-  doc.setFontSize(11); 
+    doc.setFontSize(11); 
   doc.setFont('Helvetica', 'Normal');
   
   const diferenciais = [
