@@ -83,7 +83,10 @@
 
             <div class="section-title">Informações Profissionais</div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div><label class="text-xs font-semibold">É residente nesta data?</label><select name="É residente nesta data?"><option>Não</option><option>Sim</option></select></div>
+                
+<div><label class="text-xs font-semibold">É residente nesta data?</label><select name="É residente nesta data?" onchange="toggle('Previsão de Conclusão', this.value)"><option>Não</option><option>Sim</option></select><input type="text" id="Previsão de Conclusão" name="Previsão de Conclusão" placeholder="Previsão de Conclusão" class="hidden-field mt-1"></div>
+
+
                 <div><label class="text-xs font-semibold">Fez residencia?</label><select name="Fez Residencia?" onchange="toggle('res_onde', this.value)"><option>Não</option><option>Sim</option></select><input type="text" id="res_onde" name="Onde Residencia" placeholder="Aonde?" class="hidden-field mt-1"></div>
                 <div><label class="text-xs font-semibold">Pertence a alguma associação de Classe?</label><select name="Pertence a alguma associação de Classe?" onchange="toggle('ass_qual', this.value)"><option>Não</option><option>Sim</option></select><input type="text" id="ass_qual" name="Qual Associacao" placeholder="Qual?" class="hidden-field mt-1"></div>
                 <div><label class="text-sm font-medium">Proprietário de alguma entidade?</label>
