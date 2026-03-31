@@ -53,33 +53,47 @@
                 <input type="text" name="Especialidade Secundaria" placeholder="Especialidade Secundária">
             </div>
 
-            <div class="section-title">Endereço Residencial</div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <input type="text" name="Res_CEP" placeholder="CEP">
-                <input type="text" name="Res_Logradouro" placeholder="Logradouro" class="md:col-span-2">
-                <input type="text" name="Res_Numero" placeholder="Numero">
-                <input type="text" name="Res_Complemento" placeholder="Complemento">
-                <input type="text" name="Res_Bairro" placeholder="Bairro">
-                <input type="text" name="Res_Municipio" placeholder="Municipio">
-                <input type="text" name="Res_UF" placeholder="UF">
-                <div class="md:col-span-2">
-                    <label class="block text-sm font-semibold mb-1">Possui endereço Comercial?</label>
-                    <select name="Possui_Comercial" onchange="toggle('div_comercial', this.value)">
-                        <option value="Não">Não</option>
-                        <option value="Sim">Sim</option>
-                    </select>
-                </div>
-            </div>
+ <div class="section-title">Endereço Residencial</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <input type="text" name="Res_CEP" placeholder="CEP">
+    <input type="text" name="Res_Logradouro" placeholder="Logradouro" class="md:col-span-2">
+    <input type="text" name="Res_Numero" placeholder="Numero">
+    <input type="text" name="Res_Complemento" placeholder="Complemento">
+    <input type="text" name="Res_Bairro" placeholder="Bairro">
+    <input type="text" name="Res_Municipio" placeholder="Municipio">
+    <input type="text" name="Res_UF" placeholder="UF">
 
-            <div id="div_comercial" class="hidden-field bg-gray-50 p-4 rounded-lg border border-gray-200 grid grid-cols-1 md:grid-cols-3 gap-4">
-                <input type="text" name="Com_CEP" placeholder="CEP Comercial">
-                <input type="text" name="Com_Logradouro" placeholder="Logradouro Comercial" class="md:col-span-2">
-                <input type="text" name="Com_Numero" placeholder="Número">
-                <input type="text" name="Com_Complemento" placeholder="Complemento">
-                <input type="text" name="Com_Bairro" placeholder="Bairro">
-                <input type="text" name="Com_Municipio" placeholder="Município">
-                <input type="text" name="Com_UF" placeholder="UF">
-            </div>
+    <div class="md:col-span-2">
+        <label class="block text-sm font-semibold mb-1">Possui endereço Comercial?</label>
+        <select name="Possui_Comercial" onchange="toggleComercial(this.value)">
+            <option value="Não" selected>Não</option>
+            <option value="Sim">Sim</option>
+        </select>
+    </div>
+</div>
+
+<!-- COMEÇA ESCONDIDO DE VERDADE -->
+<div id="div_comercial" style="display: none;" class="bg-gray-50 p-4 rounded-lg border border-gray-200 grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+    <input type="text" name="Com_CEP" placeholder="CEP Comercial">
+    <input type="text" name="Com_Logradouro" placeholder="Logradouro Comercial" class="md:col-span-2">
+    <input type="text" name="Com_Numero" placeholder="Número">
+    <input type="text" name="Com_Complemento" placeholder="Complemento">
+    <input type="text" name="Com_Bairro" placeholder="Bairro">
+    <input type="text" name="Com_Municipio" placeholder="Município">
+    <input type="text" name="Com_UF" placeholder="UF">
+</div>
+
+<script>
+function toggleComercial(value) {
+    const div = document.getElementById('div_comercial');
+
+    if (value === 'Sim') {
+        div.style.display = 'grid';
+    } else {
+        div.style.display = 'none';
+    }
+}
+</script>
 
             <div class="section-title">Informações Profissionais</div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -320,20 +334,61 @@ window.onload = validarRegras;
                 </div>
             </div>
 
-            <div class="section-title">Declarações e Finalização</div>
-            <div class="space-y-6">
-                <div class="bg-yellow-50 p-4 border border-yellow-200 rounded">
-                    <label class="block text-sm font-bold text-gray-800 mb-2">Tem conhecimento de algum fato ou circunstância durante a sua vida profissional, onde seus atos possam resultar em reclamações e/ou medidas judiciais, no âmbito da responsabilidade civil profissional? ATENÇÃO: Somente marque essa opção se já existe, de fato, uma demanda no âmbito judicial em andamento no ato dessa contratação (boletim de ocorrência/denuncia/processo ético/administrativo/judicial). É importante estar ciente que a marcação dessa opção trará, no próximo item, a descrição dos fatos e os pacientes envolvidos, e conforme rege o Regulamento da ANADEM, um processo judicial/reclamação já existente no âmbito jurídico não terá cobertura pela Anadem.</label>
-                    <select name="Tem conhecimento de algum fato ou circunstância durante a sua vida profissional, onde seus atos possam resultar em reclamações e/ou medidas judiciais, no âmbito da responsabilidade civil profissional? 
+<div class="section-title">Declarações e Finalização</div>
+<div class="space-y-6">
+    <div class="bg-yellow-50 p-4 border border-yellow-200 rounded">
+        
+        <label class="block text-sm font-bold text-gray-800 mb-2">
+            1. Tem conhecimento de algum fato ou circunstância durante a sua vida profissional, onde seus atos possam resultar em reclamações e/ou medidas judiciais, no âmbito da responsabilidade civil profissional?
+            <br><br>
+            <span class="text-red-600 font-bold">
+                ATENÇÃO: Somente marque essa opção se já existe, de fato, uma demanda no âmbito judicial em andamento no ato dessa contratação (boletim de ocorrência/denúncia/processo ético/administrativo/judicial). 
+                <br>
+                Conforme rege o Regulamento da ANADEM, um processo judicial/reclamação já existente não terá cobertura.
+            </span>
+        </label>
 
-ATENÇÃO: Somente marque essa opção se já existe, de fato, uma demanda no âmbito judicial em andamento no ato dessa contratação (boletim de ocorrência/denuncia/processo ético/administrativo/judicial). É importante estar ciente que a marcação dessa opção trará, no próximo item, a descrição dos fatos e os pacientes envolvidos, e conforme rege o Regulamento da ANADEM, um processo judicial/reclamação já existente no âmbito jurídico não terá cobertura pela Anadem." onchange="toggle('div_fato_detalhe', this.value)" class="mb-2">
-                        <option value="Não">Não</option>
-                        <option value="Sim">Sim</option>
-                    </select>
-                    <div id="div_fato_detalhe" class="hidden-field mt-4 space-y-2">
-                        <textarea name="Descricao do Fato e Paciente" placeholder="Descreva o caso e o nome do paciente envolvido..." rows="3"></textarea>
-                    </div>
-                </div>
+        <select 
+            name="1. Tem conhecimento de algum fato ou circunstância durante a sua vida profissional, onde seus atos possam resultar em reclamações e/ou medidas judiciais, no âmbito da responsabilidade civil profissional?" 
+            onchange="toggleFato(this.value)" 
+            class="mb-2"
+        >
+            <option value="Não">Não</option>
+            <option value="Sim">Sim</option>
+        </select>
+
+        <div id="div_fato_detalhe" class="hidden-field mt-4 space-y-2">
+            <textarea 
+                name="1.1 Descricao do Fato e Paciente" 
+                placeholder="1.1 Descreva o caso e o nome do paciente envolvido..." 
+                rows="3">
+            </textarea>
+        </div>
+
+        <!-- Mensagem de alerta inferior -->
+        <div id="alerta_cobertura" class="hidden-field mt-4">
+            <p class="text-red-600 font-bold">
+                Atenção: Demandas judiciais ou reclamações já existentes no momento da contratação não possuem cobertura pela ANADEM e nem por nenhuma outra empresa similar.
+            </p>
+        </div>
+
+    </div>
+</div>
+
+<script>
+function toggleFato(value) {
+    const detalhe = document.getElementById('div_fato_detalhe');
+    const alerta = document.getElementById('alerta_cobertura');
+
+    if (value === 'Sim') {
+        detalhe.style.display = 'block';
+        alerta.style.display = 'block';
+    } else {
+        detalhe.style.display = 'none';
+        alerta.style.display = 'none';
+    }
+}
+</script>
 
                 <div class="space-y-3 text-sm text-gray-700">
                     <label class="flex items-start space-x-2"><input type="checkbox" required class="mt-1"> <span>2. Estou ciente do cadastramento do Cartão de Crédito em sistema próprio da Anadem, caso eu tenha optado por essa modalidade.</span></label>
