@@ -48,6 +48,14 @@
 
     <div style="display: flex; gap: 20px;">
       <div style="flex: 1;">
+        <label>Cartão – Tabela Blue (Somente Medicina)</label>
+        <input id="p7" placeholder="R$ 159,00">
+      </div>
+      <div style="flex: 1;"></div>
+    </div>
+
+    <div style="display: flex; gap: 20px;">
+      <div style="flex: 1;">
         <label>Cartão – Tabela Verde</label>
         <input id="p3" placeholder="R$ 189,00">
       </div>
@@ -71,12 +79,11 @@
     <div class="grid-btns">
         <button class="btn-gerar" onclick="gerarTexto()">1. Gerar Texto Original</button>
         <button class="btn-copiar" onclick="copiarTexto()">2. Copiar p/ WhatsApp</button>
-        <button class="btn-pdf" onclick="gerarPDF()">3. Gerar PDF Preenchido</button>
+        <button class="btn-pdf" onclick="gerarPDF()">3. Gerar PDF (2 Páginas)</button>
         <button class="btn-limpar" onclick="limparCampos()">Limpar Formulário</button>
     </div>
 
     <textarea id="resultado" placeholder="O texto original será gerado aqui..."></textarea>
-
     <footer>© OASIS TOUR DF</footer>
   </div>
 
@@ -87,33 +94,7 @@
 function gerarTexto() {
   const nome = document.getElementById("pNome").value || "Doutor(a)";
   const tel = document.getElementById("pTel").value || "Não informado";
-  const p1 = document.getElementById("p1").value;
-  const p2 = document.getElementById("p2").value;
-  const p3 = document.getElementById("p3").value;
-  const p4 = document.getElementById("p4").value;
-  const p5 = document.getElementById("p5").value;
-  const p6 = document.getElementById("p6").value;
-
-  const texto = 
-`Prezado(a) Dr. ${nome},
-Contato: ${tel}
-
-Segue detalhamento conforme conversamos:
-
-Diferenciais ANADEM:
-• A retroatividade protege também, atos já realizados nos últimos 5 anos (conforme rege o regulamento).
-• Atuação jurídica preventiva e defesa completa, com advogado indicado e custeado pela ANADEM — sem desembolso inicial e sem reembolso posterior.
-• Suporte jurídico especializado para qualquer situação relacionada à sua atividade profissional, 24h por dia.
-• Processos ilimitados, sem franquia para Plano Pessoa Física.
-• Cobertura nacional.
-
-Vantagens Exclusivas:
-• Gerenciamento de crise de imagem e reputação on-line.
-• Proteção no Google, redes sociais e mídias digitais.
-• Extensão gratuita para o CNPJ (desde que para fins de faturamento, sem leito/internação e que haja somente um sócio da área da saúde no contrato social).
-
-Fico à disposição para ativar sua proteção hoje mesmo!`;
-
+  const texto = `Prezado(a) Dr. ${nome},\n\nConforme conversamos, segue a proposta de blindagem profissional da ANADEM.\n\nFico à disposição para qualquer dúvida!\n\nAtenciosamente,\nHigo Gerson - Grupo OASIS.`;
   document.getElementById("resultado").value = texto;
 }
 
@@ -122,17 +103,24 @@ function copiarTexto() {
   if (!campo.value) return;
   campo.select();
   document.execCommand("copy");
-  alert("Copiado.");
+  alert("Copiado com sucesso!");
 }
 
 function limparCampos() {
-  ["pNome","pTel","p1","p2","p3","p4","p5","p6","resultado"].forEach(id => document.getElementById(id).value = "");
+  ["pNome","pTel","p1","p2","p3","p4","p5","p6","p7","resultado"].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.value = "";
+  });
 }
 
 async function gerarPDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
-  
+  const margemEsquerda = 15;
+  const larguraUtil = 180;
+  const limiteInferior = 270; // Área segura antes do rodapé
+
+  // Captura de Dados
   const nomeMed = document.getElementById("pNome").value || "---";
   const telMed = document.getElementById("pTel").value || "---";
   const p1 = document.getElementById("p1").value || "---";
@@ -141,7 +129,9 @@ async function gerarPDF() {
   const p4 = document.getElementById("p4").value || "---";
   const p5 = document.getElementById("p5").value || "---";
   const p6 = document.getElementById("p6").value || "---";
+  const p7 = document.getElementById("p7").value || "---";
 
+  // --- PÁGINA 1: Cabeçalho e Tabela ---
   doc.setFillColor(30, 64, 175);
   doc.rect(0, 0, 210, 38, 'F');
   doc.setTextColor(255, 255, 255);
@@ -153,79 +143,117 @@ async function gerarPDF() {
 
   doc.setTextColor(0, 0, 0);
   doc.setFontSize(11);
-  doc.setFont('Helvetica', 'Bold');
-  doc.text(`Doutor(a): ${nomeMed}`, 15, 48);
-  doc.text(`Contato: ${telMed}`, 15, 54);
-  doc.text(`Especialidade: ${p1}`, 15, 60);
-  doc.setFontSize(12);
-  doc.text(`Capital Segurado*: R$ ${p2}`, 15, 67);
+  doc.text(`Doutor(a): ${nomeMed}`, margemEsquerda, 48);
+  doc.text(`Contato: ${telMed}`, margemEsquerda, 54);
+  doc.text(`Especialidade: ${p1}`, margemEsquerda, 60);
+  doc.text(`Capital Segurado*: R$ ${p2}`, margemEsquerda, 67);
 
   doc.autoTable({
     startY: 74,
-    head: [['Modalidade de Cobertura', 'Cartão de Crédito Mensal', 'Boleto Bancário Mensal']],
+    head: [['Modalidade de Cobertura', 'Cartão de Crédito', 'Boleto Bancário']],
     body: [
+      ['Tabela Blue (Apólice R$ 300 mil/Somente Cartão)', `R$ ${p7}`, '---'],
       ['Tabela Verde (Sem Retroatividade)', `R$ ${p3}`, `R$ ${p4}`],
       ['Tabela Black (Retroatividade 5 anos)', `R$ ${p5}`, `R$ ${p6}`]
     ],
     theme: 'grid',
-    headStyles: { fillColor: [30, 64, 175], fontSize: 11 },
-    styles: { fontSize: 10.5, halign: 'center', cellPadding: 4 }
+    headStyles: { fillColor: [30, 64, 175] }
   });
 
-  let y = doc.lastAutoTable.finalY + 10;
-  doc.setFontSize(12);
-  doc.setFont('Helvetica', 'Bold');
-  doc.text('Diferenciais e Vantagens Exclusivas:', 15, y);
-  
-    doc.setFontSize(11); 
-  doc.setFont('Helvetica', 'Normal');
-  
+  let y = doc.lastAutoTable.finalY + 12;
+
+  // Função Auxiliar para Escrever com Quebra de Página Automática
+  const escreverLista = (titulo, itens, corTitulo = [0,0,0]) => {
+    if (y > limiteInferior - 20) { doc.addPage(); y = 20; }
+    
+    doc.setFont('Helvetica', 'Bold');
+    doc.setFontSize(12);
+    doc.setTextColor(corTitulo[0], corTitulo[1], corTitulo[2]);
+    doc.text(titulo, margemEsquerda, y);
+    y += 8;
+
+    doc.setFont('Helvetica', 'Normal');
+    doc.setFontSize(11);
+    doc.setTextColor(0, 0, 0);
+
+    itens.forEach(item => {
+      const linhas = doc.splitTextToSize(item, larguraUtil);
+      const alturaNecessaria = linhas.length * 5;
+
+      if (y + alturaNecessaria > limiteInferior) {
+        doc.addPage();
+        y = 15;
+      }
+
+      doc.text(linhas, margemEsquerda, y);
+      y += alturaNecessaria + 1;
+    });
+  };
+
+  // Seção 1: Diferenciais
   const diferenciais = [
-    "1. Assistência jurídica especializada em Direito Médico e Odontológico, nas áreas Criminal, Cível, Administrativa e Ética - CRM/CFM e CRO/CFO, por meio de renomados escritórios de advocacia credenciados em todo o território nacional.",
-    " ",
-    "2. Plantão permanente para esclarecer dúvidas, encaminhar o cliente ao escritório de advocacia credenciado a Anadem e oferecer suporte em caso de recebimento de intimação, notificação ou citação em âmbito judicial ou extrajudicial.",
-    " ",
-    "3. Ressarcimento de atos médicos/odontológicos praticados após a data de deferimento da adesão. Na contratação pela Tabela Black, haverá cobertura retroativa de 5 (cinco) anos para o ato profissional. Caso a pessoa física tenha apólice de seguro de Responsabilidade Civil Profissional vigente em Sociedade Seguradora, será mantida a data da retroatividade de cobertura dessa referida apólice, sem cobrança de contribuição adicional, limitada a 5 (cinco) anos, e desde que não tenha havido qualquer interrupção de vigência de seguro. Em ambos os casos, a retroatividade para o ato profissional será contada, e somente haverá cobertura para o processo protocolizado a partir do deferimento da adesão na condição de cliente.",
+    "• Assistência jurídica especializada em Direito Médico e Odontológico, nas áreas Criminal, Cível, Administrativa e Ética - CRM/CFM e CRO/CFO, por meio de renomados escritórios de advocacia credenciados em todo o território nacional.",
+    "• Plantão permanente para esclarecer dúvidas, encaminhar o cliente ao escritório de advocacia credenciado a Anadem e oferecer suporte em caso de recebimento de intimação, notificação ou citação em âmbito judicial ou extrajudicial.",
+    "• Ressarcimento de atos médicos/odontológicos praticados após a data de deferimento da adesão. Na contratação pela Tabela Black, haverá cobertura retroativa de 5 (cinco) anos para o ato profissional. Caso a pessoa física tenha apólice de seguro de Responsabilidade Civil Profissional vigente em Sociedade Seguradora, será mantida a data da retroatividade de cobertura dessa referida apólice, sem cobrança de contribuição adicional, limitada a 5 (cinco) anos, e desde que não tenha havido qualquer interrupção de vigência de seguro. Em ambos os casos, a retroatividade para o ato profissional será contada, e somente haverá cobertura para o processo protocolizado a partir do deferimento da adesão na condição de cliente.",
+    "• Indenização financeira de até R$ 1.000.000,00 (um milhão de reais), de acordo com o plano contratado*.",
+    "• Cobertura para danos corporais, materiais, morais, estéticos e existenciais.",
+    "• Cobertura de honorários de peritos e de assistente técnicos.",
+    "• Gerenciamento de Crise de Imagem e Redes Sociais",
+    "• Sem sub-limitação de cobertura",
+    "• Sem limite de processos",
+    "• Antecipação de Tutela",
+    "• Sem denunciação à lide",
+    "• Renovação automática",
+    "• Cobertura Nacional",
+    "• Sem limite de cobertura (Plano pessoa física).",
 
-    "4. Indenização financeira de até R$ 1.000.000,00 (um milhão de reais), de acordo com o plano contratado*.",
-    " ",
-    "5. Cobertura para danos corporais, materiais, morais, estéticos e existenciais.",
-
-    "6. Cobertura de honorários de peritos e de assistente técnicos.",
-
-    "7. Gerenciamento de Crise de Imagem",
-
-    "8. Sem sub-limitação de cobertura",
-
-    "9. Sem limite de processos",
-
-    "10. Antecipação de Tutela",
-
-    "11. Sem denunciação à lide",
-
-    "12. Renovação automática",
-
-    "13. Cobertura Nacional",
-
-    "14. Sem limite de cobertura (Plano pessoa física)."
   ];
+  escreverLista("DIFERENCIAIS E VANTAGENS EXCLUSIVAS - ANADEM", diferenciais);
 
-  y += 7;
-  diferenciais.forEach(item => {
-    let lines = doc.splitTextToSize(item, 180);
-    doc.text(lines, 15, y);
-    y += (lines.length * 4.9); // Espaçamento entre linhas aumentado para preencher
-  });
+  // Forçar Quebra de Página para o Blue como solicitado anteriormente
+  doc.addPage();
+  y = 25;
 
-  // Assinatura (Posicionada no final da página)
-  doc.setFontSize(11);
+  // Seção 2: Regras Blue
+  const regrasBlue = [
+    "1. Os valores para pagamento constantes da tabela comercial deste produto (Anadem Blue) serão aplicáveis para médicos sem histórico de processos e/ou com expectativa de reclamações.",
+    "2. Médicos com histórico de processos poderão optar pelos produtos das tabelas Verde ou Black.",
+    "3. Esta modalidade de plano não contempla o benefício da cobertura retroativa de 5 (cinco) anos para o ato profissional e está disponível somente na modalidade de pagamento mensal e em cartão de crédito.",
+    "4. Não haverá assistência jurídica pelo escritório de advocacia credenciado nem cobertura securitária pela seguradora contratada, às denúncias e aos processos protocolados antes da adesão do cliente, bem como reclamações cujo fato gerador também tenham ocorrido anteriormente a data de adesão do cliente à Anadem.",
+    "5. Não haverá cobertura para antecipação de tutela.",
+    "6. A cobertura para honorários periciais será de até uma vez o limite máximo da tabela da Associação Médica Brasileira (Tabela AMB-2013), e de até 50% do limite da referida tabela para os honorários do assistente técnico, aplicável nos processos cíveis indenizatórios ao qual o cliente venha a responder, decorrente de ato profissional por ele praticado, cujos riscos estejam cobertos pela Anadem e, desde que ambas as despesas processuais, por processo, sejam, previamente, autorizadas pela Diretoria Jurídica da Anadem.",
+    "7. A cobertura da Pessoa Jurídica estará restrita a procedimento do profissional de saúde realizado em Instituições que não possuam leitos e desde que o procedimento médico não necessite de internação.",
+    "8. A cobertura da Pessoa Jurídica estará vinculada exclusivamente ao ato profissional da Pessoa Física correspondente, independentemente da quantidade de sócios, de figurar (ou não) como sócio e da classificação da sociedade civil ou comercial.",
+    "9. A aceitação ou não da proposta de extensão da Pessoa Jurídica será analisada pelo Setor de Adesões da ANADEM.",
+    "10. A cobertura da Pessoa Jurídica estará restrita às empresas para fins de faturamento.",
+    "11. Este produto (Anadem Blue) não possui condição comercial para residentes de medicina.",
+    "12. Essa modalidade de contratação está disponível somente para as especialidades de Medicina.",
+
+    " ",
+    " ",
+    "",
+    "Caso deseje realizar sua contratação do produto da ANADEM,",
+    "• Acesse: https://higoamorim.github.io/PropostaANADEM/PROPOSTA.html,",
+    "• Preencha os campos solicitados",
+    "• Gere o PDF com a Proposta de Adesão e envie para o WhatsApp clicando neste link: https://wa.me/556193144931",
+    "• Envie os documentos necessários para anexá-los à proposta no mesmo número e aguarde a transmissão.",
+    "• Você receberá uma mensagem para assinatura eletronica da proposta. Verifique as informações e finalize assinando digitalmente o documento.",
+    " ",
+    " ",
+    "",
+    "Higo Gerson C. de Amorim",
+    "Representante Comercial - Grupo OASIS - DF",
+    "grupo.oasisdf@gmail.com | 61 99314-4931 | 61 99630-0538",
+    "",
+  ];
+  escreverLista("REGRAS ESPECÍFICAS: PRODUTO ANADEM BLUE", regrasBlue, [30, 64, 175]);
+
+  // Rodapé em todas as páginas (opcional, aqui no final da última)
   doc.setFont('Helvetica', 'Bold');
-  doc.text('Higo Gerson C. de Amorim', 105, 275, { align: 'center' });
-  doc.setFont('Helvetica', 'Normal');
-  doc.text('Representante Comercial Autorizado', 105, 281, { align: 'center' });
-  doc.text('Grupo OASIS - DF', 105, 287, { align: 'center' });
+  doc.text('2026 - Representante Comercial Autorizado ANADEM - Grupo OASIS DF', 105, 290, { align: 'center' });
 
   doc.save(`Orcamento_ANADEM_${nomeMed.replace(/\s+/g, '_')}.pdf`);
+
 }
 </script>
 </body>
