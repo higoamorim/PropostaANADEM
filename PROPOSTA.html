@@ -278,6 +278,48 @@ window.onload = validarRegras;
                 <div><label class="block text-sm font-medium">7. Tem seguro de vida?</label><select name="7. Tem seguro de vida?"><option>Não</option><option>Sim</option></select></div>
             </div>
 
+            <div class="section-title">Extensão ao CNPJ</div>
+            <div>
+                <label class="text-sm font-bold">Deseja contratar Extensão para seu CNPJ?</label>
+                <select name="Deseja Extensão CNPJ?" onchange="toggle('div_cnpj', this.value)">
+                    <option>Não</option>
+                    <option>Sim</option>
+                </select>
+                <div id="div_cnpj" class="hidden-field space-y-4 bg-gray-50 p-4 border rounded-lg mt-4">
+                    <input type="text" name="CNPJ Numero" placeholder="Número do CNPJ">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="text-xs">1. Para fins de faturamento (emite NF)?</label>
+                            <select name="1. Para fins de faturamento"><option>Não</option><option>Sim</option></select>
+                        </div>
+                        <div>
+                            <label class="text-xs">2. Há estrutura física?</label>
+                            <select name="2. Há estrutura física"><option>Não</option><option>Sim</option></select>
+                        </div>
+                        <div>
+                            <label class="text-xs">3. Há outros profissionais da saúde?</label>
+                            <select name="3. Há outros profissionais da saúde?" onchange="this.nextElementSibling.style.display = (this.value === 'Sim') ? 'block' : 'none'">
+                                <option value="Não">Não</option>
+                                <option value="Sim">Sim</option>
+                            </select>
+                            <p style="display:none;" class="text-red-600 font-bold text-xs mt-2">Atenção: A extensão terá custos adicionais sob consulta.</p>
+                        </div>
+                        <div>
+                            <label class="text-xs">4. Há procedimentos que necessitem Internação ou Leitos?</label>
+                            <select name="4. Há procedimentos que necessitem Internação ou Leitos?" onchange="this.nextElementSibling.style.display = (this.value === 'Sim') ? 'block' : 'none'">
+                                <option value="Não">Não</option>
+                                <option value="Sim">Sim</option>
+                            </select>
+                            <p style="display:none;" class="text-red-600 font-bold text-xs mt-2">Atenção: A extensão terá custos adicionais sob consulta.</p>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="text-xs font-bold">5. Atividades profissionais no CNPJ:</label>
+                            <textarea name="5. Atividades profissionais no CNPJ" rows="2" placeholder="Descreva quais atividades são realizadas no CNPJ."></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="section-title">Declarações e Finalização</div>
             <div class="space-y-6">
                 <div class="bg-yellow-50 p-4 border border-yellow-200 rounded">
