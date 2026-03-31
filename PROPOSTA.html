@@ -55,7 +55,7 @@
 
  <div class="section-title">Endereço Residencial</div>
 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-    <input type="text" name="Res_CEP" placeholder="CEP">
+    <input type="text" name="Res_CEP" placeholder="CEP" onblur="buscarCEP(this.value, 'Res')">
     <input type="text" name="Res_Logradouro" placeholder="Logradouro" class="md:col-span-2">
     <input type="text" name="Res_Numero" placeholder="Numero">
     <input type="text" name="Res_Complemento" placeholder="Complemento">
@@ -74,7 +74,7 @@
 
 <!-- COMEÇA ESCONDIDO DE VERDADE -->
 <div id="div_comercial" style="display: none;" class="bg-gray-50 p-4 rounded-lg border border-gray-200 grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-    <input type="text" name="Com_CEP" placeholder="CEP Comercial">
+    <input type="text" name="Com_CEP" placeholder="CEP Comercial" onblur="buscarCEP(this.value, 'Com')">
     <input type="text" name="Com_Logradouro" placeholder="Logradouro Comercial" class="md:col-span-2">
     <input type="text" name="Com_Numero" placeholder="Número">
     <input type="text" name="Com_Complemento" placeholder="Complemento">
@@ -571,5 +571,35 @@ doc.addPage();
             doc.save(`ADESAO_ANADEM_${nomeMedico.replace(/ /g,"_")}.pdf`);
         }
     </script>
+
+<script>
+async function buscarCEP(cep, prefixo) {
+    cep = cep.replace(/\D/g, '');
+
+    if (cep.length !== 8) return;
+
+    try {
+        const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+        const data = await response.json();
+
+        if (data.erro) {
+            alert("CEP não encontrado.");
+            return;
+        }
+
+        document.querySelector(`[name="${prefixo}_Logradouro"]`).value = data.logradouro || '';
+        document.querySelector(`[name="${prefixo}_Bairro"]`).value = data.bairro || '';
+        document.querySelector(`[name="${prefixo}_Municipio"]`).value = data.localidade || '';
+        document.querySelector(`[name="${prefixo}_UF"]`).value = data.uf || '';
+
+    } catch (error) {
+        console.error("Erro ao buscar CEP:", error);
+    }
+}
+</script>
+
+
+
+
 </body>
 </html>
