@@ -112,6 +112,7 @@
         <option value="CIRURGIÃO DENTISTA D1">CIRURGIÃO DENTISTA D1</option>
         <option value="CIRURGIÃO DENTISTA D2">CIRURGIÃO DENTISTA D2</option>
         <option value="CIRURGIÃO DENTISTA D3">CIRURGIÃO DENTISTA D3</option>
+
         <option value="DEMAIS ESPECIALIDADES">DEMAIS ESPECIALIDADES**</option>
     </select>
 
@@ -121,10 +122,11 @@
         <div>
             <label class="text-sm font-semibold">Capital Segurado:</label>
             <select name="Capital Segurado" id="capitalSegurado" onchange="validarRegras()">
+                <option value="R$ 100 mil" id="cap100">R$ 100 mil</option>
+                <option value="R$ 300 mil" id="cap300">R$ 300 mil</option>
                 <option value="R$ 500 mil" id="cap500">R$ 500 mil</option>
                 <option value="R$ 800 mil" id="cap800">R$ 800 mil</option>
                 <option value="R$ 1 milhão" id="cap1m">R$ 1 milhão</option>
-                <option value="R$ 300 mil" id="cap300">R$ 300 mil</option>
             </select>
         </div>
 
@@ -152,24 +154,10 @@
 function validarRegras() {
 
     const especialidade = document.getElementById("especialidade").value;
-    const tabelaSelect = document.getElementById("tabelaContratacao");
+    const tabela = document.getElementById("tabelaContratacao").value;
     const capitalSelect = document.getElementById("capitalSegurado");
 
-    const tabela = tabelaSelect.value;
-    const capital = capitalSelect.value;
-
-    const isOdonto = [
-        "CIRURGIÃO DENTISTA D1",
-        "CIRURGIÃO DENTISTA D2",
-        "CIRURGIÃO DENTISTA D3",
-        "DEMAIS ESPECIALIDADES"
-    ].includes(especialidade);
-
-    const isPlanoRestrito = [
-        "ANADEM BLUE",
-        "ANADEM ESSENCIAL"
-    ].includes(tabela);
-
+    const cap100 = document.getElementById("cap100");
     const cap300 = document.getElementById("cap300");
     const cap500 = document.getElementById("cap500");
     const cap800 = document.getElementById("cap800");
@@ -180,56 +168,98 @@ function validarRegras() {
 
     const alerta = document.getElementById("alertaPlano");
 
+    const isDentista = [
+        "CIRURGIÃO DENTISTA D1",
+        "CIRURGIÃO DENTISTA D2",
+        "CIRURGIÃO DENTISTA D3"
+    ].includes(especialidade);
+
+    const isDemais = especialidade === "DEMAIS ESPECIALIDADES";
+
+    const isPlanoRestrito = [
+        "ANADEM BLUE",
+        "ANADEM ESSENCIAL"
+    ].includes(tabela);
+
+    // RESET GERAL
+    cap100.disabled = false;
+    cap300.disabled = false;
+    cap500.disabled = false;
+    cap800.disabled = false;
+    cap1m.disabled = false;
+
+    optBlue.disabled = false;
+    optEssencial.disabled = false;
+
+    alerta.style.display = "none";
+
     // =========================
-    // 1. BLOQUEIO PARA ODONTO
+    // DEMAIS ESPECIALIDADES
     // =========================
-    if (isOdonto) {
+    if (isDemais) {
+
+        cap100.disabled = false;
+        cap300.disabled = true;
+        cap500.disabled = true;
+        cap800.disabled = true;
+        cap1m.disabled = true;
+
+        capitalSelect.value = "R$ 100 mil";
+
         optBlue.disabled = true;
         optEssencial.disabled = true;
 
-        if (isPlanoRestrito) {
-            tabelaSelect.value = "COM RETROATIVIDADE DE 5 ANOS";
-        }
-    } else {
-        optBlue.disabled = false;
-        optEssencial.disabled = false;
+        return;
     }
 
-    // =========================================
-    // 2. SE FOR BLUE OU ESSENCIAL
-    // =========================================
-    if (isPlanoRestrito && !isOdonto) {
+    // =========================
+    // DENTISTAS
+    // =========================
+    if (isDentista) {
 
+        cap100.disabled = true;
+        cap300.disabled = true;
+        cap500.disabled = false;
+        cap800.disabled = true;
+        cap1m.disabled = true;
+
+        capitalSelect.value = "R$ 500 mil";
+
+        optBlue.disabled = true;
+        optEssencial.disabled = true;
+
+        return;
+    }
+
+    // =========================
+    // MÉDICOS
+    // =========================
+    if (isPlanoRestrito) {
+
+        cap100.disabled = true;
         cap300.disabled = false;
         cap500.disabled = true;
         cap800.disabled = true;
         cap1m.disabled = true;
 
-        if (capital !== "R$ 300 mil") {
-            capitalSelect.value = "R$ 300 mil";
-        }
+        capitalSelect.value = "R$ 300 mil";
 
         alerta.style.display = "block";
 
     } else {
 
-        // =========================================
-        // 3. PLANOS COM/SEM RETRO → PROÍBE 300
-        // =========================================
+        cap100.disabled = true;
         cap300.disabled = true;
         cap500.disabled = false;
         cap800.disabled = false;
         cap1m.disabled = false;
 
-        if (capital === "R$ 300 mil") {
+        if (capitalSelect.value === "R$ 300 mil" || capitalSelect.value === "R$ 100 mil") {
             capitalSelect.value = "R$ 500 mil";
         }
-
-        alerta.style.display = "none";
     }
 }
 
-// EXECUTA AO CARREGAR
 window.onload = validarRegras;
 </script>
 
