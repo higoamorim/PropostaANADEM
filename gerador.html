@@ -208,18 +208,27 @@ async function gerarPDF() {
     "• Renovação automática",
     "• Cobertura Nacional",
     "• Sem limite de cobertura (Plano pessoa física).",
+     " ",
+    " DIFERENCIAIS EXCLUSIVOS DO PRODUTO ANADEM - TABELA BLACK E TABELA VERDE",
+    " ",
+    "• A retroatividade (Tabela Black) protege também, atos já realizados nos últimos 5 anos (conforme rege o regulamento).",
+    "• Atuação jurídica preventiva e defesa completa, com advogado indicado e custeado pela ANADEM - sem desembolso inicial e sem reembolso posterior.",
+    "• Suporte jurídico especializado para qualquer situação relacionada à sua atividade profissional, 24h por dia.",
+    "• Processos ilimitados, sem franquia para Plano Pessoa Física.",
+    "• Sem carência (Salvos casos específicos vide atendimento).",
+    "• Cobertura nacional.",
+    "• Gerenciamento de crise de imagem e reputação on-line.",
+    "• Proteção no Google, redes sociais e mídias digitais.",
+    "• Extensão gratuita para o CNPJ (desde que para fins de faturamento, sem leito/internação e que haja somente um sócio da área da saúde no contrato social).",
 
   ];
   escreverLista("DIFERENCIAIS E VANTAGENS EXCLUSIVAS - ANADEM", diferenciais);
 
-  // Forçar Quebra de Página para o Blue como solicitado anteriormente
-  doc.addPage();
-  y = 25;
+// Apenas um espaço extra em vez de uma nova página
+y += 10;
 
   // Seção 2: Regras Blue
   const regrasBlue = [
-" ",
-" ",
     "• Os valores para pagamento constantes da tabela comercial deste produto (Anadem Blue) serão aplicáveis para médicos sem histórico de processos e/ou com expectativa de reclamações.",
     "• Médicos com histórico de processos poderão optar pelos produtos das tabelas Verde ou Black.",
     "• Esta modalidade de plano não contempla o benefício da cobertura retroativa de 5 (cinco) anos para o ato profissional e está disponível somente na modalidade de pagamento mensal e em cartão de crédito.",
@@ -233,17 +242,6 @@ async function gerarPDF() {
     "• Este produto (Anadem Blue) não possui condição comercial para residentes de medicina.",
     "• Essa modalidade de contratação está disponível somente para as especialidades de Medicina.",
 
-"",
-"",
-"",
-
-"Higo Gerson C. de Amorim",
-"Representante Comercial - Grupo OASIS - DF",
-"grupo.oasisdf@gmail.com | 61 99314-4931 | 61 99630-0538",
-
-"",
-"",
-""
 ];
 
 
@@ -252,11 +250,18 @@ async function gerarPDF() {
 
 
 
+// Rodapé: Distribuído verticalmente para não sobrepor
+doc.setFont('Helvetica', 'Bold');
+doc.setFontSize(8);
 
-  // Rodapé em todas as páginas (opcional, aqui no final da última)
-  doc.setFont('Helvetica', 'Bold');
-  doc.text('2026 - Representante Comercial Autorizado ANADEM - GRUPO OASIS DF', 105, 290, { align: 'center' });
+// Linha 1
+doc.text('Higo Gerson C. de Amorim - Representante Comercial ANADEM', 105, 275, { align: 'center' });
 
+// Linha 2 (+4 unidades abaixo)
+doc.text('grupo.oasisdf@gmail.com | 61 99314-4931 | 61 99630-0538', 105, 279, { align: 'center' });
+
+// Linha 3 (+4 unidades abaixo)
+doc.text('2026 - Grupo OASIS DF - Representante Comercial Autorizado Anadem', 105, 283, { align: 'center' });
   doc.save(`Orcamento_ANADEM_${nomeMed.replace(/\s+/g, '_')}.pdf`);
 
 }
