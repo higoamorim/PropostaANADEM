@@ -150,7 +150,7 @@ async function gerarPDF() {
 
   doc.autoTable({
     startY: 74,
-    head: [['Modalidade de Cobertura', 'Cartão de Crédito', 'Boleto Bancário']],
+    head: [['Modalidade de Cobertura', 'Cartão de Crédito Mensal', 'Boleto Bancário Mensal']],
     body: [
       ['ANADEM BLUE (Apólice R$ 300 mil/Somente Cartão)', `R$ ${p7}`, '---'],
       ['Tabela Verde (Sem Retroatividade)', `R$ ${p3}`, `R$ ${p4}`],
@@ -220,6 +220,8 @@ async function gerarPDF() {
     "• Gerenciamento de crise de imagem e reputação on-line.",
     "• Proteção no Google, redes sociais e mídias digitais.",
     "• Extensão gratuita para o CNPJ (desde que para fins de faturamento, sem leito/internação e que haja somente um sócio da área da saúde no contrato social).",
+    "• A ANADEM também possui as formas de pagamento Anual em 4x, e não compromete seu limite: As parcelas são deduzidas mensalmente, preservando o crédito do seu cartão para outras necessidades.",
+    "• Opção Anual à vista: Com quitação imediata do período.",
 
   ];
   escreverLista("DIFERENCIAIS E VANTAGENS EXCLUSIVAS - ANADEM", diferenciais);
