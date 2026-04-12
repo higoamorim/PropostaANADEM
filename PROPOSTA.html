@@ -155,6 +155,34 @@ function toggleComercial(value) {
             </select>
         </div>
 
+<!-- PAGAMENTO -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+
+    <!-- FORMA DE PAGAMENTO -->
+    <div>
+        <label class="text-sm font-semibold">Forma de Pagamento:</label>
+        <select name="Forma de Pagamento" id="formaPagamento" onchange="validarRegras()">
+            <option value="">Selecione...</option>
+            <option value="CARTAO">Cartão de Crédito</option>
+            <option value="BOLETO">Boleto Bancário</option>
+        </select>
+    </div>
+
+    <!-- CONDIÇÃO DE PAGAMENTO -->
+    <div>
+        <label class="text-sm font-semibold">Condição de Pagamento:</label>
+        <select name="Condicao de Pagamento" id="condicaoPagamento" onchange="validarRegras()">
+            <option value="">Selecione...</option>
+            <option value="MENSAL">Mensal</option>
+            <option value="ANUAL_AVISTA">Anual à Vista</option>
+            <option value="ANUAL_4X">Anual em 4x</option>
+        </select>
+    </div>
+
+</div>
+
+
+
     </div>
 
     <!-- ALERTA -->
