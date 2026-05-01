@@ -95,18 +95,19 @@
 function gerarTexto() {
   const nome = document.getElementById("pNome").value || "Doutor(a)";
   const tel = document.getElementById("pTel").value || "Não informado";
-  const p5 = document.getElementById("p5").value || "---";
-  const p6 = document.getElementById("p6").value || "---";
+  const p5 = document.getElementById("p5").value || "VALOR CARTÃO";
+  const p6 = document.getElementById("p6").value || "VALOR BOLETO";
+  const p1 = document.getElementById("p1").value || "Especialidade";
 
   const texto = `Prezado(a) Dr. ${nome},
 
 Conforme conversamos, segue a proposta de blindagem profissional da ANADEM.
 
 *Análise da Melhor Opção*:
+_Especialidade:_ ${p1}
 _Mensal com Retroatividade: R$ ${p6} no Boleto ou R$ ${p5} no Cartão._
 
 Neste folder, informações gerais do produto ANADEM.
-
 *Vamos realizar sua contratação?*
 `;
 
