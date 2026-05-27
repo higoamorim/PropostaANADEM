@@ -327,6 +327,11 @@
       <span id="validadeProposta"></span>
     </div>
 
+	<div class="linha-info">
+  	<strong>Capital Segurado:</strong>
+  	<span id="capitalSegurado"></span>
+	</div>
+
   </div>
 
   <table class="tabela">
@@ -389,6 +394,11 @@
       <p>
         Seja na defesa em casos de responsabilidade civil ou ética-profissional, seja no suporte diante de demandas regulatórias e administrativas, os escritórios credenciados estarão preparados para oferecer suporte técnico e jurídico especializado.
       </p>
+	<br>
+      <p>
+        A razão para contratar agora é a <b>prevenção</b>. A judicialização na área da saúde é uma realidade e pode acontecer a qualquer momento. Ao garantir sua proteção hoje, você já passa a contar com suporte jurídico para orientação, evita riscos desnecessários e garante sua tranquilidade, sabendo que terá uma defesa especializada caso qualquer intercorrência aconteça.
+      </p>
+
 
     </div>
 
@@ -492,6 +502,7 @@
   const nome = params.get('nome') || 'Dr. Fulano';
   const telefone = params.get('tel') || '(61) 99999-9999';
   const especialidade = params.get('p1') || 'Especialidade';
+  const capital = params.get('p2') || '500 Mil';
 
   const p3 = params.get('p3') || 'R$ 189,00';
   const p4 = params.get('p4') || 'R$ 199,00';
@@ -502,6 +513,7 @@
   document.getElementById('nomeProfissional').innerText = 'Dr. ' + nome;
   document.getElementById('telefoneProfissional').innerText = telefone;
   document.getElementById('especialidadeProfissional').innerText = especialidade;
+  document.getElementById('capitalSegurado').innerText = capital;
 
   document.getElementById('valorP3').innerText = 'R$ ' + p3;
   document.getElementById('valorP4').innerText = 'R$ ' + p4;
