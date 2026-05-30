@@ -266,28 +266,32 @@ body {
 }
 
 
-    @media print {
+@media print {
 
-      body {
-        background: #fff;
-      }
+  body {
+    background: #fff;
+  }
 
-      .pagina {
-        width: 100%;
-        margin: 0;
-        box-shadow: none;
-      }
+  .pagina {
+    width: 100%;
+    margin: 0;
+    box-shadow: none;
+  }
 
-      .botao-pdf {
-        display: none;
-      }
+  .botao-pdf {
+    display: none;
+  }
 
-      @page {
-        size: A4;
-        margin: 8mm;
-      }
+  @page {
+    size: A4;
+    margin: 8mm;
+  }
 
+}
+
+/* MOBILE */
 @media screen and (max-width: 768px) {
+
 
 .bloco-institucional {
   display: block;
@@ -347,8 +351,14 @@ body {
   gap: 8px;
 }
 
-.imagem-lateral {
-  display: none !important;
+@media only screen and (max-width: 768px) {
+  .imagem-lateral {
+    display: none !important;
+  }
+
+  .pagina {
+    box-shadow: none !important;
+  }
 }
 
 }
