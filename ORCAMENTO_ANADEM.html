@@ -261,6 +261,26 @@
       box-shadow: 0 10px 20px rgba(0,0,0,0.18);
     }
 
+/* Otimização de renderização mobile */
+* {
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+.proposal-container,
+.card,
+.section,
+.coverage-item,
+.plan-card {
+    will-change: auto;
+    transform: translateZ(0);
+}
+
     @media print {
 
       body {
