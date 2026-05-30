@@ -1,6 +1,4 @@
-# ORCAMENTO_ANADEM.html
-
-```html
+html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -14,301 +12,344 @@
 
   <style>
 
- * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  body {
-    background: #dfe5ec;
-    font-family: Arial, Helvetica, sans-serif;
-    color: #222;
-    line-height: 1.3;
-  }
+    body {
+      background: #dfe5ec;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #222;
+      line-height: 1.3;
+    }
+
+    .pagina {
+      width: 210mm;
+      min-height: 297mm;
+      background: #fff;
+      margin: 20px auto;
+      padding: 22px 26px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.12);
+      position: relative;
+    }
+
+    .topo {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+.logos-topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.logo-oasis {
+  max-width: 180px;
+}
+
+.logo-anadem {
+  max-width: 110px;
+}
+    }
+
+    .texto-topo {
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+    }
+
+    .titulo {
+      margin-top: 12px;
+      font-size: 21px;
+      font-weight: bold;
+      color: #0f172a;
+    }
+
+    .cnpj {
+      margin-top: 3px;
+      font-size: 12px;
+    }
+
+    .info-area {
+      margin-top: 18px;
+      font-size: 13px;
+    }
+
+    .linha-info {
+      display: flex;
+      margin-bottom: 6px;
+    }
+
+    .linha-info strong {
+      width: 230px;
+    }
+
+    .tabela {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 18px;
+      font-size: 13px;
+    }
+
+    .tabela th {
+      background: #1e3a8a;
+      color: #fff;
+      padding: 10px;
+      text-align: left;
+      font-size: 12px;
+    }
+
+    .tabela td {
+      border: 1px solid #d1d5db;
+      padding: 10px;
+      vertical-align: middle;
+    }
+
+    .tabela tr:nth-child(even) {
+      background: #f8fafc;
+    }
+
+    .obs {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #374151;
+    }
+
+.bloco-institucional {
+  margin-top: 22px;
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 22px;
+  align-items: end;
+}
+
+    .bloco-institucional h2 {
+      font-size: 22px;
+      color: #0f172a;
+      margin-bottom: 10px;
+    }
+
+.bloco-institucional p {
+  font-size: 12px;
+  text-align: justify;
+  line-height: 1.45;
+}
+
+.imagem-lateral {
+  border-radius: 14px;
+  overflow: hidden;
+  height: 100%;
+  min-height: 100%;
+}
+
+.imagem-lateral img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+
+}
+
+.imagem-lateral img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+    .titulo-secao {
+      margin-top: 18px;
+      margin-bottom: 10px;
+      font-size: 19px;
+      font-weight: bold;
+      color: #0f172a;
+    }
+
+    .estatisticas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .estatistica {
+      border: 1px solid #dbeafe;
+      padding: 16px;
+      border-radius: 12px;
+      background: #f8fafc;
+    }
+
+    .estatistica h3 {
+      font-size: 26px;
+      color: #1e3a8a;
+      margin-bottom: 8px;
+    }
+
+    .estatistica p {
+      font-size: 13px;
+      text-align: justify;
+    }
+
+    .vantagens-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .vantagem {
+      border: 1px solid #d1d5db;
+      border-radius: 12px;
+      padding: 16px;
+      background: #fff;
+    }
+
+    .vantagem h4 {
+      font-size: 15px;
+      margin-bottom: 8px;
+      color: #0f172a;
+    }
+
+    .vantagem p {
+      font-size: 12px;
+      text-align: justify;
+      color: #374151;
+    }
+
+
+.adesao-box {
+  margin-top: 22px;
+  padding: 14px 18px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #f8fafc;
+  font-size: 12px;
+  text-align: center;
+  line-height: 1.5;
+  color: #1f2937;
+  word-break: break-word;
+}
+
+    .rodape {
+      margin-top: 28px;
+      border-top: 1px solid #d1d5db;
+      padding-top: 16px;
+      text-align: center;
+      font-size: 12px;
+      color: #374151;
+      line-height: 1.5;
+    }
+
+    .botao-pdf {
+      position: fixed;
+      right: 25px;
+      bottom: 25px;
+      background: #15803d;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 20px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.18);
+    }
+
+    @media print {
+
+      body {
+        background: #fff;
+      }
+
+      .pagina {
+        width: 100%;
+        margin: 0;
+        box-shadow: none;
+      }
+
+      .botao-pdf {
+        display: none;
+      }
+
+      @page {
+        size: A4;
+        margin: 8mm;
+      }
+
+@media screen and (max-width: 768px) {
+
+.bloco-institucional {
+  display: block;
+}
+
+.imagem-lateral {
+  width: 100%;
+  height: 48px;
+  margin: 10px 0 12px 0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.imagem-lateral img {
+  width: 100%;
+  height: 48px;
+  object-fit: cover;
+  object-position: center 25%;
+  display: block;
+}
 
   .pagina {
     width: 100%;
-    max-width: 210mm;
-    min-height: 297mm;
-    background: #fff;
-    margin: 20px auto;
-    padding: 22px 26px;
-    box-shadow: 0 5px 25px rgba(0,0,0,0.12);
-    position: relative;
-  }
-
-  .topo {
-    text-align: center;
-    margin-bottom: 16px;
-  }
-
-  .logos-topo {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 10px;
-  }
-
-  .logo-oasis {
-    max-width: 180px;
-    height: auto;
-  }
-
-  .logo-anadem {
-    max-width: 110px;
-    height: auto;
-  }
-
-  .texto-topo {
-    font-size: 11px;
-    font-weight: bold;
-    letter-spacing: 0.5px;
-  }
-
-  .titulo {
-    margin-top: 12px;
-    font-size: 21px;
-    font-weight: bold;
-    color: #0f172a;
-  }
-
-  .cnpj {
-    margin-top: 3px;
-    font-size: 12px;
-  }
-
-  .info-area {
-    margin-top: 18px;
-    font-size: 13px;
-  }
-
-  .linha-info {
-    display: flex;
-    flex-wrap: wrap;
-    margin-bottom: 6px;
-  }
-
-  .linha-info strong {
-    width: 230px;
-    flex-shrink: 0;
-  }
-
-  .tabela {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 18px;
-    font-size: 13px;
-  }
-
-  .tabela th {
-    background: #1e3a8a;
-    color: #fff;
-    padding: 10px;
-    text-align: left;
-    font-size: 12px;
-  }
-
-  .tabela td {
-    border: 1px solid #d1d5db;
-    padding: 10px;
-    vertical-align: middle;
-  }
-
-  .tabela tr:nth-child(even) {
-    background: #f8fafc;
-  }
-
-  .obs {
-    margin-top: 10px;
-    font-size: 12px;
-    color: #374151;
+    padding: 16px;
+    margin: 0;
   }
 
   .bloco-institucional {
-    margin-top: 22px;
-    display: grid;
-    grid-template-columns: 1fr 320px;
-    gap: 22px;
-    align-items: end;
+    grid-template-columns: 1fr;
   }
 
-  .bloco-institucional h2 {
-    font-size: 22px;
-    color: #0f172a;
-    margin-bottom: 10px;
-  }
+.imagem-lateral {
+  width: 100%;
+  max-height: 38px;
+  overflow: hidden;
+  margin-top: 4px;
+  border-radius: 6px;
+}
 
-  .bloco-institucional p {
-    font-size: 12px;
-    text-align: justify;
-    line-height: 1.45;
-  }
+.imagem-lateral img {
+  width: 100%;
+  height: 38px;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
 
-  .imagem-lateral {
-    border-radius: 14px;
-    overflow: hidden;
-    height: 100%;
-    min-height: 100%;
-  }
-
-  .imagem-lateral img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  .titulo-secao {
-    margin-top: 18px;
-    margin-bottom: 10px;
-    font-size: 19px;
-    font-weight: bold;
-    color: #0f172a;
-  }
-
-  .estatisticas {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 18px;
-    margin-bottom: 24px;
-  }
-
-  .estatistica {
-    border: 1px solid #dbeafe;
-    padding: 16px;
-    border-radius: 12px;
-    background: #f8fafc;
-  }
-
-  .estatistica h3 {
-    font-size: 26px;
-    color: #1e3a8a;
-    margin-bottom: 8px;
-  }
-
-  .estatistica p {
-    font-size: 13px;
-    text-align: justify;
-  }
+.imagem-lateral img {
+  object-position: center top;
+}
 
   .vantagens-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-    margin-top: 16px;
+    grid-template-columns: 1fr;
   }
 
-  .vantagem {
-    border: 1px solid #d1d5db;
-    border-radius: 12px;
-    padding: 16px;
-    background: #fff;
-  }
+.bloco-institucional {
+  gap: 8px;
+}
 
-  .vantagem h4 {
-    font-size: 15px;
-    margin-bottom: 8px;
-    color: #0f172a;
-  }
+.imagem-lateral {
+  display: none !important;
+}
 
-  .vantagem p {
-    font-size: 12px;
-    text-align: justify;
-    color: #374151;
-  }
+}
 
-  .adesao-box {
-    margin-top: 22px;
-    padding: 14px 18px;
-    border: 1px solid #d1d5db;
-    border-radius: 10px;
-    background: #f8fafc;
-    font-size: 12px;
-    text-align: center;
-    line-height: 1.5;
-    color: #1f2937;
-    word-break: break-all;
-  }
 
-  .rodape {
-    margin-top: 28px;
-    border-top: 1px solid #d1d5db;
-    padding-top: 16px;
-    text-align: center;
-    font-size: 12px;
-    color: #374151;
-    line-height: 1.5;
-  }
-
-  .botao-pdf {
-    position: fixed;
-    right: 25px;
-    bottom: 25px;
-    background: #15803d;
-    color: #fff;
-    border: none;
-    border-radius: 12px;
-    padding: 14px 20px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 14px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.18);
-    z-index: 9999;
-  }
-
-  /* REGRAS PARA IMPRESSÃO */
-  @media print {
-    body {
-      background: #fff;
     }
-    .pagina {
-      width: 100% !important;
-      max-width: 100% !important;
-      margin: 0 !important;
-      padding: 0 !important;
-      box-shadow: none !important;
-    }
-    .botao-pdf {
-      display: none !important;
-    }
-    @page {
-      size: A4;
-      margin: 10mm;
-    }
-  }
-
-  /* REGRAS PARA CELULAR (MOBILE) */
-  @media screen and (max-width: 768px) {
-    .pagina {
-      margin: 0;
-      padding: 15px;
-      border-radius: 0;
-    }
-    .logos-topo {
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-    }
-    .linha-info strong {
-      width: 100%;
-      margin-bottom: 2px;
-    }
-    .bloco-institucional {
-      grid-template-columns: 1fr;
-      gap: 15px;
-    }
-    .imagem-lateral {
-      display: none !important;
-    }
-    .estatisticas, .vantagens-grid {
-      grid-template-columns: 1fr;
-    }
-    .tabela {
-      display: block;
-      overflow-x: auto;
-    }
-  }
 
   </style>
 </head>
@@ -421,7 +462,7 @@
   </table>
 
   <div class="obs">
-    Consulte também os valores anuais à vista e parcelados em até 4x.
+    <span style="color: #777; font-style: italic">Consulte também os valores anuais à vista e parcelados em até 4x.</span>
   </div>
 
   <div class="bloco-institucional">
@@ -458,22 +499,23 @@
   </div>
 
   <div class="titulo-secao">
-    Cenário Atual da Judicialização
   </div>
 
   <div class="estatisticas">
 
     <div class="estatistica">
-      <h3>1600%</h3>
+      <b>Aumenta, no Brasil, o número de processos por erro médico e odontológico!
+<br></b>
       <p>
-        Aumento nos processos por erro médico e odontológico registrados em 10 anos.
-      </p>
+        <span style="color: #777;">O Superior Tribunal de Justiça (STJ) registrou um aumento de 1.600% nos processos por erro médico e erro odontológico em 10 anos, enquanto os processos ético-profissionais tiveram crescimento de 302% no mesmo período, segundo dados dos CRMs e CROs. Em média, 7% dos médicos e cirurgiões-dentistas brasileiros são processados (em Mato Grosso, esse índice sobe para 8,5% e, no Rio Grande do Sul, para 13,72%). Do total de profissionais processados, 43% são condenados.</span>       </p>
     </div>
 
     <div class="estatistica">
-      <h3>Condenação</h3>
+      <b>Tenha segurança e tranquilidade em um mundo judicializado!</b>
       <p>
-        Dos profissionais processados, aproximadamente 43% acabam condenados.
+        <span style="color: #777;">
+A ANADEM disponibiliza orientação jurídica já nos primeiros sinais de conflito, como reclamações, notificações no Conselho Profissional ou insatisfações de pacientes. O objetivo é auxiliar o associado na tomada de decisões antes que a situação se transforme em um processo judicial ou ético-profissional. Caso a situação evolua para uma demanda formal, o profissional conta com suporte jurídico especializado e com os benefícios previstos em regulamento. Em caso de condenação, a apólice de Seguro de Responsabilidade Civil Profissional Coletiva garante a cobertura prevista em regulamento.
+</span>
       </p>
     </div>
 
@@ -529,6 +571,11 @@
 
   </div>
 
+<p style="font-size: 11px; color: #777; font-style: italic; margin-top: 8px;">
+  <b>Atenção:</b> Processos, notificações ou fatos geradores protocolados antes da adesão não terão cobertura.
+</p>
+
+
   <div class="rodape">
 
 <div class="adesao-box">
@@ -547,12 +594,8 @@
 
     <br>
 <strong>Higo Gerson C. de Amorim - Representante Comercial ANADEM</strong><br>
-
     grupo.oasisdf@gmail.com | 61 99314-4931 | 61 99630-0538<br>
-
-    @grupo.oasisdf<br>
-
-    2026 - Grupo OASIS DF
+        2026 - Grupo OASIS DF | @grupo.oasisdf<br>
 
   </div>
 
@@ -603,4 +646,3 @@
 
 </body>
 </html>
-```
