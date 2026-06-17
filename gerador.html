@@ -93,22 +93,37 @@
 
 <script>
 
+
+
 function gerarTexto() {
   const nome = document.getElementById("pNome").value || "Doutor(a)";
-  const tel = document.getElementById("pTel").value || "Não informado";
+  const p1 = document.getElementById("p1").value || "Sua Especialidade";
+  const p2 = document.getElementById("p2").value || "500.000,00";
   const p5 = document.getElementById("p5").value || "VALOR CARTÃO";
-  const p6 = document.getElementById("p6").value || "VALOR BOLETO";
-  const p1 = document.getElementById("p1").value || "Especialidade";
 
-  const texto = `Dr. ${nome}, com base na sua Especialidade: *${p1}* , a estrutura ideal para garantir a sua segurança jurídica é o plano com *Retroatividade de 5 anos*. 
+  const texto = `Dr(a). ${nome}, segue anexa a sua proposta de blindagem profissional da ANADEM configurada para *${p1}*.
 
-Fico à disposição para alinhar os detalhes dessa cobertura e esclarecer como funciona a Anadem na prática.
+🛡️ A indicação técnica para o seu teto de risco é o plano com *Retroatividade de 5 anos*.
 
-*Qual o melhor horário para conversarmos rapidamente hoje ou amanhã?*
-`;
+*O que ele faz?*
+Garante a sua cobertura de *${p2}* contra processos e também blinda retroativamente todos os procedimentos que você já realizou nos últimos *5 anos*.  
+
+✨ *Diferenciais exclusivos inclusos na sua cobertura:*
+⚖️ Advogado Assessor Jurídico dedicado para todo e qualquer assunto da sua atividade profissional.
+💵 Zero Franquia: você não paga nada para acionar a cobertura.
+♾️ Sem limite de processos: proteção independentemente do número de ações.
+🛡️ Sem denunciação à lide
+⚖️ Cobertura Total de custos em eventual sinistralidade.
+
+Investimento recomendado: *R$ ${p5}/mês no cartão*
+(não compromete seu limite).
+
+📲 Link de emissão na última página. Podemos validar sua ativação amanhã às 14h?`;
 
   document.getElementById("resultado").value = texto;
 }
+
+
 
 
 function copiarTexto() {
