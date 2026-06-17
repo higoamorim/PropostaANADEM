@@ -29,7 +29,7 @@
       min-height: 297mm;
       background: #fff;
       margin: 20px auto;
-      padding: 22px 26px;
+      padding: 15px 20px;
       box-shadow: 0 5px 25px rgba(0,0,0,0.12);
       position: relative;
     }
@@ -119,7 +119,7 @@
     }
 
 .bloco-institucional {
-  margin-top: 22px;
+  margin-top: 15px;
   display: grid;
   grid-template-columns: 1fr 320px;
   gap: 22px;
@@ -361,10 +361,77 @@ body {
   }
 }
 
+/* Linha de Destaque Técnico */
+.linha-destaque td {
+  background: #eff6ff !important; /* Fundo azul bem claro */
+  border-top: 2px solid #1e3a8a !important; /* Borda superior grossa */
+  border-bottom: 2px solid #1e3a8a !important; /* Borda inferior grossa */
+  font-weight: bold;
+  color: #1e3a8a;
+}
+.linha-destaque td:first-child {
+  border-left: 2px solid #1e3a8a !important; /* Fecha a borda na esquerda */
+}
+.linha-destaque td:last-child {
+  border-right: 2px solid #1e3a8a !important; /* Fecha a borda na direita */
+}
+
+
 }
 
 
     }
+
+/* --- DESTAQUE EXCLUSIVO PARA RETROATIVIDADE DE 5 ANOS --- */
+.tabela tr.linha-destaque td {
+  background: #eff6ff !important; /* Fundo azul claro para dar contraste */
+  border-top: 2px solid #1e3a8a !important; /* Borda superior azul escura e grossa */
+  border-bottom: 2px solid #1e3a8a !important; /* Borda inferior azul escura e grossa */
+  font-weight: bold;
+  color: #1e3a8a;
+}
+.tabela tr.linha-destaque td:first-child {
+  border-left: 2px solid #1e3a8a !important; /* Fecha a borda grossa na esquerda */
+}
+.tabela tr.linha-destaque td:last-child {
+  border-right: 2px solid #1e3a8a !important; /* Fecha a borda grossa na direita */
+}
+
+
+/* --- ESTILOS DO DESTAQUE E DA ETIQUEA --- */
+.tabela tr.linha-destaque td {
+  background: #eff6ff !important; /* Fundo azulado */
+  border-top: 2px solid #1e3a8a !important; /* Borda superior azul */
+  border-bottom: 2px solid #1e3a8a !important; /* Borda inferior azul */
+  font-weight: bold;
+  color: #1e3a8a;
+}
+.tabela tr.linha-destaque td:first-child {
+  border-left: 2px solid #1e3a8a !important;
+}
+.tabela tr.linha-destaque td:last-child {
+  border-right: 2px solid #1e3a8a !important;
+}
+
+/* Container para alinhar o texto e o botão laranja */
+.celula-modalidade {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+/* Etiqueta Laranja */
+.badge-recomendado {
+  background: #f97316 !important; /* Cor laranja idêntica à imagem */
+  color: #ffffff !important;
+  font-size: 9px !important;
+  font-weight: bold !important;
+  padding: 3px 6px !important;
+  border-radius: 4px !important;
+  letter-spacing: 0.5px !important;
+  display: inline-block !important;
+}
 
   </style>
 </head>
@@ -439,7 +506,8 @@ body {
 
   </div>
 
-  <table class="tabela">
+  
+<table class="tabela">
 
     <thead>
       <tr>
@@ -457,8 +525,13 @@ body {
         <td id="valorP4"></td>
       </tr>
 
-      <tr>
-        <td>Com Retroatividade de 5 anos</td>
+<tr class="linha-destaque">
+        <td>
+          <div class="celula-modalidade">
+            <span>Com Retroatividade de 5 anos</span>
+            <span class="badge-recomendado">RECOMENDAÇÃO TÉCNICA</span>
+          </div>
+        </td>
         <td id="valorP5"></td>
         <td id="valorP6"></td>
       </tr>
@@ -476,6 +549,8 @@ body {
 
   </table>
 
+
+
   <div class="obs">
     <span style="color: #777; font-style: italic">Consulte também os valores anuais à vista e parcelados em até 4x.</span>
   </div>
@@ -484,11 +559,11 @@ body {
 
     <div>
 
-      <div style="font-size: 13px; margin-bottom: 8px; color: #1e3a8a; font-weight: bold;">
+      <div style="font-size: 12px; margin-bottom: 8px; color: #1e3a8a; font-weight: bold;">
         Desde 1998 consolidada como a maior rede de blindagem profissional do Brasil
       </div>
 
-      <h2>Proteja sua carreira!</h2>
+      <h3>Proteja sua carreira!</h3>
 
       <p>
         Proteger sua carreira em um cenário marcado pela judicialização da medicina e da odontologia é crucial nos dias de hoje. Desde 1998, a ANADEM (Sociedade Brasileira de Direito Médico e Bioética) se consolidou como uma das maiores redes de blindagem jurídica profissional do Brasil, oferecendo uma ampla estrutura de suporte jurídico especializado para profissionais da saúde.
