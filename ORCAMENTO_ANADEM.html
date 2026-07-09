@@ -552,7 +552,7 @@ body {
 
 
   <div class="obs">
-    <span style="color: #777; font-style: italic">Consulte também os valores anuais à vista e parcelados em até 4x.</span>
+    <span id="recomendacaoTecnica" style="color:#777;font-style:italic"></span>
   </div>
 
   <div class="bloco-institucional">
@@ -705,6 +705,8 @@ A ANADEM disponibiliza orientação jurídica já nos primeiros sinais de confli
   const p5 = params.get('p5') || 'R$ 239,00';
   const p6 = params.get('p6') || 'R$ 249,00';
   const p7 = params.get('p7') || 'R$ 159,00';
+const p54x = (params.get('p54x') || '0').replace('.', ',');
+const p5avista = (params.get('p5avista') || '0').replace('.', ',');
 
   document.getElementById('nomeProfissional').innerText = 'Dr. ' + nome;
   document.getElementById('telefoneProfissional').innerText = telefone;
@@ -731,6 +733,9 @@ A ANADEM disponibiliza orientação jurídica já nos primeiros sinais de confli
   document.getElementById('dataAtual').innerText = agora.toLocaleDateString('pt-BR');
 
   document.getElementById('validadeProposta').innerText = '31/12/' + agora.getFullYear();
+
+document.getElementById("recomendacaoTecnica").innerHTML =
+`<b>Recomendação Técnica:</b> Com Retroatividade de 5 anos 4x de R$ ${p54x} ou à vista R$ ${p5avista}`;
 
 </script>
 
