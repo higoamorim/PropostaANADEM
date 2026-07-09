@@ -101,6 +101,19 @@ function gerarTexto() {
   const p2 = document.getElementById("p2").value || "500.000,00";
   const p5 = document.getElementById("p5").value || "VALOR CARTÃO";
 
+// Cálculos
+const mensal = parseFloat(p5.replace(",", "."));
+
+const quatroVezes = ((mensal * 12) / 4).toLocaleString("pt-BR", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+});
+
+const avista = ((mensal * 12) * 0.90).toLocaleString("pt-BR", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+});
+
   const texto = `Dr. ${nome}, segue anexa uma simulação de sua proposta de blindagem profissional da ANADEM configurada para *${p1}*.
 
 🛡️ A indicação técnica para o seu teto de risco é o plano com *Retroatividade de 5 anos*.
@@ -116,7 +129,7 @@ Garante a sua cobertura de *${p2}* contra processos e também blinda retroativam
 4. Sem denunciação à lide
 5. Cobertura Total de custos em eventual sinistralidade.
 
-Investimento recomendado: *R$ ${p5}/mês no cartão* (não compromete seu limite).
+Investimento recomendado: *R$ ${p5}/mês no cartão,  4x de R$ ${quatroVezes} ou à vista R$ ${avista}* (não compromete seu limite).
 
 Quero entender um pouco da sua atuação e mostrar como a proteção se encaixa na sua realidade profissional.
 
@@ -158,6 +171,18 @@ function abrirOrcamento() {
   const p6 = document.getElementById("p6").value;
   const p7 = document.getElementById("p7").value;
 
+const mensal = parseFloat(p5.replace(",", "."));
+
+const p5_4x = ((mensal * 12) / 4).toLocaleString("pt-BR", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+});
+
+const p5_avista = ((mensal * 12) * 0.90).toLocaleString("pt-BR", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+});
+
   window.location.href =
     `ORCAMENTO_ANADEM.html?nome=${encodeURIComponent(nome)}
     &tel=${encodeURIComponent(tel)}
@@ -167,7 +192,9 @@ function abrirOrcamento() {
     &p4=${encodeURIComponent(p4)}
     &p5=${encodeURIComponent(p5)}
     &p6=${encodeURIComponent(p6)}
-    &p7=${encodeURIComponent(p7)}`;
+&p7=${encodeURIComponent(p7)}
+&p54x=${encodeURIComponent(p5_4x)}
+&p5avista=${encodeURIComponent(p5_avista)}`;
 
 }
 
