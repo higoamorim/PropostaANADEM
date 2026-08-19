@@ -126,6 +126,7 @@ function toggleComercial(value) {
         <option value="CIRURGIÃO DENTISTA D1 - Odontologia com implante e/ou cirurgia, ortodontia e demais especialidades.">CIRURGIÃO DENTISTA D1 - Odontologia com implante e/ou cirurgia, ortodontia e demais especialidades.</option>
         <option value="CIRURGIÃO DENTISTA D2 - Procedimentos Estéticos.">CIRURGIÃO DENTISTA D2 - Procedimentos Estéticos.</option>
         <option value="CIRURGIÃO DENTISTA D3 - Cirurgia Bucomaxilo.">CIRURGIÃO DENTISTA D3 - Cirurgia Bucomaxilo.</option>
+	<option value="CIRURGIÃO DENTISTA D4 - Cirurgia Estética Orofacial">CIRURGIÃO DENTISTA D4 - Cirurgia Estética Orofacial.</option>
 
         <option value="DEMAIS ESPECIALIDADES">DEMAIS ESPECIALIDADES**</option>
     </select>
@@ -187,7 +188,7 @@ function toggleComercial(value) {
 
     <!-- ALERTA -->
     <div id="alertaPlano" style="display:none;" class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-3 mt-4 rounded">
-        ⚠️ Atenção: Os planos Essencial e Blue são destinados exclusivamente a médicos. A contratação está disponível apenas para a modalidade de pagamento mensal via cartão de crédito, com cobertura de R$ 300 mil.
+        ⚠️ Atenção: Os planos Essencial e Blue são destinados exclusivamente a médicos. A contratação está disponível apenas para a modalidade de pagamento <b>mensal</b> via <b>cartão de crédito</b>, com cobertura de <b>R$ 300 mil</b>.
     </div>
 
 </div>
@@ -210,11 +211,7 @@ function validarRegras() {
 
     const alerta = document.getElementById("alertaPlano");
 
-    const isDentista = [
-        "CIRURGIÃO DENTISTA D1",
-        "CIRURGIÃO DENTISTA D2",
-        "CIRURGIÃO DENTISTA D3"
-    ].includes(especialidade);
+	const isDentista = especialidade.startsWith("CIRURGIÃO DENTISTA");
 
     const isDemais = especialidade === "DEMAIS ESPECIALIDADES";
 
