@@ -88,7 +88,7 @@
    </div>
 
     <textarea id="resultado" placeholder="O texto original será gerado aqui..."></textarea>
-    <footer>© OASIS TOUR DF</footer>
+    <footer>© GRUPO OASIS DF</footer>
   </div>
 
 <script>
@@ -96,20 +96,33 @@
 
 
 function gerarTexto() {
-  const nome = document.getElementById("pNome").value || "Doutor(a)";
-  const p1 = document.getElementById("p1").value || "Sua Especialidade";
-  const p2 = document.getElementById("p2").value || "500.000,00";
-  const p5 = document.getElementById("p5").value || "VALOR CARTÃO";
+const nome = document.getElementById("pNome").value || "Doutor(a)";
+const p1 = document.getElementById("p1").value || "Sua Especialidade";
+const p2 = document.getElementById("p2").value || "500.000,00";
+const p3 = document.getElementById("p3").value || "VALOR CARTÃO";
+const p5 = document.getElementById("p5").value || "VALOR CARTÃO";
 
 // Cálculos
-const mensal = parseFloat(p5.replace(",", "."));
 
-const quatroVezes = ((mensal * 12) / 4).toLocaleString("pt-BR", {
+const mensalBlack = parseFloat(p5.replace(",", "."));
+const mensalVerde = parseFloat(p3.replace(",", "."));
+
+const quatroVezesBlack = ((mensalBlack * 12) / 4).toLocaleString("pt-BR", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2
 });
 
-const avista = ((mensal * 12) * 0.90).toLocaleString("pt-BR", {
+const avistaBlack = ((mensalBlack * 12) * 0.90).toLocaleString("pt-BR", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+});
+
+const quatroVezesVerde = ((mensalVerde * 12) / 4).toLocaleString("pt-BR", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+});
+
+const avistaVerde = ((mensalVerde * 12) * 0.90).toLocaleString("pt-BR", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2
 });
@@ -121,15 +134,17 @@ const avista = ((mensal * 12) * 0.90).toLocaleString("pt-BR", {
 *O que ele faz?*
 Garante a sua cobertura de *${p2}* contra processos e também blinda retroativamente todos os procedimentos que você já realizou nos últimos *5 anos*.  
 
-*Diferenciais exclusivos inclusos na sua cobertura:*
+*O que a solução oferece:*
 
-1. Advogado Assessor Jurídico dedicado para todo e qualquer assunto da sua atividade profissional.
-2. Zero Franquia: você não paga nada para acionar a cobertura.
-3. Sem limite de processos: proteção independentemente do número de ações.
-4. Sem denunciação à lide
-5. Cobertura Total de custos em eventual sinistralidade.
+👨‍💻 Advogado Assessor Jurídico dedicado para todo e qualquer assunto da sua atividade profissional.
+🛡️ Sem Franquia: você não paga nada para acionar a cobertura.
+♾️ Sem limite de processos: proteção independentemente do número de ações.
+⚖️ Sem denunciação à lide
+💰 Cobertura Total de custos em eventual sinistralidade.
 
-*Investimento recomendado:* R$ ${p5}/mês no cartão,  4x de R$ ${quatroVezes} ou à vista R$ ${avista} (não compromete seu limite).`;
+*Investimento recomendado:* R$ ${p5}/mês no cartão,  4x de R$ ${quatroVezesBlack} ou à vista R$ ${avistaBlack} (não compromete o limite do cartão).
+
+*Opção sem Retroatividade:* R$ ${p3}/mês no cartão,  4x de R$ ${quatroVezesVerde} ou à vista R$ ${avistaVerde} (não compromete o limite do cartão)`;
 
   document.getElementById("resultado").value = texto;
 }
@@ -156,13 +171,10 @@ function abrirOrcamento() {
 
   const nome = document.getElementById("pNome").value;
   const tel = document.getElementById("pTel").value;
-
   const p1 = document.getElementById("p1").value;
   const p2 = document.getElementById("p2").value;
-
   const p3 = document.getElementById("p3").value;
   const p4 = document.getElementById("p4").value;
-
   const p5 = document.getElementById("p5").value;
   const p6 = document.getElementById("p6").value;
   const p7 = document.getElementById("p7").value;
