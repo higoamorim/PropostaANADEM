@@ -584,19 +584,60 @@ Solução apresentada: <strong>ANADEM - PLANO PESSOA FÍSICA</strong>
   const p5 = params.get('p5') || 'R$ 239,00';
   const p6 = params.get('p6') || 'R$ 249,00';
   const p7 = params.get('p7') || 'R$ 159,00';
-const p54x = (params.get('p54x') || '0').replace('.', ',');
-const p5avista = (params.get('p5avista') || '0').replace('.', ',');
+
+function formatarMoedaBR(valor) {
+    if (valor === null || valor === undefined || valor === "") {
+        return "0,00";
+    }
+
+    let texto = String(valor)
+        .trim()
+        .replace(/R\$/g, "")
+        .replace(/\s/g, "");
+
+    let numero;
+
+    // Formato brasileiro: 1.380,23
+    if (texto.includes(",") && texto.includes(".")) {
+        numero = parseFloat(
+            texto.replace(/\./g, "").replace(",", ".")
+        );
+
+    // Formato brasileiro sem milhares: 1380,23
+    } else if (texto.includes(",")) {
+        numero = parseFloat(
+            texto.replace(",", ".")
+        );
+
+    // Número já em formato JS: 1380.23
+    } else {
+        numero = parseFloat(texto);
+    }
+
+    if (isNaN(numero)) {
+        return "0,00";
+    }
+
+    return numero.toLocaleString("pt-BR", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
+}
+
+
+const p54x = formatarMoedaBR(params.get('p54x'));
+const p5avista = formatarMoedaBR(params.get('p5avista'));
 
   document.getElementById('nomeProfissional').innerText = 'Dr. ' + nome;
   document.getElementById('telefoneProfissional').innerText = telefone;
   document.getElementById('especialidadeProfissional').innerText = especialidade;
   document.getElementById('capitalSegurado').innerText = capital;
 
-  document.getElementById('valorP3').innerText = 'R$ ' + p3;
-  document.getElementById('valorP4').innerText = 'R$ ' + p4;
-  document.getElementById('valorP5').innerText = 'R$ ' + p5;
-  document.getElementById('valorP6').innerText = 'R$ ' + p6;
-  document.getElementById('valorP7').innerText = 'R$ ' + p7;
+document.getElementById('valorP3').innerText = 'R$ ' + formatarMoedaBR(p3);
+document.getElementById('valorP4').innerText = 'R$ ' + formatarMoedaBR(p4);
+document.getElementById('valorP5').innerText = 'R$ ' + formatarMoedaBR(p5);
+document.getElementById('valorP6').innerText = 'R$ ' + formatarMoedaBR(p6);
+document.getElementById('valorP7').innerText = 'R$ ' + formatarMoedaBR(p7);
 
   const agora = new Date();
 
