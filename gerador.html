@@ -77,6 +77,11 @@
       </div>
     </div>
 
+<div>
+<label>Desconto da Campanha (%)</label>
+<input id="desconto" type="number" min="0" max="100" step="0.01" placeholder="Ex: 10">
+</div>
+
     <div class="grid-btns">
         <button class="btn-gerar" onclick="gerarTexto()">1. Gerar Texto Original</button>
         <button class="btn-copiar" onclick="copiarTexto()">2. Copiar p/ WhatsApp</button>
@@ -94,6 +99,18 @@
 <script>
 
 
+function valorNumerico(valor) {
+    if (!valor) return 0;
+
+    return parseFloat(
+        String(valor)
+            .replace(/\s/g, "")
+            .replace("R$", "")
+            .replace(/\./g, "")
+            .replace(",", ".")
+    ) || 0;
+}
+
 
 function gerarTexto() {
 const nome = document.getElementById("pNome").value || "Doutor(a)";
@@ -101,11 +118,23 @@ const p1 = document.getElementById("p1").value || "Sua Especialidade";
 const p2 = document.getElementById("p2").value || "500.000,00";
 const p3 = document.getElementById("p3").value || "VALOR CARTÃO";
 const p5 = document.getElementById("p5").value || "VALOR CARTÃO";
+const desconto = parseFloat(document.getElementById("desconto").value) || 0;
+const fatorDesconto = 1 - (desconto / 100);
 
 // Cálculos
 
-const mensalBlack = parseFloat(p5.replace(",", "."));
-const mensalVerde = parseFloat(p3.replace(",", "."));
+const mensalBlack = valorNumerico(p5) * fatorDesconto;
+const mensalVerde = valorNumerico(p3) * fatorDesconto;
+
+const mensalBlackFormatado = mensalBlack.toLocaleString("pt-BR", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+});
+
+const mensalVerdeFormatado = mensalVerde.toLocaleString("pt-BR", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+});
 
 const quatroVezesBlack = ((mensalBlack * 12) / 4).toLocaleString("pt-BR", {
     minimumFractionDigits: 2,
@@ -143,12 +172,12 @@ Garante a sua cobertura de *${p2}* contra processos e também blinda retroativam
 💰 Cobertura Total de custos em eventual sinistralidade.
 
 *Investimento recomendado:* 
-R$ ${p5}/mês no cartão  
+R$ ${mensalBlackFormatado}/mês no cartão
 4x de R$ ${quatroVezesBlack} 
 A vista R$ ${avistaBlack}
 
 *Opção sem Retroatividade:* 
-R$ ${p3}/mês no cartão  
+R$ ${mensalVerdeFormatado}/mês no cartão
 4x de R$ ${quatroVezesVerde}
 à vista R$ ${avistaVerde}
 
@@ -175,8 +204,9 @@ function limparCampos() {
   });
 }
 
-function abrirOrcamento() {
 
+
+function abrirOrcamento() {
   const nome = document.getElementById("pNome").value;
   const tel = document.getElementById("pTel").value;
   const p1 = document.getElementById("p1").value;
@@ -187,32 +217,42 @@ function abrirOrcamento() {
   const p6 = document.getElementById("p6").value;
   const p7 = document.getElementById("p7").value;
 
-const mensal = parseFloat(p5.replace(",", "."));
+  const desconto = parseFloat(document.getElementById("desconto").value) || 0;
+  const fatorDesconto = 1 - (desconto / 100);
 
-const p5_4x = ((mensal * 12) / 4).toLocaleString("pt-BR", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-});
+  const valorP3 = valorNumerico(p3) * fatorDesconto;
+  const valorP4 = valorNumerico(p4) * fatorDesconto;
+  const valorP5 = valorNumerico(p5) * fatorDesconto;
+  const valorP6 = valorNumerico(p6) * fatorDesconto;
+  const valorP7 = valorNumerico(p7) * fatorDesconto;
 
-const p5_avista = ((mensal * 12) * 0.90).toLocaleString("pt-BR", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-});
+  // Correção: alterado 'mensal' para 'valorP5'
+  const p5_4x = ((valorP5 * 12) / 4).toLocaleString("pt-BR", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+  });
+
+  const p5_avista = ((valorP5 * 12) * 0.90).toLocaleString("pt-BR", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+  });
 
   window.location.href =
-    `ORCAMENTO_ANADEM.html?nome=${encodeURIComponent(nome)}
-    &tel=${encodeURIComponent(tel)}
-    &p1=${encodeURIComponent(p1)}
-    &p2=${encodeURIComponent(p2)}
-    &p3=${encodeURIComponent(p3)}
-    &p4=${encodeURIComponent(p4)}
-    &p5=${encodeURIComponent(p5)}
-    &p6=${encodeURIComponent(p6)}
-&p7=${encodeURIComponent(p7)}
-&p54x=${encodeURIComponent(p5_4x)}
-&p5avista=${encodeURIComponent(p5_avista)}`;
-
+    `ORCAMENTO_ANADEM.html?nome=${encodeURIComponent(nome)}` +
+    `&tel=${encodeURIComponent(tel)}` +
+    `&p1=${encodeURIComponent(p1)}` +
+    `&p2=${encodeURIComponent(p2)}` +
+    `&p3=${encodeURIComponent(valorP3)}` +
+    `&p4=${encodeURIComponent(valorP4)}` +
+    `&p5=${encodeURIComponent(valorP5)}` +
+    `&p6=${encodeURIComponent(valorP6)}` +
+    `&p7=${encodeURIComponent(valorP7)}` +
+    `&p54x=${encodeURIComponent(p5_4x)}` +
+    `&p5avista=${encodeURIComponent(p5_avista)}` +
+    `&desconto=${encodeURIComponent(desconto)}`;
 }
+
+
 
 </script>
 </body>
