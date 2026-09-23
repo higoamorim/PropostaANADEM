@@ -156,31 +156,21 @@ const avistaVerde = ((mensalVerde * 12) * 0.90).toLocaleString("pt-BR", {
     maximumFractionDigits: 2
 });
 
-  const texto = `Dr. ${nome}, segue simulação de sua proposta de blindagem profissional da ANADEM configurada para *${p1}*.
+  const texto = `Dr. ${nome}, estruturei sua simulação de Blindagem Profissional para *${p1}*.
 
-🛡️ A indicação técnica para o seu teto de risco é o plano com *Retroatividade de 5 anos*.
+🛡️ *A recomendação técnica para o seu perfil é o plano com Retroatividade de 5 anos.*
 
-*O que ele faz?*
-Garante a sua cobertura de *${p2}* contra processos e também blinda retroativamente todos os procedimentos que você já realizou nos últimos *5 anos*.  
+Ele garante *${p2}* de cobertura e protege retroativamente todos os procedimentos que você já realizou.
 
-*O que a solução oferece:*
+*A solução inclui:*
+⚖️ Advogado exclusivo para qualquer demanda profissional.
+🛡️ Sem franquia e sem limite de processos.
+💵 Cobertura de despesas em eventual sinistralidade
+🌐 Proteção contra exposições indevidas, reclamações de pacientes na internet e riscos à reputação digital.
 
-👨‍💻 Advogado Assessor Jurídico dedicado para todo e qualquer assunto da sua atividade profissional.
-🛡️ Sem Franquia: você não paga nada para acionar a cobertura.
-♾️ Sem limite de processos: proteção independentemente do número de ações.
-💰 Cobertura Total de custos em eventual sinistralidade.
+*Investimento* R$ ${mensalBlackFormatado} (ou condições facilitadas em 4x / à vista no PDF).
 
-*Investimento recomendado:* 
-R$ ${mensalBlackFormatado}/mês no cartão
-4x de R$ ${quatroVezesBlack} 
-A vista R$ ${avistaBlack}
-
-*Opção sem Retroatividade:* 
-R$ ${mensalVerdeFormatado}/mês no cartão
-4x de R$ ${quatroVezesVerde}
-à vista R$ ${avistaVerde}
-
-Podemos agendar uma ligação para alinharmos os detalhes?`;
+*Podemos fazer uma ligação rápida de 3 minutos para alinharmos os detalhes da adesão?*`;
 
   document.getElementById("resultado").value = texto;
 }
