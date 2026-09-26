@@ -373,6 +373,52 @@ body {
   display: inline-block !important;
 }
 
+/* ================================
+   SEGUNDA PÁGINA - COMPARATIVO
+================================ */
+
+.pagina-comparativo {
+  width: 210mm;
+  min-height: 297mm;
+  background: #fff;
+  margin: 20px auto;
+  padding: 8mm;
+  box-shadow: 0 5px 25px rgba(0,0,0,.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagina-comparativo img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+
+/* Impressão */
+@media print {
+
+  .pagina-comparativo {
+    width: 100%;
+    min-height: 0;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    page-break-before: always;
+    break-before: page;
+  }
+
+  .pagina-comparativo img {
+    width: 100%;
+    height: auto;
+  }
+
+}
+
+
+
   </style>
 </head>
 <body>
@@ -570,6 +616,21 @@ Solução apresentada: <strong>ANADEM - PLANO PESSOA FÍSICA</strong>
 </div>
 </div>
 
+
+<!-- ================================
+     SEGUNDA PÁGINA - COMPARATIVO
+================================ -->
+
+<div class="pagina-comparativo">
+
+  <img
+    src="grafico-comparativo.png"
+    alt="Comparativo ANADEM e demais soluções convencionais"
+  >
+
+</div>
+
+
 <script>
 
   const params = new URLSearchParams(window.location.search);
@@ -650,9 +711,18 @@ document.getElementById('valorP7').innerText = 'R$ ' + formatarMoedaBR(p7);
 
   document.getElementById('numeroOrcamento').innerText = numeroOrcamento;
 
-  document.getElementById('dataAtual').innerText = agora.toLocaleDateString('pt-BR');
+document.getElementById('dataAtual').innerText = agora.toLocaleDateString('pt-BR');
 
-  document.getElementById('validadeProposta').innerText = '31/12/' + agora.getFullYear();
+// Validade: 15 dias após a emissão, limitada a 31/12 do ano corrente
+const validade = new Date(agora);
+validade.setDate(validade.getDate() + 15);
+
+const fimDoAno = new Date(agora.getFullYear(), 11, 31);
+
+const dataValidade = validade > fimDoAno ? fimDoAno : validade;
+
+document.getElementById('validadeProposta').innerText =
+  dataValidade.toLocaleDateString('pt-BR');
 
 document.getElementById("recomendacaoTecnica").innerHTML =
 `<b>Recomendado:</b> Com Retroatividade de 5 anos 4x de R$ ${p54x} ou à vista R$ ${p5avista}`;
