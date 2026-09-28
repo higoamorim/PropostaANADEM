@@ -125,10 +125,19 @@ const fatorDesconto = 1 - (desconto / 100);
 
 const mensalBlack = valorNumerico(p5) * fatorDesconto;
 const mensalVerde = valorNumerico(p3) * fatorDesconto;
+const boletoBlack = valorNumerico(document.getElementById("p6").value) * fatorDesconto;
 
 const mensalBlackFormatado = mensalBlack.toLocaleString("pt-BR", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2
+
+});
+
+const boletoBlackFormatado = boletoBlack.toLocaleString("pt-BR", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+
+
 });
 
 const mensalVerdeFormatado = mensalVerde.toLocaleString("pt-BR", {
@@ -168,15 +177,12 @@ Ele garante *${p2}* de cobertura e protege retroativamente todos os procedimento
 💵 Cobertura de despesas em eventual sinistralidade
 🌐 Proteção contra exposições indevidas, reclamações de pacientes na internet e riscos à reputação digital.
 
-*Investimento* R$ ${mensalBlackFormatado} (ou condições facilitadas em 4x / à vista no PDF).
+*Investimento* R$ ${mensalBlackFormatado} no Cartão ou R$ ${boletoBlackFormatado} no Boleto (ou condições facilitadas em 4x / à vista no PDF, inclusive pela tabela sem Retroatividade).
 
 *Podemos fazer uma ligação rápida de 3 minutos para alinharmos os detalhes da adesão?*`;
 
   document.getElementById("resultado").value = texto;
 }
-
-
-
 
 function copiarTexto() {
   const campo = document.getElementById("resultado");
