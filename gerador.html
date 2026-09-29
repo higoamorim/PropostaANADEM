@@ -165,21 +165,24 @@ const avistaVerde = ((mensalVerde * 12) * 0.90).toLocaleString("pt-BR", {
     maximumFractionDigits: 2
 });
 
-  const texto = `Dr. ${nome}, estruturei sua simulação de Blindagem Profissional para *${p1}*.
+  const texto = `Dr. ${nome}, estruturei sua simulação de *Blindagem Profissional* para *${p1}*.
 
-🛡️ *A recomendação técnica para o seu perfil é o plano com Retroatividade de 5 anos.*
+🛡️ A recomendação técnica para o seu perfil é o plano com *Retroatividade de 5 anos.*
 
-Ele garante *${p2}* de cobertura e protege retroativamente todos os procedimentos que você já realizou.
+Você terá *${p2} de cobertura*, além de Assessoria Jurídica para demandas profissionais, sem franquia e sem limite de processos.
 
-*A solução inclui:*
-⚖️ Advogado exclusivo para qualquer demanda profissional.
-🛡️ Sem franquia e sem limite de processos.
+*Nosso diferencial:*
+⚖️ Advogado exclusivo para demandas profissionais
 💵 Cobertura de despesas em eventual sinistralidade
-🌐 Proteção contra exposições indevidas, reclamações de pacientes na internet e riscos à reputação digital.
+🌐 Proteção para exposição indevida, reclamações de pacientes na internet e riscos à reputação digital
 
-*Investimento* R$ ${mensalBlackFormatado} no Cartão ou R$ ${boletoBlackFormatado} no Boleto (ou condições facilitadas em 4x / à vista no PDF, inclusive pela tabela sem Retroatividade).
+> Importante: _demandas existentes ou em andamento no ato da contratação não possuem cobertura._
 
-*Podemos fazer uma ligação rápida de 3 minutos para alinharmos os detalhes da adesão?*`;
+💰 *Investimento:* R$ ${mensalBlackFormatado} no Cartão ou R$ ${boletoBlackFormatado} no Boleto. Também há condições facilitadas em 4x ou à vista no PDF, inclusive pela tabela sem Retroatividade.
+
+🏆 _A nossa proposta é estruturar sua proteção jurídica para que uma eventual demanda conte com o respaldo necessário. Não se trata apenas de ter uma proteção:_ *É ter segurança quando você mais precisar.*
+
+Podemos fazer uma ligação rápida de *3 minutos* para alinharmos os detalhes da adesão?`;
 
   document.getElementById("resultado").value = texto;
 }
