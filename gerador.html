@@ -165,25 +165,17 @@ const avistaVerde = ((mensalVerde * 12) * 0.90).toLocaleString("pt-BR", {
     maximumFractionDigits: 2
 });
 
-  const texto = `Dr. ${nome}, estruturei sua simulação de *Blindagem Profissional* para *${p1}*.
+  const texto = `Dr. ${nome}, estruturei sua proposta de _Blindagem Profissional_ para _*${p1}*_.
 
-🛡️ A recomendação técnica para o seu perfil é o plano com *Retroatividade de 5 anos.*
+🛡️ *Recomendação*: Retroatividade de 5 anos + ${p2} de cobertura.
+⚖️ Assessoria jurídica | 💵 Despesas cobertas | 🌐 Proteção profissional e reputação digital
 
-Você terá *${p2} de cobertura*, além de Assessoria Jurídica para demandas profissionais, sem franquia e sem limite de processos.
+💰 *Investimento mensal:* R$ ${mensalBlackFormatado} no Cartão ou R$ ${boletoBlackFormatado} no Boleto.
+> Importante: _Demandas já existentes ou em andamento não possuem cobertura._
 
-*Nosso diferencial:*
-⚖️ Advogado exclusivo para demandas profissionais
-💵 Cobertura de despesas em eventual sinistralidade
-🌐 Proteção para exposição indevida, reclamações de pacientes na internet e riscos à reputação digital
+📎 A proposta completa está em anexo.
 
-> Importante: _demandas existentes ou em andamento no ato da contratação não possuem cobertura._
-
-💰 *Investimento mensal:* R$ ${mensalBlackFormatado} (Cartão) | R$ ${boletoBlackFormatado} (Boleto).
-Também há condições facilitadas em 4x ou à vista no PDF, inclusive sem Retroatividade.
-
-🏆 _A nossa proposta é estruturar sua proteção jurídica para que uma eventual demanda conte com o respaldo necessário. Não se trata apenas de ter uma proteção:_ *É ter segurança quando você mais precisar.*
-
-Podemos fazer uma ligação rápida de *3 minutos* para alinharmos os detalhes da adesão?`;
+Podemos alinhar os detalhes da adesão em uma ligação rápida de 3 minutos?`;
 
   document.getElementById("resultado").value = texto;
 }
