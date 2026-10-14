@@ -228,7 +228,8 @@ function abrirOrcamento() {
       maximumFractionDigits: 2
   });
 
-  window.location.href =
+
+  const url =
     `ORCAMENTO_ANADEM.html?nome=${encodeURIComponent(nome)}` +
     `&tel=${encodeURIComponent(tel)}` +
     `&p1=${encodeURIComponent(p1)}` +
@@ -241,6 +242,17 @@ function abrirOrcamento() {
     `&p54x=${encodeURIComponent(p5_4x)}` +
     `&p5avista=${encodeURIComponent(p5_avista)}` +
     `&desconto=${encodeURIComponent(desconto)}`;
+
+  const popup = window.open(
+    url,
+    "orcamentoAnadem",
+    "width=1100,height=850,resizable=yes,scrollbars=yes"
+  );
+
+  if (!popup) {
+    alert("O navegador bloqueou a pop-up. Autorize pop-ups para este site e tente novamente.");
+  }
+
 }
 
 
