@@ -10,7 +10,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Arial:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
-
     * {
       margin: 0;
       padding: 0;
@@ -21,185 +20,190 @@
       background: #dfe5ec;
       font-family: Arial, Helvetica, sans-serif;
       color: #222;
-      line-height: 1.3;
+      line-height: 1.25;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
     }
 
-.pagina{
-
-    width:210mm;
-    background:#fff;
-    margin:20px auto;
-    padding:12px 15px;
-    box-shadow:0 5px 25px rgba(0,0,0,.12);
-
-}
+    .pagina {
+      width: 210mm;
+      height: 297mm;
+      background: #fff;
+      margin: 20px auto;
+      padding: 10px 15px;
+      box-shadow: 0 5px 25px rgba(0,0,0,.12);
+      overflow: hidden;
+      position: relative;
+    }
 
     .topo {
       text-align: center;
-      margin-bottom: 16px;
+      margin-bottom: 8px;
     }
 
-.logos-topo {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 10px;
-}
+    .logos-topo {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 4px;
+    }
 
-.logo-oasis {
-  max-width: 180px;
-}
+    .logo-oasis {
+      max-width: 150px;
+    }
 
-.logo-anadem {
-  max-width: 110px;
-}
+    .logo-anadem {
+      max-width: 95px;
     }
 
     .texto-topo {
-      font-size: 11px;
+      font-size: 10px;
       font-weight: bold;
       letter-spacing: 0.5px;
     }
 
     .titulo {
-      margin-top: 12px;
-      font-size: 21px;
+      margin-top: 4px;
+      font-size: 17px;
       font-weight: bold;
       color: #0f172a;
     }
 
     .cnpj {
-      margin-top: 3px;
-      font-size: 12px;
+      margin-top: 2px;
+      font-size: 11px;
     }
 
     .info-area {
-      margin-top:10px;
-      font-size: 13px;
+      margin-top: 4px;
+      font-size: 11.5px;
     }
 
     .linha-info {
       display: flex;
-      margin-bottom: 6px;
+      margin-bottom: 3px;
     }
 
     .linha-info strong {
-      width: 230px;
+      width: 210px;
     }
 
-    .tabela {
+    /* --- TABELA ESTILO EXCEL --- */
+    .tabela-excel {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 10px;
-      font-size: 13px;
+      margin-top: 6px;
+      font-size: 11px;
     }
 
-.tabela th{
-background:#f3f4f6;
-color:#111827;
-font-weight:bold;
-border:1px solid #d1d5db;
-}
-
-    .tabela td {
-      border: 1px solid #d1d5db;
-      padding:14px 10px;
-      vertical-align: middle;
+    .tabela-excel th, .tabela-excel td {
+      padding: 3px 6px;
+      border: 1px solid #c0c0c0;
     }
 
-    .tabela tr:nth-child(even) {
-      background: #f8fafc;
+    .header-verde {
+      background-color: #4d793e;
+      color: #ffffff;
+      font-weight: bold;
+      text-align: center;
+    }
+    .linha-verde-claro {
+      background-color: #e2efda;
+    }
+
+    .header-cinza {
+      background-color: #595959;
+      color: #ffffff;
+      font-weight: bold;
+      text-align: center;
+    }
+    .linha-cinza-claro {
+      background-color: #d9d9d9;
+    }
+
+    .header-azul {
+      background-color: #2f5597;
+      color: #ffffff;
+      font-weight: bold;
+      text-align: center;
+    }
+    .linha-azul-claro {
+      background-color: #d9e1f2;
+    }
+
+    .col-moeda {
+      width: 25px;
+      text-align: left;
+      border-right: none !important;
+    }
+    .col-valor {
+      text-align: right;
+      border-left: none !important;
+      font-weight: bold;
     }
 
     .obs {
-    margin-top:10px;
-    margin-bottom:10px;
-      font-size: 12px;
+      margin-top: 4px;
+      margin-bottom: 4px;
+      font-size: 11px;
       color: #374151;
     }
 
-
-.imagem-lateral {
-  border-radius: 14px;
-  overflow: hidden;
-  height: 100%;
-  min-height: 100%;
-}
-
-.imagem-lateral img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-
-}
-
-.imagem-lateral img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
     .titulo-secao {
-      margin-top: 18px;
-      margin-bottom: 10px;
-      font-size: 19px;
+      margin-top: 8px;
+      margin-bottom: 5px;
+      font-size: 14px;
       font-weight: bold;
       color: #0f172a;
     }
 
+    /* --- BALÕES / CARDS DE VANTAGENS RESTAURADOS --- */
     .vantagens-grid {
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:8px;
-
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 5px;
     }
 
     .vantagem {
       border: 1px solid #d1d5db;
-      border-radius: 12px;
-      padding: 10px;
+      border-radius: 8px;
+      padding: 6px 8px;
       background: #fff;
     }
 
     .vantagem h4 {
-      font-size: 15px;
-      margin-bottom: 4px;
+      font-size: 12px;
+      margin-bottom: 2px;
       color: #0f172a;
     }
 
     .vantagem p {
-      font-size:11px;
-	line-height:1.3;
+      font-size: 10px;
+      line-height: 1.25;
       text-align: justify;
       color: #374151;
     }
 
-
-.adesao-box {
-  margin-top:12px;
-  padding:10px 14px;
-  border: 1px solid #d1d5db;
-  border-radius: 10px;
-  background: #f8fafc;
-  font-size: 12px;
-  text-align: center;
-  line-height: 1.5;
-  color: #1f2937;
-  word-break: break-word;
-}
+    .adesao-box {
+      margin-top: 6px;
+      padding: 5px 10px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      background: #f8fafc;
+      font-size: 10px;
+      text-align: center;
+      line-height: 1.3;
+      color: #1f2937;
+      word-break: break-word;
+    }
 
     .rodape {
-      margin-top: 14px;
+      position: absolute;
+      bottom: 8px;
+      left: 15px;
+      right: 15px;
       border-top: 1px solid #d1d5db;
-      padding-top: 10px;
-      text-align: center;
-      font-size: 12px;
-      color: #374151;
-      line-height: 1.5;
+      padding-top: 4px;
     }
 
     .botao-pdf {
@@ -215,210 +219,68 @@ border:1px solid #d1d5db;
       font-weight: bold;
       font-size: 14px;
       box-shadow: 0 10px 20px rgba(0,0,0,0.18);
+      z-index: 100;
     }
 
-body {
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-}
-
-
-@media print {
-
-  body {
-    background: #fff;
-  }
-
-  .pagina {
-    height:auto !important;
-    min-height:unset !important;
-    width: 100%;
-    margin: 0;
-    box-shadow: none;
-  }
-
-  .botao-pdf {
-    display: none;
-  }
-
-  @page {
-    size: A4;
-    margin: 8mm;
-  }
-
-}
-
-/* MOBILE */
-@media screen and (max-width: 768px) {
-
-
-.bloco-institucional {
-  display: block;
-}
-
-
-
-  .pagina {
-    width: 100%;
-    padding: 16px;
-    margin: 0;
-  }
-
-  .bloco-institucional {
-    grid-template-columns: 1fr;
-  }
-
-.imagem-lateral {
-  width: 100%;
-  max-height: 38px;
-  overflow: hidden;
-  margin-top: 4px;
-  border-radius: 6px;
-}
-
-.imagem-lateral img {
-  width: 100%;
-  height: 38px;
-  object-fit: cover;
-  object-position: center top;
-  display: block;
-}
-
-.imagem-lateral img {
-  object-position: center top;
-}
-
-  .vantagens-grid {
-    grid-template-columns: 1fr;
-  }
-
-.bloco-institucional {
-  gap: 8px;
-}
-
-@media only screen and (max-width: 768px) {
-  .imagem-lateral {
-    display: none !important;
-  }
-
-  .pagina {
-    box-shadow: none !important;
-  }
-}
-
-/* Linha de Destaque Técnico */
-.linha-destaque td {
-  background: #eff6ff !important; /* Fundo azul bem claro */
-  border-top:1px solid #93c5fd !important; /* Borda superior grossa */
-  border-bottom:1px solid #93c5fd !important; /* Borda inferior grossa */
-  font-weight: bold;
-  color: #1e3a8a;
-}
-.linha-destaque td:first-child {
-  border-left: 2px solid #1e3a8a !important; /* Fecha a borda na esquerda */
-}
-.linha-destaque td:last-child {
-  border-right: 2px solid #1e3a8a !important; /* Fecha a borda na direita */
-}
-
-
-}
-
-
+    @media print {
+      body {
+        background: #fff;
+      }
+      .pagina {
+        height: 297mm !important;
+        width: 210mm !important;
+        margin: 0 !important;
+        padding: 8mm !important;
+        box-shadow: none !important;
+        page-break-after: always;
+        break-after: page;
+      }
+      .botao-pdf {
+        display: none;
+      }
+      @page {
+        size: A4;
+        margin: 0;
+      }
     }
 
-/* --- DESTAQUE EXCLUSIVO PARA RETROATIVIDADE DE 5 ANOS --- */
-.tabela tr.linha-destaque td {
-  background: #eff6ff !important; /* Fundo azul claro para dar contraste */
-  border-top: 2px solid #1e3a8a !important; /* Borda superior azul escura e grossa */
-  border-bottom: 2px solid #1e3a8a !important; /* Borda inferior azul escura e grossa */
-  font-weight: bold;
-  color: #1e3a8a;
-}
+    /* ================================
+       SEGUNDA PÁGINA - COMPARATIVO
+    ================================ */
+    .pagina-comparativo {
+      width: 210mm;
+      height: 297mm;
+      background: #fff;
+      margin: 20px auto;
+      padding: 10mm;
+      box-shadow: 0 5px 25px rgba(0,0,0,.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      page-break-before: always;
+      break-before: page;
+      overflow: hidden;
+    }
 
+    .pagina-comparativo img {
+      width: 100%;
+      height: auto;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+    }
 
-
-/* --- ESTILOS DO DESTAQUE E DA ETIQUEA --- */
-.tabela tr.linha-destaque td {
-  background: #eff6ff !important; /* Fundo azulado */
-  border-top: 2px solid #1e3a8a !important; /* Borda superior azul */
-  border-bottom: 2px solid #1e3a8a !important; /* Borda inferior azul */
-  font-weight: bold;
-  color: #1e3a8a;
-}
-.tabela tr.linha-destaque td:first-child {
-  border-left: 2px solid #1e3a8a !important;
-}
-.tabela tr.linha-destaque td:last-child {
-  border-right: 2px solid #1e3a8a !important;
-}
-
-/* Container para alinhar o texto e o botão laranja */
-.celula-modalidade {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}
-
-/* Etiqueta Laranja */
-.badge-recomendado {
-  background: #f97316 !important; /* Cor laranja idêntica à imagem */
-  color: #ffffff !important;
-  font-size: 9px !important;
-  font-weight: bold !important;
-  padding: 3px 6px !important;
-  border-radius: 4px !important;
-  letter-spacing: 0.5px !important;
-  display: inline-block !important;
-}
-
-/* ================================
-   SEGUNDA PÁGINA - COMPARATIVO
-================================ */
-
-.pagina-comparativo {
-  width: 210mm;
-  min-height: 297mm;
-  background: #fff;
-  margin: 20px auto;
-  padding: 8mm;
-  box-shadow: 0 5px 25px rgba(0,0,0,.12);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.pagina-comparativo img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-
-/* Impressão */
-@media print {
-
-  .pagina-comparativo {
-    width: 100%;
-    min-height: 0;
-    height: auto;
-    margin: 0;
-    padding: 0;
-    box-shadow: none;
-    page-break-before: always;
-    break-before: page;
-  }
-
-  .pagina-comparativo img {
-    width: 100%;
-    height: auto;
-  }
-
-}
-
-
-
+    @media print {
+      .pagina-comparativo {
+        margin: 0 !important;
+        padding: 8mm !important;
+        box-shadow: none !important;
+        height: 297mm !important;
+        width: 210mm !important;
+        page-break-before: always;
+        break-before: page;
+      }
+    }
   </style>
 </head>
 <body>
@@ -429,17 +291,13 @@ body {
 
 <div class="pagina">
 
-<div class="topo">
+  <div class="topo">
+    <div class="logos-topo">
+      <img src="logo-oasisturdf - Copia.png" class="logo-oasis">
+      <img src="logo-anadem.png" class="logo-anadem">
+    </div>
 
-  <div class="logos-topo">
-
-    <img src="logo-oasisturdf - Copia.png" class="logo-oasis">
-
-    <img src="logo-anadem.png" class="logo-anadem">
-
-  </div>
-
-  <div class="texto-topo">
+    <div class="texto-topo">
       GRUPO OASIS DF - REPRESENTANTE COMERCIAL
     </div>
 
@@ -449,15 +307,13 @@ body {
 
     <div class="cnpj">
       CNPJ: 64.382.483/0001-19
-<div style="margin-top:8px;font-size:13px;color:#555;">
-Solução apresentada: <strong>ANADEM - PLANO PESSOA FÍSICA</strong>
-</div>
+      <div style="margin-top:3px;font-size:11.5px;color:#555;">
+        Solução apresentada: <strong>ANADEM - PLANO PESSOA FÍSICA</strong>
+      </div>
     </div>
-
   </div>
 
   <div class="info-area">
-
     <div class="linha-info">
       <strong>Número da Proposta:</strong>
       <span id="numeroOrcamento"></span>
@@ -488,151 +344,148 @@ Solução apresentada: <strong>ANADEM - PLANO PESSOA FÍSICA</strong>
       <span id="validadeProposta"></span>
     </div>
 
-	<div class="linha-info">
-  	<strong>Capital Segurado:</strong>
-  	<span id="capitalSegurado"></span>
-	</div>
-
+    <div class="linha-info">
+      <strong>Capital Segurado:</strong>
+      <span id="capitalSegurado"></span>
+    </div>
   </div>
 
-  
-<table class="tabela">
-
+  <!-- TABELA ESTILO EXCEL -->
+  <table class="tabela-excel">
     <thead>
-      <tr>
-        <th>Modalidade da Cobertura</th>
-        <th>Cartão de Crédito (Mensal)</th>
-        <th>Boleto Bancário (Mensal)</th>
+      <tr class="header-verde">
+        <th style="width: 40%; text-align: left;">SEM RETROATIVIDADE</th>
+        <th colspan="2" style="width: 30%;">CARTÃO</th>
+        <th colspan="2" style="width: 30%;">BOLETO</th>
       </tr>
     </thead>
-
     <tbody>
-
       <tr>
-        <td>Sem Retroatividade</td>
-        <td id="valorP3"></td>
-        <td id="valorP4"></td>
+        <td>Mensal</td>
+        <td class="col-moeda">R$</td>
+        <td class="col-valor" id="p3_mensal">0,00</td>
+        <td class="col-moeda">R$</td>
+        <td class="col-valor" id="p4_mensal">0,00</td>
       </tr>
-
-<tr class="linha-destaque">
-        <td>
-          <div class="celula-modalidade">
-            <span>Com Retroatividade de 5 anos</span>
-            <span class="badge-recomendado">RECOMENDADO</span>
-          </div>
-        </td>
-        <td id="valorP5"></td>
-        <td id="valorP6"></td>
+      <tr class="linha-verde-claro">
+        <td>4 parcelas</td>
+        <td class="col-moeda">R$</td>
+        <td class="col-valor" id="p3_4x">0,00</td>
+        <td class="col-moeda">R$</td>
+        <td class="col-valor" id="p4_4x">0,00</td>
       </tr>
-
-      <tr>
-        <td>
-          Anadem Blue<br>
-          <small>(Somente Medicina / Apólice R$ 300mil)</small>
-        </td>
-        <td id="valorP7"></td>
-        <td>***</td>
+      <tr class="linha-verde-claro">
+        <td>A vista</td>
+        <td class="col-moeda">R$</td>
+        <td class="col-valor" id="p3_avista">0,00</td>
+        <td class="col-moeda">R$</td>
+        <td class="col-valor" id="p4_avista">0,00</td>
       </tr>
-
     </tbody>
 
+    <thead>
+      <tr class="header-cinza">
+        <th style="width: 40%; text-align: left;">COM RETROATIVIDADE 5 ANOS</th>
+        <th colspan="2" style="width: 30%;">CARTÃO</th>
+        <th colspan="2" style="width: 30%;">BOLETO</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Mensal</td>
+        <td class="col-moeda">R$</td>
+        <td class="col-valor" id="p5_mensal">0,00</td>
+        <td class="col-moeda">R$</td>
+        <td class="col-valor" id="p6_mensal">0,00</td>
+      </tr>
+      <tr class="linha-cinza-claro">
+        <td>4 parcelas</td>
+        <td class="col-moeda">R$</td>
+        <td class="col-valor" id="p5_4x">0,00</td>
+        <td class="col-moeda">R$</td>
+        <td class="col-valor" id="p6_4x">0,00</td>
+      </tr>
+      <tr class="linha-cinza-claro">
+        <td>A vista</td>
+        <td class="col-moeda">R$</td>
+        <td class="col-valor" id="p5_avista">0,00</td>
+        <td class="col-moeda">R$</td>
+        <td class="col-valor" id="p6_avista">0,00</td>
+      </tr>
+    </tbody>
+
+    <thead>
+      <tr class="header-azul">
+        <th style="width: 40%; text-align: left;">ANADEM BLUE / ANADEM ESSENCIAL</th>
+        <th colspan="2" style="width: 30%;">CARTÃO</th>
+        <th colspan="2" style="width: 30%;">BOLETO</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="linha-azul-claro">
+        <td>Mensal</td>
+        <td class="col-moeda">R$</td>
+        <td class="col-valor" id="p7_mensal">0,00</td>
+        <td colspan="2" style="text-align: center; font-weight: bold;">***</td>
+      </tr>
+    </tbody>
   </table>
-
-
 
   <div class="obs">
     <span id="recomendacaoTecnica" style="color:#777;font-style:italic"></span>
   </div>
 
-
-
-
   <div class="titulo-secao">
-    DIFERENCIAIS DA PROTEÇÃO
+    PRINCIPAIS DIFERENCIAIS DA PROTEÇÃO
   </div>
 
+  <!-- CARDS / BALÕES COM CONTEÚDO ORIGINAL RESTAURADO -->
   <div class="vantagens-grid">
-
     <div class="vantagem">
-      <h4>⚖️ Assistência Jurídica Especializada</h4>
-      <p>
-        Assessoria em direito médico e odontológico nas áreas criminal, cível, administrativa e ética, com escritórios credenciados em todo o Brasil.
-      </p>
+      <h4>⚖️ Assistência Jurídica</h4>
+      <p>Assessoria em direito médico e odontológico nas áreas criminal, cível, administrativa e ética, com escritórios credenciados em todo o Brasil.</p>
     </div>
-
     <div class="vantagem">
       <h4>💵 Honorários Cobertos</h4>
-      <p>
-        Custos com peritos e assistentes técnicos são cobertos de acordo com o regulamento da Anadem, evitando despesas inesperadas no processo.
-      </p>
+      <p>Custos com peritos e assistentes técnicos são cobertos de acordo com o regulamento da Anadem, evitando despesas inesperadas no processo.</p>
     </div>
-
     <div class="vantagem">
-      <h4>📰 Gerenciamento de Crise</h4>
-      <p>
-        Suporte especializado para minimizar impactos e preservar sua reputação em momentos de crise de imagem.
-      </p>
+      <h4>📰 Gestão de Crise</h4>
+      <p>Suporte especializado para minimizar impactos e preservar sua reputação em momentos de crise de imagem.</p>
     </div>
-
     <div class="vantagem">
-      <h4>💷 Indenização Financeira</h4>
-      <p>
-        Garantia de indenização de até R$ 1 milhão, conforme o plano contratado, possibilitando suporte financeiro em eventuais ações judiciais.
-      </p>
+      <h4>💷 Indenização</h4>
+      <p>Garantia de indenização de até R$ 1 milhão, conforme o plano contratado, possibilitando suporte financeiro em eventuais ações judiciais.</p>
     </div>
-
     <div class="vantagem">
-      <h4>🛡️ Cobertura Abrangente</h4>
-      <p>
-        Cobertura para <b>danos corporais, materiais, morais, estéticos e existenciais</b>, e, também, <b>denunciação à lide</b>, quando o profissional é citado em eventual responsabilidade.
-      </p>
+      <h4>🛡️ Abrangência</h4>
+      <p>Cobertura para danos corporais, materiais, morais, estéticos e existenciais
+, e, também, denunciação à lide , quando o profissional é citado em eventual responsabilidade.</p>
     </div>
-
     <div class="vantagem">
-      <h4>⌛ Cobertura Retroativa</h4>
-      <p>
-        Retroatividade de até 5 anos para atos profissionais. Processos, notificações ou fatos geradores existentes antes da adesão não possuem cobertura.
-      </p>
+      <h4>⌛ Retroatividade</h4>
+      <p>Retroatividade de até 5 anos para atosprofissionais. Processos, notificações oufatos geradores existentes antes da adesão não possuem cobertura.</p>
     </div>
-
   </div>
 
-
-
   <div class="rodape">
+    <div class="adesao-box">
+      <strong>Faça sua adesão online:</strong> https://higoamorim.github.io/PropostaANADEM/PROPOSTA.html<br>
+Preeencha o formulário, gere o PDF e envie no WhatsApp abaixo.<br>
+Dúvidas? Entre em contato: <strong>61 99630-0538</strong> ou <strong>61 99314-4931</strong>
+    </div>
+  </div>
 
-<div class="adesao-box">
-
-  <strong>Faça sua adesão online:</strong><br>
-
-  https://higoamorim.github.io/PropostaANADEM/PROPOSTA.html
-  <br>
-  Preeencha o formulário, gere o PDF e envie no WhatsApp abaixo.
-<br>
-  Em caso de dúvidas, entre em contato:
-  <strong>61 99630-0538</strong>
-  ou
-  <strong>61 99314-4931</strong>
 </div>
-</div>
-
 
 <!-- ================================
      SEGUNDA PÁGINA - COMPARATIVO
 ================================ -->
-
 <div class="pagina-comparativo">
-
-  <img
-    src="grafico-comparativo.png"
-    alt="Comparativo ANADEM e demais soluções convencionais"
-  >
-
+  <img src="grafico-comparativo.png" alt="Comparativo ANADEM e demais soluções convencionais">
 </div>
 
-
 <script>
-
   const params = new URLSearchParams(window.location.search);
 
   const nome = params.get('nome') || 'Dr. Fulano';
@@ -640,13 +493,25 @@ Solução apresentada: <strong>ANADEM - PLANO PESSOA FÍSICA</strong>
   const especialidade = params.get('p1') || 'Especialidade';
   const capital = params.get('p2') || '500 Mil';
 
-  const p3 = params.get('p3') || 'R$ 189,00';
-  const p4 = params.get('p4') || 'R$ 199,00';
-  const p5 = params.get('p5') || 'R$ 239,00';
-  const p6 = params.get('p6') || 'R$ 249,00';
-  const p7 = params.get('p7') || 'R$ 159,00';
+  const p3 = params.get('p3') || '0';
+  const p34x = params.get('p34x') || '0';
+  const p3avista = params.get('p3avista') || '0';
 
-function formatarMoedaBR(valor) {
+  const p4 = params.get('p4') || '0';
+  const p44x = params.get('p44x') || '0';
+  const p4avista = params.get('p4avista') || '0';
+
+  const p5 = params.get('p5') || '0';
+  const p54x_param = params.get('p54x') || '0';
+  const p5avista_param = params.get('p5avista') || '0';
+
+  const p6 = params.get('p6') || '0';
+  const p64x = params.get('p64x') || '0';
+  const p6avista = params.get('p6avista') || '0';
+
+  const p7 = params.get('p7') || '0';
+
+  function formatarMoedaBR(valor) {
     if (valor === null || valor === undefined || valor === "") {
         return "0,00";
     }
@@ -658,19 +523,10 @@ function formatarMoedaBR(valor) {
 
     let numero;
 
-    // Formato brasileiro: 1.380,23
     if (texto.includes(",") && texto.includes(".")) {
-        numero = parseFloat(
-            texto.replace(/\./g, "").replace(",", ".")
-        );
-
-    // Formato brasileiro sem milhares: 1380,23
+        numero = parseFloat(texto.replace(/\./g, "").replace(",", "."));
     } else if (texto.includes(",")) {
-        numero = parseFloat(
-            texto.replace(",", ".")
-        );
-
-    // Número já em formato JS: 1380.23
+        numero = parseFloat(texto.replace(",", "."));
     } else {
         numero = parseFloat(texto);
     }
@@ -683,22 +539,30 @@ function formatarMoedaBR(valor) {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
     });
-}
-
-
-const p54x = formatarMoedaBR(params.get('p54x'));
-const p5avista = formatarMoedaBR(params.get('p5avista'));
+  }
 
   document.getElementById('nomeProfissional').innerText = 'Dr. ' + nome;
   document.getElementById('telefoneProfissional').innerText = telefone;
   document.getElementById('especialidadeProfissional').innerText = especialidade;
   document.getElementById('capitalSegurado').innerText = capital;
 
-document.getElementById('valorP3').innerText = 'R$ ' + formatarMoedaBR(p3);
-document.getElementById('valorP4').innerText = 'R$ ' + formatarMoedaBR(p4);
-document.getElementById('valorP5').innerText = 'R$ ' + formatarMoedaBR(p5);
-document.getElementById('valorP6').innerText = 'R$ ' + formatarMoedaBR(p6);
-document.getElementById('valorP7').innerText = 'R$ ' + formatarMoedaBR(p7);
+  document.getElementById('p3_mensal').innerText = formatarMoedaBR(p3);
+  document.getElementById('p3_4x').innerText = formatarMoedaBR(p34x);
+  document.getElementById('p3_avista').innerText = formatarMoedaBR(p3avista);
+
+  document.getElementById('p4_mensal').innerText = formatarMoedaBR(p4);
+  document.getElementById('p4_4x').innerText = formatarMoedaBR(p44x);
+  document.getElementById('p4_avista').innerText = formatarMoedaBR(p4avista);
+
+  document.getElementById('p5_mensal').innerText = formatarMoedaBR(p5);
+  document.getElementById('p5_4x').innerText = formatarMoedaBR(p54x_param);
+  document.getElementById('p5_avista').innerText = formatarMoedaBR(p5avista_param);
+
+  document.getElementById('p6_mensal').innerText = formatarMoedaBR(p6);
+  document.getElementById('p6_4x').innerText = formatarMoedaBR(p64x);
+  document.getElementById('p6_avista').innerText = formatarMoedaBR(p6avista);
+
+  document.getElementById('p7_mensal').innerText = formatarMoedaBR(p7);
 
   const agora = new Date();
 
@@ -710,23 +574,17 @@ document.getElementById('valorP7').innerText = 'R$ ' + formatarMoedaBR(p7);
     String(agora.getMinutes()).padStart(2, '0');
 
   document.getElementById('numeroOrcamento').innerText = numeroOrcamento;
+  document.getElementById('dataAtual').innerText = agora.toLocaleDateString('pt-BR');
 
-document.getElementById('dataAtual').innerText = agora.toLocaleDateString('pt-BR');
+  const validade = new Date(agora);
+  validade.setDate(validade.getDate() + 15);
+  const fimDoAno = new Date(agora.getFullYear(), 11, 31);
+  const dataValidade = validade > fimDoAno ? fimDoAno : validade;
 
-// Validade: 15 dias após a emissão, limitada a 31/12 do ano corrente
-const validade = new Date(agora);
-validade.setDate(validade.getDate() + 15);
+  document.getElementById('validadeProposta').innerText = dataValidade.toLocaleDateString('pt-BR');
 
-const fimDoAno = new Date(agora.getFullYear(), 11, 31);
-
-const dataValidade = validade > fimDoAno ? fimDoAno : validade;
-
-document.getElementById('validadeProposta').innerText =
-  dataValidade.toLocaleDateString('pt-BR');
-
-document.getElementById("recomendacaoTecnica").innerHTML =
-`<b>Recomendado:</b> Com Retroatividade de 5 anos 4x de R$ ${p54x} ou à vista R$ ${p5avista}`;
-
+  document.getElementById("recomendacaoTecnica").innerHTML =
+    `<b>Recomendado:</b> Com Retroatividade de 5 anos 4x de R$ ${formatarMoedaBR(p54x_param)} ou à vista R$ ${formatarMoedaBR(p5avista_param)}`;
 </script>
 
 </body>
