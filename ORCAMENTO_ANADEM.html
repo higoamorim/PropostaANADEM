@@ -20,7 +20,7 @@
       background: #dfe5ec;
       font-family: Arial, Helvetica, sans-serif;
       color: #222;
-      line-height: 1.3;
+      line-height: 1.25;
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
     }
@@ -30,7 +30,7 @@
       height: 297mm;
       background: #fff;
       margin: 20px auto;
-      padding: 12px 18px;
+      padding: 10px 16px;
       box-shadow: 0 5px 25px rgba(0,0,0,.12);
       overflow: hidden;
       position: relative;
@@ -38,66 +38,66 @@
 
     .topo {
       text-align: center;
-      margin-bottom: 10px;
+      margin-bottom: 6px;
     }
 
     .logos-topo {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
     .logo-oasis {
-      max-width: 160px;
+      max-width: 140px;
     }
 
     .logo-anadem {
-      max-width: 100px;
+      max-width: 90px;
     }
 
     .texto-topo {
-      font-size: 10px;
+      font-size: 9.5px;
       font-weight: bold;
       letter-spacing: 0.5px;
     }
 
     .titulo {
-      margin-top: 6px;
-      font-size: 18px;
+      margin-top: 4px;
+      font-size: 16px;
       font-weight: bold;
       color: #0f172a;
     }
 
     .cnpj {
-      margin-top: 2px;
-      font-size: 11px;
+      margin-top: 1px;
+      font-size: 10.5px;
     }
 
     .info-area {
-      margin-top: 8px;
-      font-size: 12px;
+      margin-top: 6px;
+      font-size: 11px;
     }
 
     .linha-info {
       display: flex;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
 
     .linha-info strong {
-      width: 220px;
+      width: 200px;
     }
 
     /* --- TABELA ESTILO EXCEL --- */
     .tabela-excel {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 8px;
-      font-size: 11.5px;
+      margin-top: 6px;
+      font-size: 10px;
     }
 
     .tabela-excel th, .tabela-excel td {
-      padding: 4px 8px;
+      padding: 2.5px 6px;
       border: 1px solid #c0c0c0;
     }
 
@@ -132,7 +132,7 @@
     }
 
     .col-moeda {
-      width: 25px;
+      width: 20px;
       text-align: left;
       border-right: none !important;
     }
@@ -143,34 +143,33 @@
     }
 
     .obs {
-      margin-top: 6px;
-      margin-bottom: 6px;
-      font-size: 11.5px;
+      margin-top: 4px;
+      margin-bottom: 4px;
+      font-size: 10.5px;
       color: #374151;
     }
 
     .titulo-secao {
-      margin-top: 12px;
-      margin-bottom: 6px;
-      font-size: 15px;
+      margin-top: 8px;
+      margin-bottom: 4px;
+      font-size: 13px;
       font-weight: bold;
       color: #0f172a;
       border-bottom: 1.5px solid #0f172a;
-      padding-bottom: 2px;
+      padding-bottom: 1px;
     }
 
-    /* --- TEXTOS SIMPLES DE DIFERENCIAIS (SEM BALÕES) --- */
     .lista-vantagens {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 5px 15px;
-      margin-top: 6px;
+      gap: 4px 12px;
+      margin-top: 4px;
     }
 
     .vantagem-item {
-      font-size: 10.5px;
+      font-size: 9.5px;
       color: #374151;
-      line-height: 1.35;
+      line-height: 1.25;
       text-align: justify;
     }
 
@@ -179,25 +178,25 @@
     }
 
     .adesao-box {
-      margin-top: 8px;
-      padding: 6px 10px;
+      margin-top: 6px;
+      padding: 5px 8px;
       border: 1px solid #d1d5db;
-      border-radius: 8px;
+      border-radius: 6px;
       background: #f8fafc;
-      font-size: 11px;
+      font-size: 10px;
       text-align: center;
-      line-height: 1.35;
+      line-height: 1.3;
       color: #1f2937;
       word-break: break-word;
     }
 
     .rodape {
       position: absolute;
-      bottom: 10px;
-      left: 18px;
-      right: 18px;
+      bottom: 8px;
+      left: 16px;
+      right: 16px;
       border-top: 1px solid #d1d5db;
-      padding-top: 6px;
+      padding-top: 4px;
     }
 
     .botao-pdf {
@@ -224,10 +223,19 @@
         height: 297mm !important;
         width: 210mm !important;
         margin: 0 !important;
-        padding: 10mm !important;
+        padding: 8mm !important;
         box-shadow: none !important;
         page-break-after: always;
         break-after: page;
+      }
+      .pagina-comparativo {
+        margin: 0 !important;
+        padding: 8mm !important;
+        box-shadow: none !important;
+        height: 297mm !important;
+        width: 210mm !important;
+        page-break-before: always;
+        break-before: page;
       }
       .botao-pdf {
         display: none;
@@ -239,16 +247,17 @@
     }
 
     /* ================================
-       SEGUNDA PÁGINA - COMPARATIVO
+       SEGUNDA PÁGINA - COMPARATIVO (MAIS ELEGANTE)
     ================================ */
     .pagina-comparativo {
       width: 210mm;
       height: 297mm;
-      background: #fff;
+      background: #f8fafc;
       margin: 20px auto;
-      padding: 12mm;
+      padding: 15mm;
       box-shadow: 0 5px 25px rgba(0,0,0,.12);
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       page-break-before: always;
@@ -256,24 +265,52 @@
       overflow: hidden;
     }
 
-    .pagina-comparativo img {
+    .comparativo-card {
+      background: #ffffff;
       width: 100%;
-      height: auto;
-      max-height: 100%;
-      object-fit: contain;
-      display: block;
+      height: 100%;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      padding: 20px;
     }
 
-    @media print {
-      .pagina-comparativo {
-        margin: 0 !important;
-        padding: 10mm !important;
-        box-shadow: none !important;
-        height: 297mm !important;
-        width: 210mm !important;
-        page-break-before: always;
-        break-before: page;
-      }
+    .comparativo-header {
+      text-align: center;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #0f766e;
+      padding-bottom: 12px;
+    }
+
+    .comparativo-header h2 {
+      font-size: 18px;
+      color: #0f172a;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .comparativo-header p {
+      font-size: 12px;
+      color: #64748b;
+      margin-top: 4px;
+    }
+
+    .comparativo-img-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pagina-comparativo img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 8px;
     }
   </style>
 </head>
@@ -301,7 +338,7 @@
 
     <div class="cnpj">
       CNPJ: 64.382.483/0001-19
-      <div style="margin-top:4px;font-size:12px;color:#555;">
+      <div style="margin-top:2px;font-size:11px;color:#555;">
         Solução apresentada: <strong>ANADEM - PLANO PESSOA FÍSICA</strong>
       </div>
     </div>
@@ -344,7 +381,7 @@
     </div>
   </div>
 
-  <!-- TABELA ESTILO EXCEL -->
+  <!-- TABELA ESTILO EXCEL ATUALIZADA COM 2X, 4X, 6X, 8X, 10X -->
   <table class="tabela-excel">
     <thead>
       <tr class="header-verde">
@@ -356,24 +393,38 @@
     <tbody>
       <tr>
         <td>Mensal</td>
-        <td class="col-moeda">R$</td>
-        <td class="col-valor" id="p3_mensal">0,00</td>
-        <td class="col-moeda">R$</td>
-        <td class="col-valor" id="p4_mensal">0,00</td>
+        <td class="col-moeda">R$</td><td class="col-valor" id="p3_mensal">0,00</td>
+        <td class="col-moeda">R$</td><td class="col-valor" id="p4_mensal">0,00</td>
       </tr>
       <tr class="linha-verde-claro">
-        <td>4 parcelas</td>
-        <td class="col-moeda">R$</td>
-        <td class="col-valor" id="p3_4x">0,00</td>
-        <td class="col-moeda">R$</td>
-        <td class="col-valor" id="p4_4x">0,00</td>
+        <td>2x parcelas</td>
+        <td class="col-moeda">R$</td><td class="col-valor" id="p3_2x">0,00</td>
+        <td class="col-moeda">R$</td><td class="col-valor" id="p4_2x">0,00</td>
       </tr>
       <tr class="linha-verde-claro">
-        <td>A vista</td>
-        <td class="col-moeda">R$</td>
-        <td class="col-valor" id="p3_avista">0,00</td>
-        <td class="col-moeda">R$</td>
-        <td class="col-valor" id="p4_avista">0,00</td>
+        <td>4x parcelas</td>
+        <td class="col-moeda">R$</td><td class="col-valor" id="p3_4x">0,00</td>
+        <td class="col-moeda">R$</td><td class="col-valor" id="p4_4x">0,00</td>
+      </tr>
+      <tr class="linha-verde-claro">
+        <td>6x parcelas</td>
+        <td class="col-moeda">R$</td><td class="col-valor" id="p3_6x">0,00</td>
+        <td class="col-moeda">R$</td><td class="col-valor" id="p4_6x">0,00</td>
+      </tr>
+      <tr class="linha-verde-claro">
+        <td>8x parcelas</td>
+        <td class="col-moeda">R$</td><td class="col-valor" id="p3_8x">0,00</td>
+        <td class="col-moeda">R$</td><td class="col-valor" id="p4_8x">0,00</td>
+      </tr>
+      <tr class="linha-verde-claro">
+        <td>10x parcelas</td>
+        <td class="col-moeda">R$</td><td class="col-valor" id="p3_10x">0,00</td>
+        <td class="col-moeda">R$</td><td class="col-valor" id="p4_10x">0,00</td>
+      </tr>
+      <tr class="linha-verde-claro">
+        <td>À vista</td>
+        <td class="col-moeda">R$</td><td class="col-valor" id="p3_avista">0,00</td>
+        <td class="col-moeda">R$</td><td class="col-valor" id="p4_avista">0,00</td>
       </tr>
     </tbody>
 
@@ -387,24 +438,38 @@
     <tbody>
       <tr>
         <td>Mensal</td>
-        <td class="col-moeda">R$</td>
-        <td class="col-valor" id="p5_mensal">0,00</td>
-        <td class="col-moeda">R$</td>
-        <td class="col-valor" id="p6_mensal">0,00</td>
+        <td class="col-moeda">R$</td><td class="col-valor" id="p5_mensal">0,00</td>
+        <td class="col-moeda">R$</td><td class="col-valor" id="p6_mensal">0,00</td>
       </tr>
       <tr class="linha-cinza-claro">
-        <td>4 parcelas</td>
-        <td class="col-moeda">R$</td>
-        <td class="col-valor" id="p5_4x">0,00</td>
-        <td class="col-moeda">R$</td>
-        <td class="col-valor" id="p6_4x">0,00</td>
+        <td>2x parcelas</td>
+        <td class="col-moeda">R$</td><td class="col-valor" id="p5_2x">0,00</td>
+        <td class="col-moeda">R$</td><td class="col-valor" id="p6_2x">0,00</td>
       </tr>
       <tr class="linha-cinza-claro">
-        <td>A vista</td>
-        <td class="col-moeda">R$</td>
-        <td class="col-valor" id="p5_avista">0,00</td>
-        <td class="col-moeda">R$</td>
-        <td class="col-valor" id="p6_avista">0,00</td>
+        <td>4x parcelas</td>
+        <td class="col-moeda">R$</td><td class="col-valor" id="p5_4x">0,00</td>
+        <td class="col-moeda">R$</td><td class="col-valor" id="p6_4x">0,00</td>
+      </tr>
+      <tr class="linha-cinza-claro">
+        <td>6x parcelas</td>
+        <td class="col-moeda">R$</td><td class="col-valor" id="p5_6x">0,00</td>
+        <td class="col-moeda">R$</td><td class="col-valor" id="p6_6x">0,00</td>
+      </tr>
+      <tr class="linha-cinza-claro">
+        <td>8x parcelas</td>
+        <td class="col-moeda">R$</td><td class="col-valor" id="p5_8x">0,00</td>
+        <td class="col-moeda">R$</td><td class="col-valor" id="p6_8x">0,00</td>
+      </tr>
+      <tr class="linha-cinza-claro">
+        <td>10x parcelas</td>
+        <td class="col-moeda">R$</td><td class="col-valor" id="p5_10x">0,00</td>
+        <td class="col-moeda">R$</td><td class="col-valor" id="p6_10x">0,00</td>
+      </tr>
+      <tr class="linha-cinza-claro">
+        <td>À vista</td>
+        <td class="col-moeda">R$</td><td class="col-valor" id="p5_avista">0,00</td>
+        <td class="col-moeda">R$</td><td class="col-valor" id="p6_avista">0,00</td>
       </tr>
     </tbody>
 
@@ -432,6 +497,7 @@
   <div class="titulo-secao">
     DIFERENCIAIS DA PROTEÇÃO
   </div>
+
 
   <!-- TEXTOS SIMPLES (EM DUAS COLUNAS FLUIDAS) -->
   <div class="lista-vantagens">
@@ -464,6 +530,9 @@ Seja na defesa em casos de responsabilidade civil ou ética-profissional, seja n
 Em média, 7% dos médicos e cirurgiões-dentistas brasileiros são processados (em Mato Grosso esse índice sobe para 8,5% e no Rio Grande do Sul para 13,72%). Do total de profissionais processados, 43% são condenados. As indenizações financeiras podem chegar até R$ 500.000,00 dependendo da demanda jurídica.
 
 Os danos estéticos ocupam a segunda posição no ranking de danos corporais reclamados pelos pacientes nos processos julgados pelo Supremo Tribunal de Justiça – STJ.
+
+
+
     </div>
   </div>
 
@@ -478,10 +547,18 @@ Dúvidas? Entre em contato: <strong>61 99630-0538</strong> ou <strong>61 99314-4
 </div>
 
 <!-- ================================
-     SEGUNDA PÁGINA - COMPARATIVO
+     SEGUNDA PÁGINA - COMPARATIVO (MAIS ELEGANTE)
 ================================ -->
 <div class="pagina-comparativo">
-  <img src="grafico-comparativo.png" alt="Comparativo ANADEM e demais soluções convencionais">
+  <div class="comparativo-card">
+    <div class="comparativo-header">
+      <h2>CONHEÇA A BLINDAGEM PROFISSIONAL DA ANADEM</h2>
+      <p>Vantagens exclusivas da blindagem jurídica ANADEM frente às soluções convencionais</p>
+    </div>
+    <div class="comparativo-img-container">
+      <img src="grafico-comparativo.png" alt="Comparativo ANADEM e demais soluções convencionais">
+    </div>
+  </div>
 </div>
 
 <script>
@@ -492,20 +569,40 @@ Dúvidas? Entre em contato: <strong>61 99630-0538</strong> ou <strong>61 99314-4
   const especialidade = params.get('p1') || 'Especialidade';
   const capital = params.get('p2') || '500 Mil';
 
+  // P3 (Sem Retro - Cartão)
   const p3 = params.get('p3') || '0';
-  const p34x = params.get('p34x') || '0';
+  const p3_2x = params.get('p3_2x') || '0';
+  const p3_4x = params.get('p3_4x') || '0';
+  const p3_6x = params.get('p3_6x') || '0';
+  const p3_8x = params.get('p3_8x') || '0';
+  const p3_10x = params.get('p3_10x') || '0';
   const p3avista = params.get('p3avista') || '0';
 
+  // P4 (Sem Retro - Boleto)
   const p4 = params.get('p4') || '0';
-  const p44x = params.get('p44x') || '0';
+  const p4_2x = params.get('p4_2x') || '0';
+  const p4_4x = params.get('p4_4x') || '0';
+  const p4_6x = params.get('p4_6x') || '0';
+  const p4_8x = params.get('p4_8x') || '0';
+  const p4_10x = params.get('p4_10x') || '0';
   const p4avista = params.get('p4avista') || '0';
 
+  // P5 (Com Retro - Cartão)
   const p5 = params.get('p5') || '0';
-  const p54x_param = params.get('p54x') || '0';
-  const p5avista_param = params.get('p5avista') || '0';
+  const p5_2x = params.get('p5_2x') || '0';
+  const p5_4x = params.get('p5_4x') || '0';
+  const p5_6x = params.get('p5_6x') || '0';
+  const p5_8x = params.get('p5_8x') || '0';
+  const p5_10x = params.get('p5_10x') || '0';
+  const p5avista = params.get('p5avista') || '0';
 
+  // P6 (Com Retro - Boleto)
   const p6 = params.get('p6') || '0';
-  const p64x = params.get('p64x') || '0';
+  const p6_2x = params.get('p6_2x') || '0';
+  const p6_4x = params.get('p6_4x') || '0';
+  const p6_6x = params.get('p6_6x') || '0';
+  const p6_8x = params.get('p6_8x') || '0';
+  const p6_10x = params.get('p6_10x') || '0';
   const p6avista = params.get('p6avista') || '0';
 
   const p7 = params.get('p7') || '0';
@@ -514,14 +611,8 @@ Dúvidas? Entre em contato: <strong>61 99630-0538</strong> ou <strong>61 99314-4
     if (valor === null || valor === undefined || valor === "") {
         return "0,00";
     }
-
-    let texto = String(valor)
-        .trim()
-        .replace(/R\$/g, "")
-        .replace(/\s/g, "");
-
+    let texto = String(valor).trim().replace(/R\$/g, "").replace(/\s/g, "");
     let numero;
-
     if (texto.includes(",") && texto.includes(".")) {
         numero = parseFloat(texto.replace(/\./g, "").replace(",", "."));
     } else if (texto.includes(",")) {
@@ -529,15 +620,10 @@ Dúvidas? Entre em contato: <strong>61 99630-0538</strong> ou <strong>61 99314-4
     } else {
         numero = parseFloat(texto);
     }
-
     if (isNaN(numero)) {
         return "0,00";
     }
-
-    return numero.toLocaleString("pt-BR", {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-    });
+    return numero.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   }
 
   document.getElementById('nomeProfissional').innerText = 'Dr. ' + nome;
@@ -545,26 +631,43 @@ Dúvidas? Entre em contato: <strong>61 99630-0538</strong> ou <strong>61 99314-4
   document.getElementById('especialidadeProfissional').innerText = especialidade;
   document.getElementById('capitalSegurado').innerText = capital;
 
+  // Atribuindo valores Sem Retro
   document.getElementById('p3_mensal').innerText = formatarMoedaBR(p3);
-  document.getElementById('p3_4x').innerText = formatarMoedaBR(p34x);
+  document.getElementById('p3_2x').innerText = formatarMoedaBR(p3_2x);
+  document.getElementById('p3_4x').innerText = formatarMoedaBR(p3_4x);
+  document.getElementById('p3_6x').innerText = formatarMoedaBR(p3_6x);
+  document.getElementById('p3_8x').innerText = formatarMoedaBR(p3_8x);
+  document.getElementById('p3_10x').innerText = formatarMoedaBR(p3_10x);
   document.getElementById('p3_avista').innerText = formatarMoedaBR(p3avista);
 
   document.getElementById('p4_mensal').innerText = formatarMoedaBR(p4);
-  document.getElementById('p4_4x').innerText = formatarMoedaBR(p44x);
+  document.getElementById('p4_2x').innerText = formatarMoedaBR(p4_2x);
+  document.getElementById('p4_4x').innerText = formatarMoedaBR(p4_4x);
+  document.getElementById('p4_6x').innerText = formatarMoedaBR(p4_6x);
+  document.getElementById('p4_8x').innerText = formatarMoedaBR(p4_8x);
+  document.getElementById('p4_10x').innerText = formatarMoedaBR(p4_10x);
   document.getElementById('p4_avista').innerText = formatarMoedaBR(p4avista);
 
+  // Atribuindo valores Com Retro
   document.getElementById('p5_mensal').innerText = formatarMoedaBR(p5);
-  document.getElementById('p5_4x').innerText = formatarMoedaBR(p54x_param);
-  document.getElementById('p5_avista').innerText = formatarMoedaBR(p5avista_param);
+  document.getElementById('p5_2x').innerText = formatarMoedaBR(p5_2x);
+  document.getElementById('p5_4x').innerText = formatarMoedaBR(p5_4x);
+  document.getElementById('p5_6x').innerText = formatarMoedaBR(p5_6x);
+  document.getElementById('p5_8x').innerText = formatarMoedaBR(p5_8x);
+  document.getElementById('p5_10x').innerText = formatarMoedaBR(p5_10x);
+  document.getElementById('p5_avista').innerText = formatarMoedaBR(p5avista);
 
   document.getElementById('p6_mensal').innerText = formatarMoedaBR(p6);
-  document.getElementById('p6_4x').innerText = formatarMoedaBR(p64x);
+  document.getElementById('p6_2x').innerText = formatarMoedaBR(p6_2x);
+  document.getElementById('p6_4x').innerText = formatarMoedaBR(p6_4x);
+  document.getElementById('p6_6x').innerText = formatarMoedaBR(p6_6x);
+  document.getElementById('p6_8x').innerText = formatarMoedaBR(p6_8x);
+  document.getElementById('p6_10x').innerText = formatarMoedaBR(p6_10x);
   document.getElementById('p6_avista').innerText = formatarMoedaBR(p6avista);
 
   document.getElementById('p7_mensal').innerText = formatarMoedaBR(p7);
 
   const agora = new Date();
-
   const numeroOrcamento =
     String(agora.getDate()).padStart(2, '0') +
     String(agora.getMonth() + 1).padStart(2, '0') +
