@@ -565,6 +565,7 @@ Dúvidas? Entre em contato: <strong>61 99630-0538</strong> ou <strong>61 99314-4
   const params = new URLSearchParams(window.location.search);
 
   const nome = params.get('nome') || 'Dr. Fulano';
+  document.title = `Dr. ${nome}`;
   const telefone = params.get('tel') || '(61) 99999-9999';
   const especialidade = params.get('p1') || 'Especialidade';
   const capital = params.get('p2') || '500 Mil';
