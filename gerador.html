@@ -17,12 +17,11 @@
     button { width: 100%; padding: 14px; font-size: 16px; border: none; border-radius: 8px; cursor: pointer; color: #fff; font-weight: bold; transition: 0.3s; }
     .btn-gerar { background: #0f766e; grid-column: span 2; }
     .btn-copiar { background: #2563eb; }
-
     .btn-limpar { background: #6b7280; grid-column: span 2; }
     button:hover { opacity: 0.9; }
     textarea { width: 100%; height: 350px; margin-top: 20px; padding: 15px; font-size: 14px; border-radius: 8px; border: 1px solid #ccc; resize: vertical; box-sizing: border-box; }
     footer { text-align: center; font-size: 13px; color: #777; margin-top: 25px; }
-   .btn-orcamento { background: #9333ea; }
+    .btn-orcamento { background: #9333ea; }
   </style>
 </head>
 <body>
@@ -77,31 +76,25 @@
       </div>
     </div>
 
-<div>
-<label>Desconto da Campanha (%)</label>
-<input id="desconto" type="number" min="0" max="100" step="0.01" placeholder="Ex: 10">
-</div>
+    <div>
+      <label>Desconto da Campanha (%)</label>
+      <input id="desconto" type="number" min="0" max="100" step="0.01" placeholder="Ex: 10">
+    </div>
 
     <div class="grid-btns">
-        <button class="btn-gerar" onclick="gerarTexto()">1. Gerar Texto Original</button>
-        <button class="btn-copiar" onclick="copiarTexto()">2. Copiar p/ WhatsApp</button>
-	<button class="btn-orcamento" onclick="abrirOrcamento()">3. Gerar Orçamento</button>
-        <button class="btn-limpar" onclick="limparCampos()">Limpar Formulário</button>
-
-
-
-   </div>
+      <button class="btn-gerar" onclick="gerarTexto()">1. Gerar Texto Original</button>
+      <button class="btn-copiar" onclick="copiarTexto()">2. Copiar p/ WhatsApp</button>
+      <button class="btn-orcamento" onclick="abrirOrcamento()">3. Gerar Orçamento</button>
+      <button class="btn-limpar" onclick="limparCampos()">Limpar Formulário</button>
+    </div>
 
     <textarea id="resultado" placeholder="O texto original será gerado aqui..."></textarea>
     <footer>© GRUPO OASIS DF</footer>
   </div>
 
 <script>
-
-
 function valorNumerico(valor) {
     if (!valor) return 0;
-
     return parseFloat(
         String(valor)
             .replace(/\s/g, "")
@@ -111,59 +104,22 @@ function valorNumerico(valor) {
     ) || 0;
 }
 
-
 function gerarTexto() {
-const nome = document.getElementById("pNome").value || "Doutor(a)";
-const p1 = document.getElementById("p1").value || "Sua Especialidade";
-const p2 = document.getElementById("p2").value || "500.000,00";
-const p3 = document.getElementById("p3").value || "VALOR CARTÃO";
-const p5 = document.getElementById("p5").value || "VALOR CARTÃO";
-const desconto = parseFloat(document.getElementById("desconto").value) || 0;
-const fatorDesconto = 1 - (desconto / 100);
+  const nome = document.getElementById("pNome").value || "Doutor(a)";
+  const p1 = document.getElementById("p1").value || "Sua Especialidade";
+  const p2 = document.getElementById("p2").value || "500.000,00";
+  const p3 = document.getElementById("p3").value || "VALOR CARTÃO";
+  const p5 = document.getElementById("p5").value || "VALOR CARTÃO";
+  const desconto = parseFloat(document.getElementById("desconto").value) || 0;
+  const fatorDesconto = 1 - (desconto / 100);
 
-// Cálculos
+  const mensalBlack = valorNumerico(p5) * fatorDesconto;
+  const mensalVerde = valorNumerico(p3) * fatorDesconto;
+  const boletoBlack = valorNumerico(document.getElementById("p6").value) * fatorDesconto;
 
-const mensalBlack = valorNumerico(p5) * fatorDesconto;
-const mensalVerde = valorNumerico(p3) * fatorDesconto;
-const boletoBlack = valorNumerico(document.getElementById("p6").value) * fatorDesconto;
-
-const mensalBlackFormatado = mensalBlack.toLocaleString("pt-BR", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-
-});
-
-const boletoBlackFormatado = boletoBlack.toLocaleString("pt-BR", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-
-
-});
-
-const mensalVerdeFormatado = mensalVerde.toLocaleString("pt-BR", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-});
-
-const quatroVezesBlack = ((mensalBlack * 12) / 4).toLocaleString("pt-BR", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-});
-
-const avistaBlack = ((mensalBlack * 12) * 0.90).toLocaleString("pt-BR", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-});
-
-const quatroVezesVerde = ((mensalVerde * 12) / 4).toLocaleString("pt-BR", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-});
-
-const avistaVerde = ((mensalVerde * 12) * 0.90).toLocaleString("pt-BR", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-});
+  const mensalBlackFormatado = mensalBlack.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const boletoBlackFormatado = boletoBlack.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const mensalVerdeFormatado = mensalVerde.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
   const texto = `Dr. ${nome}, estruturei sua proposta de _Blindagem Profissional_ para _*${p1}*_.
 
@@ -195,7 +151,6 @@ function limparCampos() {
   });
 }
 
-
 function abrirOrcamento() {
   const nome = document.getElementById("pNome").value;
   const tel = document.getElementById("pTel").value;
@@ -210,34 +165,29 @@ function abrirOrcamento() {
   const desconto = parseFloat(document.getElementById("desconto").value) || 0;
   const fatorDesconto = 1 - (desconto / 100);
 
-  // Valores Mensais com desconto
-  const vP3 = valorNumerico(p3) * fatorDesconto; // Sem Retro - Cartão
-  const vP4 = valorNumerico(p4) * fatorDesconto; // Sem Retro - Boleto
-  const vP5 = valorNumerico(p5) * fatorDesconto; // Com Retro - Cartão
-  const vP6 = valorNumerico(p6) * fatorDesconto; // Com Retro - Boleto
-  const vP7 = valorNumerico(p7) * fatorDesconto; // Blue/Essencial - Cartão
+  const vP3 = valorNumerico(p3) * fatorDesconto; 
+  const vP4 = valorNumerico(p4) * fatorDesconto; 
+  const vP5 = valorNumerico(p5) * fatorDesconto; 
+  const vP6 = valorNumerico(p6) * fatorDesconto; 
+  const vP7 = valorNumerico(p7) * fatorDesconto; 
 
-  // Cálculos Sem Retroatividade (Green)
-  const p3_4x = (vP3 * 12) / 4;
-  const p3_avista = (vP3 * 12) * 0.90;
-  const p4_4x = (vP4 * 12) / 4;
-  const p4_avista = (vP4 * 12) * 0.90;
-
-  // Cálculos Com Retroatividade 5 Anos (Black)
-  const p5_4x = (vP5 * 12) / 4;
-  const p5_avista = (vP5 * 12) * 0.90;
-  const p6_4x = (vP6 * 12) / 4;
-  const p6_avista = (vP6 * 12) * 0.90;
+  // Função auxiliar para calcular parcelas
+  const calcParc = (val, n) => (val * 12) / n;
+  const calcVista = (val) => (val * 12) * 0.90;
 
   const url =
     `ORCAMENTO_ANADEM.html?nome=${encodeURIComponent(nome)}` +
     `&tel=${encodeURIComponent(tel)}` +
     `&p1=${encodeURIComponent(p1)}` +
     `&p2=${encodeURIComponent(p2)}` +
-    `&p3=${encodeURIComponent(vP3)}&p34x=${encodeURIComponent(p3_4x)}&p3avista=${encodeURIComponent(p3_avista)}` +
-    `&p4=${encodeURIComponent(vP4)}&p44x=${encodeURIComponent(p4_4x)}&p4avista=${encodeURIComponent(p4_avista)}` +
-    `&p5=${encodeURIComponent(vP5)}&p54x=${encodeURIComponent(p5_4x)}&p5avista=${encodeURIComponent(p5_avista)}` +
-    `&p6=${encodeURIComponent(vP6)}&p64x=${encodeURIComponent(p6_4x)}&p6avista=${encodeURIComponent(p6_avista)}` +
+    `&p3=${encodeURIComponent(vP3)}` +
+    `&p3_2x=${encodeURIComponent(calcParc(vP3, 2))}&p3_4x=${encodeURIComponent(calcParc(vP3, 4))}&p3_6x=${encodeURIComponent(calcParc(vP3, 6))}&p3_8x=${encodeURIComponent(calcParc(vP3, 8))}&p3_10x=${encodeURIComponent(calcParc(vP3, 10))}&p3avista=${encodeURIComponent(calcVista(vP3))}` +
+    `&p4=${encodeURIComponent(vP4)}` +
+    `&p4_2x=${encodeURIComponent(calcParc(vP4, 2))}&p4_4x=${encodeURIComponent(calcParc(vP4, 4))}&p4_6x=${encodeURIComponent(calcParc(vP4, 6))}&p4_8x=${encodeURIComponent(calcParc(vP4, 8))}&p4_10x=${encodeURIComponent(calcParc(vP4, 10))}&p4avista=${encodeURIComponent(calcVista(vP4))}` +
+    `&p5=${encodeURIComponent(vP5)}` +
+    `&p5_2x=${encodeURIComponent(calcParc(vP5, 2))}&p5_4x=${encodeURIComponent(calcParc(vP5, 4))}&p5_6x=${encodeURIComponent(calcParc(vP5, 6))}&p5_8x=${encodeURIComponent(calcParc(vP5, 8))}&p5_10x=${encodeURIComponent(calcParc(vP5, 10))}&p5avista=${encodeURIComponent(calcVista(vP5))}` +
+    `&p6=${encodeURIComponent(vP6)}` +
+    `&p6_2x=${encodeURIComponent(calcParc(vP6, 2))}&p6_4x=${encodeURIComponent(calcParc(vP6, 4))}&p6_6x=${encodeURIComponent(calcParc(vP6, 6))}&p6_8x=${encodeURIComponent(calcParc(vP6, 8))}&p6_10x=${encodeURIComponent(calcParc(vP6, 10))}&p6avista=${encodeURIComponent(calcVista(vP6))}` +
     `&p7=${encodeURIComponent(vP7)}` +
     `&desconto=${encodeURIComponent(desconto)}`;
 
@@ -251,9 +201,6 @@ function abrirOrcamento() {
     alert("O navegador bloqueou a pop-up. Autorize pop-ups para este site e tente novamente.");
   }
 }
-
-
-
 </script>
 </body>
 </html>
