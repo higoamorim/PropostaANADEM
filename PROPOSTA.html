@@ -159,26 +159,33 @@ function toggleComercial(value) {
 <!-- PAGAMENTO -->
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
 
-    <!-- FORMA DE PAGAMENTO -->
-    <div>
-        <label class="text-sm font-semibold">Forma de Pagamento:</label>
-        <select name="Forma de Pagamento" id="formaPagamento" onchange="validarRegras()">
-            <option value="">Selecione...</option>
-            <option value="CARTAO">Cartão de Crédito</option>
-            <option value="BOLETO">Boleto Bancário</option>
-        </select>
-    </div>
 
-    <!-- CONDIÇÃO DE PAGAMENTO -->
-    <div>
-        <label class="text-sm font-semibold">Condição de Pagamento:</label>
-        <select name="Condicao de Pagamento" id="condicaoPagamento" onchange="validarRegras()">
-            <option value="">Selecione...</option>
-            <option value="MENSAL">Mensal</option>
-            <option value="ANUAL_AVISTA">Anual à Vista</option>
-            <option value="ANUAL_4X">Anual em 4x</option>
-        </select>
-    </div>
+<!-- FORMA DE PAGAMENTO -->
+<div>
+    <label class="text-sm font-semibold">Forma de Pagamento:</label>
+    <select name="Forma de Pagamento" id="formaPagamento" onchange="validarRegras()">
+        <option value="">Selecione...</option>
+        <option value="CARTAO" id="pagCartao">Cartão de Crédito</option>
+        <option value="BOLETO" id="pagBoleto">Boleto Bancário</option>
+    </select>
+</div>
+
+<!-- CONDIÇÃO DE PAGAMENTO -->
+<div>
+    <label class="text-sm font-semibold">Condição de Pagamento:</label>
+    <select name="Condicao de Pagamento" id="condicaoPagamento" onchange="validarRegras()">
+        <option value="">Selecione...</option>
+        <option value="MENSAL" id="condMensal">Mensal</option>
+        <option value="ANUAL_AVISTA" class="cond-anual">Anual à Vista</option>
+        <option value="ANUAL_2X" class="cond-anual">Anual em 2x</option>
+        <option value="ANUAL_4X" class="cond-anual">Anual em 4x</option>
+        <option value="ANUAL_6X" class="cond-anual">Anual em 6x</option>
+        <option value="ANUAL_8X" class="cond-anual">Anual em 8x</option>
+        <option value="ANUAL_10X" class="cond-anual">Anual em 10x</option>
+    </select>
+</div>
+
+
 
 </div>
 
@@ -194,8 +201,8 @@ function toggleComercial(value) {
 </div>
 
 <script>
-function validarRegras() {
 
+function validarRegras() {
     const especialidade = document.getElementById("especialidade").value;
     const tabela = document.getElementById("tabelaContratacao").value;
     const capitalSelect = document.getElementById("capitalSegurado");
@@ -208,19 +215,19 @@ function validarRegras() {
 
     const optBlue = document.getElementById("optBlue");
     const optEssencial = document.getElementById("optEssencial");
-
     const alerta = document.getElementById("alertaPlano");
 
-	const isDentista = especialidade.startsWith("CIRURGIÃO DENTISTA");
+    // Elementos de Pagamento
+    const pagBoleto = document.getElementById("pagBoleto");
+    const formaPagamento = document.getElementById("formaPagamento");
+    const condicaoPagamento = document.getElementById("condicaoPagamento");
+    const condicoesAnuais = document.querySelectorAll(".cond-anual");
 
+    const isDentista = especialidade.startsWith("CIRURGIÃO DENTISTA");
     const isDemais = especialidade === "DEMAIS ESPECIALIDADES";
+    const isPlanoRestrito = ["ANADEM BLUE", "ANADEM ESSENCIAL"].includes(tabela);
 
-    const isPlanoRestrito = [
-        "ANADEM BLUE",
-        "ANADEM ESSENCIAL"
-    ].includes(tabela);
-
-    // RESET GERAL
+    // RESET GERAL DE CAPITAIS E PAGAMENTOS
     cap100.disabled = false;
     cap300.disabled = false;
     cap500.disabled = false;
@@ -230,24 +237,23 @@ function validarRegras() {
     optBlue.disabled = false;
     optEssencial.disabled = false;
 
+    pagBoleto.disabled = false;
+    condicoesAnuais.forEach(el => el.disabled = false);
+
     alerta.style.display = "none";
 
     // =========================
     // DEMAIS ESPECIALIDADES
     // =========================
     if (isDemais) {
-
         cap100.disabled = false;
         cap300.disabled = true;
         cap500.disabled = true;
         cap800.disabled = true;
         cap1m.disabled = true;
-
         capitalSelect.value = "R$ 100 mil";
-
         optBlue.disabled = true;
         optEssencial.disabled = true;
-
         return;
     }
 
@@ -255,26 +261,21 @@ function validarRegras() {
     // DENTISTAS
     // =========================
     if (isDentista) {
-
         cap100.disabled = true;
         cap300.disabled = true;
         cap500.disabled = false;
         cap800.disabled = true;
         cap1m.disabled = true;
-
         capitalSelect.value = "R$ 500 mil";
-
         optBlue.disabled = true;
         optEssencial.disabled = true;
-
         return;
     }
 
     // =========================
-    // MÉDICOS
+    // PLANOS RESTRITOS (BLUE / ESSENCIAL)
     // =========================
     if (isPlanoRestrito) {
-
         cap100.disabled = true;
         cap300.disabled = false;
         cap500.disabled = true;
@@ -283,10 +284,15 @@ function validarRegras() {
 
         capitalSelect.value = "R$ 300 mil";
 
+        // Trava o pagamento em CARTÃO e MENSAL
+        pagBoleto.disabled = true;
+        formaPagamento.value = "CARTAO";
+
+        condicoesAnuais.forEach(el => el.disabled = true);
+        condicaoPagamento.value = "MENSAL";
+
         alerta.style.display = "block";
-
     } else {
-
         cap100.disabled = true;
         cap300.disabled = true;
         cap500.disabled = false;
@@ -298,6 +304,9 @@ function validarRegras() {
         }
     }
 }
+
+
+
 
 window.onload = validarRegras;
 </script>
