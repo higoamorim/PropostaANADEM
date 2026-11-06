@@ -59,16 +59,23 @@
     }
 
     .topo-info .label-proposta {
-      font-size: 10px;
+      font-size: 9.5px;
       color: #64748b;
       text-transform: uppercase;
       font-weight: 600;
     }
 
     .topo-info .num-proposta {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: bold;
       color: #0f172a;
+    }
+
+    .topo-info .validade-proposta {
+      font-size: 9.5px;
+      color: #0f766e;
+      font-weight: 600;
+      margin-top: 1px;
     }
 
     /* CARD DE DADOS DO CLIENTE */
@@ -354,6 +361,7 @@
       <div class="label-proposta">Proposta Comercial</div>
       <div class="num-proposta" id="numeroOrcamento">---</div>
       <div style="font-size: 9px; color: #64748b;" id="dataAtual">--/--/----</div>
+      <div class="validade-proposta">Válida até: <span id="validadeProposta">--/--/----</span></div>
     </div>
   </div>
 
@@ -478,7 +486,7 @@
   <!-- RODAPÉ / CTA -->
   <div class="rodape">
     <strong>Faça sua adesão online:</strong> https://higoamorim.github.io/PropostaANADEM/PROPOSTA.html<br>
-    Dúvidas? Entre em contato: <strong>61 99630-0538</strong> ou <strong>61 99314-4931</strong>
+    Gere o PDF e envie no WhatsApp. Em caso de Dúvidas, entre em contato: <strong>61 99630-0538</strong> ou <strong>61 99314-4931</strong>
   </div>
 
 </div>
@@ -535,6 +543,12 @@
     String(agora.getDate()).padStart(2, '0') + String(agora.getMonth() + 1).padStart(2, '0') + agora.getFullYear() + String(agora.getHours()).padStart(2, '0') + String(agora.getMinutes()).padStart(2, '0');
   
   document.getElementById('dataAtual').innerText = 'Emitido em: ' + agora.toLocaleDateString('pt-BR');
+
+  const validade = new Date(agora);
+  validade.setDate(validade.getDate() + 15);
+  const fimDoAno = new Date(agora.getFullYear(), 11, 31);
+  const dataValidade = validade > fimDoAno ? fimDoAno : validade;
+  document.getElementById('validadeProposta').innerText = dataValidade.toLocaleDateString('pt-BR');
 
   document.getElementById("recomendacaoTecnica").innerHTML =
     `<b>Atenção:</b> ¹Plano Anadem Blue e Anadem Essencial somente para as Especialidades de Medicina com apólice máxima de R$ 300 mil reais com pagamento em Cartão. ²As cobranças em cartão comprometem somente o valor da parcela, não consumindo o limite total do cartão de crédito.`;
