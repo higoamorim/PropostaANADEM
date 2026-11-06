@@ -500,7 +500,7 @@
   const params = new URLSearchParams(window.location.search);
 
   const nome = params.get('nome') || 'Fulano';
-  document.title = `Orçamento - Dr. ${nome}`;
+  document.title = `Dr. ${nome}`;
   const telefone = params.get('tel') || '(61) 99999-9999';
   const especialidade = params.get('p1') || 'Especialidade';
   const capital = params.get('p2') || '500 Mil';
