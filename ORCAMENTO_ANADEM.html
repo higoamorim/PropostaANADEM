@@ -546,7 +546,7 @@
   document.getElementById('numeroOrcamento').innerText = 
     String(agora.getDate()).padStart(2, '0') + String(agora.getMonth() + 1).padStart(2, '0') + agora.getFullYear() + String(agora.getHours()).padStart(2, '0') + String(agora.getMinutes()).padStart(2, '0');
   
-  document.getElementById('dataAtual').innerText = 'Emitido em: ' + agora.toLocaleDateString('pt-BR');
+  document.getElementById('dataAtual').innerText = 'HIGO GERSON (GRUPO OASIS DF) Proposta Emitida em: ' + agora.toLocaleDateString('pt-BR');
 
   const validade = new Date(agora);
   validade.setDate(validade.getDate() + 15);
