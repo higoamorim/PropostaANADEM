@@ -22,9 +22,68 @@
     textarea { width: 100%; height: 350px; margin-top: 20px; padding: 15px; font-size: 14px; border-radius: 8px; border: 1px solid #ccc; resize: vertical; box-sizing: border-box; }
     footer { text-align: center; font-size: 13px; color: #777; margin-top: 25px; }
     .btn-orcamento { background: #9333ea; }
+
+
+.menu-superior {
+    width: 100%;
+    background: #001f3f;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    box-sizing: border-box;
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+}
+
+.menu-superior a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 9px 16px;
+    border-radius: 6px;
+    transition: 0.2s;
+}
+
+.menu-superior a:hover {
+    background: #c5a059;
+    color: #001f3f;
+}
+
+@media print {
+    .menu-superior {
+        display: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .menu-superior {
+        padding: 8px 10px;
+        gap: 5px;
+    }
+
+    .menu-superior a {
+        font-size: 12px;
+        padding: 8px 10px;
+    }
+}
+
+
+
   </style>
 </head>
 <body>
+
+
+<nav class="menu-superior">
+    <a href="base-conhecimento.html">📚 Base de Conhecimento</a>
+    <a href="gerador.html">📄 Gerador de Propostas</a>
+</nav>
+
+
 
   <div class="container">
     <div class="logo">
@@ -127,6 +186,7 @@ function gerarTexto() {
 ⚖️ Assessoria jurídica | 💵 Despesas cobertas | 🌐 Proteção profissional e reputação digital
 
 💰 *Investimento mensal:* R$ ${mensalBlackFormatado} no Cartão ou R$ ${boletoBlackFormatado} no Boleto.
+
 > Importante: _Demandas já existentes ou em andamento não possuem cobertura._
 
 📎 A proposta completa está em anexo.
