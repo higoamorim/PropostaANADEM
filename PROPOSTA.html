@@ -361,8 +361,8 @@ window.onload = validarRegras;
                             <p style="display:none;" class="text-red-600 font-bold text-xs mt-2">Atenção: A extensão terá custos adicionais sob consulta.</p>
                         </div>
                         <div class="md:col-span-2">
-                            <label class="text-xs font-bold">5. Atividades profissionais no CNPJ:</label>
-                            <textarea name="5. Atividades profissionais no CNPJ" rows="2" placeholder="Descreva quais atividades são realizadas no CNPJ."></textarea>
+                            <label class="text-xs font-bold">5. Descreva suas atividades profissionais na qualidade de CNPJ:</label>
+                            <textarea name="5. Atividades profissionais no CNPJ" rows="2" placeholder="Descreva a sua atuação enquanto CNPJ: use 'prestador em clínica parceira' para atendimentos terceirizados ou 'em consultório próprio' seguido das atividades que realiza."></textarea>
                         </div>
                     </div>
                 </div>
@@ -429,7 +429,8 @@ function toggleFato(value) {
                     <label class="flex items-start space-x-2"><input type="checkbox" required class="mt-1"> <span>3. Declaro estar de acordo com o Regulamento da ANADEM S/A, disponível em https://drive.google.com/file/d/1p7rQfu7KANkkUOoB8efra-g056APO1Cv/view?usp=sharing.</span></label>
                     <label class="flex items-start space-x-2"><input type="checkbox" required class="mt-1"> <span>4. Estou ciente do envio dos documentos (CRM, Identidade, Especialização) para o Representante anexar à esta proposta.</span></label>
                     <label class="flex items-start space-x-2"><input type="checkbox" required class="mt-1"> <span>5. Estou ciente que receberei o link Clicksign/Authentique para assinatura eletrônica.</span></label>
-                    <label class="flex items-start space-x-2"><input type="checkbox" required class="mt-1"> <span>6. Li todas as informações acima, e CONCORDO enviando meu formulário ao Representante via WhatsApp.</span></label>
+                    <label class="flex items-start space-x-2"><input type="checkbox" required class="mt-1"> <span>6. Estou ciente do pagamento da Taxa de Adesão ao Representante Comercial, conforme descrito no Regulamento.</span></label>
+                    <label class="flex items-start space-x-2"><input type="checkbox" required class="mt-1"> <span>7. Li todas as informações acima, e CONCORDO enviando meu formulário ao Representante via WhatsApp.</span></label>
 
 
 
@@ -591,7 +592,8 @@ doc.addPage();
             imprimirBloco("2. Declaro estar de acordo com o Regulamento da ANADEM S/A, disponível em https://drive.google.com/file/d/1p7rQfu7KANkkUOoB8efra-g056APO1Cv/view?usp=sharing.");
             imprimirBloco("3. Estou ciente do envio dos documentos (CRM, Identidade, Especialização) para o Representante anexar à esta proposta.");
             imprimirBloco("4. Estou ciente que receberei o link Clicksign/Authentique para assinatura eletrônica.");
-            imprimirBloco("5. Li todas as informações acima, e CONCORDO enviando meu formulário ao Representante via WhatsApp.");
+            imprimirBloco("5. Estou ciente do pagamento da Taxa de Adesão ao Representante Comercial, conforme descrito no Regulamento.");
+            imprimirBloco("6. Li todas as informações acima, e CONCORDO enviando meu formulário ao Representante via WhatsApp.");
 
             
             y += 40;
