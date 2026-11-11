@@ -93,9 +93,6 @@
                 <h1 id="page-title" class="text-xl font-bold text-slate-800">INDEX / Dashboard</h1>
             </div>
             <div class="flex items-center gap-4">
-                <button onclick="resetData()" class="text-xs text-slate-500 hover:text-red-600 font-medium underline">
-                    Redefinir Dados Demo
-                </button>
                 <div class="h-9 w-9 rounded-full bg-amber-500 text-slate-900 font-bold flex items-center justify-center text-sm shadow border border-amber-300">
                     OT
                 </div>
@@ -410,6 +407,16 @@
                         </div>
 
                         <form id="form-passageiro-relatorio" onsubmit="savePassageiroDireto(event)" class="space-y-4">
+                            <!-- NOVO: Seleção Rápida de Passageiro Já Cadastrado -->
+                            <div class="bg-amber-100/60 p-3 rounded-lg border border-amber-300 mb-2">
+                                <label class="block text-[11px] font-bold text-slate-800 uppercase mb-1">
+                                    <i class="fa-solid fa-magnifying-glass text-amber-600 mr-1"></i> Selecionar Passageiro Já Cadastrado (Preenchimento Rápido)
+                                </label>
+                                <select id="rel-pass-existente" onchange="autocompletarPassageiroRelatorio(this.value)" class="w-full px-3 py-2 border rounded-lg text-sm bg-white focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                                    <option value="">-- Selecione ou digite manualmente abaixo --</option>
+                                </select>
+                            </div>
+
                             <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
                                 <div class="md:col-span-2">
                                     <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Nome Completo</label>
@@ -758,6 +765,31 @@
 
     <!-- SCRIPT DA APLICAÇÃO -->
     <script>
+        // Cole aqui a sua URL de Implantação do Web App do Google Apps Script
+        const URL_DO_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbxlQ1i7723G2GbK9TAjQkL4VaR7MAK7t6Gvl7SxTLAMI8sX1M1elVTdkhlwJlkRkHLU/exec"; 
+
+        function enviarParaGoogleSheets(payload) {
+            if (!URL_DO_APPS_SCRIPT || URL_DO_APPS_SCRIPT.includes("SUA_URL_DO_WEB_APP_AQUI")) {
+                console.warn("URL do Google Apps Script não foi configurada ainda.");
+                return;
+            }
+
+            fetch(URL_DO_APPS_SCRIPT, {
+                method: "POST",
+                mode: "no-cors",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(() => {
+                console.log("Dados sincronizados com o Google Sheets!");
+            })
+            .catch(err => {
+                console.error("Erro ao sincronizar com Google Sheets:", err);
+            });
+        }
+
         const TODAY = new Date();
         const CURRENT_DAY = String(TODAY.getDate()).padStart(2, '0');
         const CURRENT_MONTH = String(TODAY.getMonth() + 1).padStart(2, '0');
@@ -916,6 +948,35 @@
             return Number(p.valor1 || 0) + Number(p.valor2 || 0);
         }
 
+        // Compara CPFs somente pelos 11 dígitos, evitando cadastros duplicados
+        // quando um registro está formatado e outro foi digitado sem pontuação.
+        function normalizarCPF(cpf) {
+            return String(cpf || '').replace(/\D/g, '');
+        }
+
+        function preencherSelectPassageirosExistentes() {
+            const sel = document.getElementById('rel-pass-existente');
+            if (!sel) return;
+
+            let options = '<option value="">-- Selecione ou digite manualmente abaixo --</option>';
+            data.passageiros.map(normalizarPassageiro).forEach(p => {
+                options += `<option value="${p.id}">${p.nome} (CPF: ${p.cpf})</option>`;
+            });
+            sel.innerHTML = options;
+        }
+
+        function autocompletarPassageiroRelatorio(id) {
+            if (!id) return;
+            const p = data.passageiros.find(x => x.id == id);
+            if (!p) return;
+
+            document.getElementById('rel-pass-nome').value = p.nome || '';
+            document.getElementById('rel-pass-cpf').value = p.cpf || '';
+            document.getElementById('rel-pass-tel').value = p.tel || '';
+            document.getElementById('rel-pass-nasc').value = p.nasc || '';
+            document.getElementById('rel-pass-cidade').value = p.cidade || '';
+        }
+
         function sincronizarPasseioRelatorio() {
             const rel = document.getElementById('select-relatorio-passeio');
             const direto = document.getElementById('rel-pass-passeio');
@@ -933,7 +994,6 @@
             
             selectOpcao.innerHTML = '';
             if (passeio) {
-                // Adicionar o destino principal e as opções
                 const opcoesList = [passeio.destino, ...(passeio.opcoes || [])];
                 opcoesList.forEach(op => {
                     selectOpcao.innerHTML += `<option value="${op}">${op}</option>`;
@@ -961,9 +1021,13 @@
             atualizarOpcoesDropdownRelatorio();
         }
 
-        function calcularStatusPagamentoAutomatico(p) {
+        function calcularStatusPagamentoAutomatico(p, passeio, detalhe) {
+            // Quitação manual permite registrar descontos, gratuidades e acordos.
+            if (detalhe && detalhe.quitado === true) return 'Pago';
             const totalPago = Number(p.valor1 || 0) + Number(p.valor2 || 0);
             if (totalPago <= 0) return 'Em Aberto';
+            const valorDefinido = Number(passeio && passeio.valor || 0);
+            if (valorDefinido > 0 && totalPago + 0.009 < valorDefinido) return 'Pago Parcialmente';
             return 'Pago';
         }
 
@@ -974,9 +1038,13 @@
                 return false;
             }
             const passeioNome = getPasseioNomeCompleto(passeio);
+            if (normalizarCPF(dados.cpf).length !== 11) {
+                alert('Informe um CPF válido com 11 dígitos.');
+                return false;
+            }
 
-            // Verificar se já existe passageiro com mesmo CPF
-            let novo = data.passageiros.find(x => x.cpf === dados.cpf);
+            const cpfNormalizado = normalizarCPF(dados.cpf);
+            let novo = data.passageiros.find(x => normalizarCPF(x.cpf) === cpfNormalizado);
             if (novo) {
                 normalizarPassageiro(novo);
                 novo.nome = dados.nome;
@@ -994,7 +1062,7 @@
                     passeio.ocupadas = (passeio.ocupadas || 0) + 1;
                 }
                 novo.passeiosDetalhes[passeioNome] = {
-                    status: calcularStatusPagamentoAutomatico(novo),
+                    status: calcularStatusPagamentoAutomatico(novo, passeio),
                     opcao: dados.opcao || passeio.destino
                 };
             } else {
@@ -1013,7 +1081,7 @@
                     passeios: [passeioNome],
                     passeiosDetalhes: {
                         [passeioNome]: {
-                            status: calcularStatusPagamentoAutomatico({valor1: dados.valor1, valor2: dados.valor2}),
+                            status: calcularStatusPagamentoAutomatico({valor1: dados.valor1, valor2: dados.valor2}, passeio),
                             opcao: dados.opcao || passeio.destino
                         }
                     }
@@ -1029,6 +1097,10 @@
             switch(status) {
                 case 'Pago':
                     return `<span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-0.5 rounded-full"><i class="fa-solid fa-check text-[10px] mr-1"></i>Pago</span>`;
+                case 'Quitado': // Compatibilidade com registros gravados em versões anteriores
+                    return `<span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-0.5 rounded-full"><i class="fa-solid fa-check text-[10px] mr-1"></i>Pago</span>`;
+                case 'Pago Parcialmente':
+                    return `<span class="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-0.5 rounded-full"><i class="fa-solid fa-clock text-[10px] mr-1"></i>Pago Parcialmente</span>`;
                 case 'PIX':
                     return `<span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-0.5 rounded-full"><i class="fa-solid fa-pix text-[10px] mr-1"></i>PIX</span>`;
                 case 'Cartão':
@@ -1040,7 +1112,6 @@
 
         // ================= RENDERIZAÇÃO =================
         function renderDashboardWidgets() {
-            // Aniversariantes do Mês
             const nivers = data.passageiros.filter(p => {
                 if(!p.nasc) return false;
                 const parts = p.nasc.split('-');
@@ -1092,7 +1163,6 @@
                 });
             }
 
-            // Contas a Pagar
             const pagPagar = data.contasPagar.filter(c => c.status === 'Pendente');
             const totalPagar = pagPagar.reduce((sum, c) => sum + Number(c.valor), 0);
             document.getElementById('badge-pagar-count').innerText = formatCurrency(totalPagar);
@@ -1115,7 +1185,6 @@
                 });
             }
 
-            // Contas a Receber
             const pagReceber = data.contasReceber.filter(c => c.status === 'Pendente');
             const totalReceber = pagReceber.reduce((sum, c) => sum + Number(c.valor), 0);
             document.getElementById('badge-receber-count').innerText = formatCurrency(totalReceber);
@@ -1138,7 +1207,6 @@
                 });
             }
 
-            // Tabela de Viagens no Dashboard
             const dashTable = document.getElementById('dash-passeios-table');
             dashTable.innerHTML = '';
             data.passeios.slice(0, 3).forEach(p => {
@@ -1157,7 +1225,6 @@
             });
         }
 
-        // PASSAGEIROS (Página dedicada - sem mostrar passeios na tabela inicial, com Dt Nascimento e visualização completa)
         function renderPassageiros() {
             const query = (document.getElementById('search-passageiro')?.value || '').toLowerCase();
             const table = document.getElementById('table-passageiros');
@@ -1288,7 +1355,7 @@
                 p.nasc = nasc;
                 p.cidade = cidade;
             } else {
-                let existente = data.passageiros.find(x => x.cpf === cpf);
+                let existente = data.passageiros.find(x => normalizarCPF(x.cpf) === normalizarCPF(cpf));
                 if (existente) {
                     existente.nome = nome;
                     existente.tel = tel;
@@ -1331,9 +1398,12 @@
             };
 
             if (adicionarPassageiro(dados)) {
+                enviarParaGoogleSheets(dados);
+
                 document.getElementById('form-passageiro-relatorio').reset();
                 const destino = document.getElementById('select-relatorio-passeio').value;
                 atualizarSelectsPasseios();
+                preencherSelectPassageirosExistentes();
                 document.getElementById('select-relatorio-passeio').value = destino;
                 gerarRelatorio();
             }
@@ -1367,7 +1437,6 @@
             URL.revokeObjectURL(url);
         }
 
-        // RELATÓRIOS E EXPORTAÇÃO EXCEL (.XLSX gerado via CSV/HTML Tabular compatível)
         function gerarRelatorio() {
             const destino = document.getElementById('select-relatorio-passeio').value;
             const passeio = data.passeios.find(p => getPasseioNomeCompleto(p) === destino);
@@ -1407,9 +1476,8 @@
             passageirosDoPasseio.forEach((p, idx) => {
                 const det = (p.passeiosDetalhes && p.passeiosDetalhes[destino]) ? p.passeiosDetalhes[destino] : { status: 'Em Aberto', opcao: passeio.destino };
                 const total = valorTotalPago(p);
-                const statusCalculado = calcularStatusPagamentoAutomatico(p);
+                const statusCalculado = calcularStatusPagamentoAutomatico(p, passeio, det);
 
-                // Dropdown de Opções para este passageiro
                 let optionsHtml = `<option value="${passeio.destino}">${passeio.destino}</option>`;
                 (passeio.opcoes || []).forEach(op => {
                     const sel = det.opcao === op ? 'selected' : '';
@@ -1443,6 +1511,7 @@
                         <td class="py-2 px-2 border border-slate-300 text-right font-bold text-emerald-700">${formatCurrency(total)}</td>
                         <td class="py-2 px-2 border border-slate-300 no-print text-center whitespace-nowrap">
                             <button onclick="editarPassageiro(${p.id})" class="text-blue-600 hover:text-blue-800 mr-2 font-bold" title="Editar passageiro"><i class="fa-solid fa-pen"></i></button>
+                            <button onclick="quitarPassageiroDoPasseio(${p.id}, '${destino}')" class="text-emerald-700 hover:text-emerald-900 font-bold mr-2" title="Marcar como pago (desconto, gratuidade ou acordo)">✅</button>
                             <button onclick="removerPassageiroDoPasseio(${p.id}, '${destino}')" class="text-rose-600 hover:text-rose-800 font-bold" title="Remover deste passeio"><i class="fa-solid fa-user-minus"></i></button>
                         </td>
                     </tr>
@@ -1464,11 +1533,26 @@
                 p.valor1 = Number(val1 || 0);
                 p.valor2 = Number(val2 || 0);
                 if (p.passeiosDetalhes && p.passeiosDetalhes[destino]) {
-                    p.passeiosDetalhes[destino].status = calcularStatusPagamentoAutomatico(p);
+                    const detalhe = p.passeiosDetalhes[destino];
+                    detalhe.quitado = false;
+                    const passeio = data.passeios.find(x => getPasseioNomeCompleto(x) === destino);
+                    detalhe.status = calcularStatusPagamentoAutomatico(p, passeio, detalhe);
                 }
                 saveData();
                 gerarRelatorio();
             }
+        }
+
+        function quitarPassageiroDoPasseio(id, destino) {
+            const p = data.passageiros.find(x => x.id === id);
+            if (!p || !p.passeios.includes(destino)) return;
+            if (!confirm(`Confirmar quitação de ${p.nome} neste passeio?\n\nO sistema marcará como QUITADO mesmo que o valor recebido seja menor que o preço definido (desconto, gratuidade ou acordo). Os valores recebidos não serão alterados.`)) return;
+            p.passeiosDetalhes = p.passeiosDetalhes || {};
+            p.passeiosDetalhes[destino] = p.passeiosDetalhes[destino] || {};
+            p.passeiosDetalhes[destino].quitado = true;
+            p.passeiosDetalhes[destino].status = 'Pago';
+            saveData();
+            gerarRelatorio();
         }
 
         function removerPassageiroDoPasseio(id, destino) {
@@ -1705,7 +1789,6 @@
             const table = document.getElementById('table-receber');
             table.innerHTML = '';
 
-            // Sincronizar automaticamente com os valores de Valor 1 (Sinal) e Valor 2 (Restante) dos passageiros
             let contasAutomaticas = [];
             data.passageiros.map(normalizarPassageiro).forEach(p => {
                 (p.passeios || []).forEach(dest => {
@@ -1770,7 +1853,6 @@
 
             let lancamentos = [];
 
-            // 1. Entradas vindas dos valores recebidos (Valor 1 - Sinal e Valor 2 - Restante dos Passageiros)
             data.passageiros.map(normalizarPassageiro).forEach(p => {
                 (p.passeios || []).forEach(dest => {
                     const passeio = data.passeios.find(x => getPasseioNomeCompleto(x) === dest);
@@ -1799,7 +1881,6 @@
                 });
             });
 
-            // Entradas manuais em Contas a Receber quitadas
             (data.contasReceber || []).forEach(r => {
                 if (r.status === 'Recebido' && r.vencimento) {
                     lancamentos.push({
@@ -1813,7 +1894,6 @@
                 }
             });
 
-            // 2. Saídas (Contas a Pagar com status 'Pago')
             (data.contasPagar || []).forEach(p => {
                 if (p.status === 'Pago' && p.vencimento) {
                     lancamentos.push({
@@ -1827,7 +1907,6 @@
                 }
             });
 
-            // Aplicar Filtros
             lancamentos = lancamentos.filter(item => {
                 if (mesFiltro && !item.data.startsWith(mesFiltro)) return false;
                 if (dataInicio && item.data < dataInicio) return false;
@@ -1993,6 +2072,7 @@
         window.onload = function() {
             renderAll();
             updateRelatorioSelect();
+            preencherSelectPassageirosExistentes();
             if (data.passeios.length) gerarRelatorio();
         };
     </script>
