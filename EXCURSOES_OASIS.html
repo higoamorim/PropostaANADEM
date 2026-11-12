@@ -16,6 +16,8 @@
             table { font-size: 10px !important; width: 100% !important; border-collapse: collapse !important; }
             th, td { border: 1px solid #cbd5e1 !important; padding: 4px 6px !important; }
         }
+        th[data-sort] { cursor: pointer; user-select: none; transition: background-color 0.15s; }
+        th[data-sort]:hover { background-color: #1e293b !important; }
     </style>
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col">
@@ -83,11 +85,11 @@
                 <table class="w-full text-left text-sm text-slate-600">
                     <thead class="bg-slate-900 text-white uppercase text-xs">
                         <tr>
-                            <th class="py-3 px-4">Nome Completo</th>
-                            <th class="py-3 px-4">CPF</th>
-                            <th class="py-3 px-4">Telefone</th>
-                            <th class="py-3 px-4">Nascimento</th>
-                            <th class="py-3 px-4">Cidade</th>
+                            <th data-sort="nome" onclick="toggleSort('passageiros', 'nome')" class="py-3 px-4">Nome Completo <span class="sort-icon text-amber-400 ml-1"></span></th>
+                            <th data-sort="cpf" onclick="toggleSort('passageiros', 'cpf')" class="py-3 px-4">CPF <span class="sort-icon text-amber-400 ml-1"></span></th>
+                            <th data-sort="telefone" onclick="toggleSort('passageiros', 'telefone')" class="py-3 px-4">Telefone <span class="sort-icon text-amber-400 ml-1"></span></th>
+                            <th data-sort="nascimento" onclick="toggleSort('passageiros', 'nascimento')" class="py-3 px-4">Nascimento <span class="sort-icon text-amber-400 ml-1"></span></th>
+                            <th data-sort="cidade" onclick="toggleSort('passageiros', 'cidade')" class="py-3 px-4">Cidade <span class="sort-icon text-amber-400 ml-1"></span></th>
                             <th class="py-3 px-4 text-center">Ações</th>
                         </tr>
                     </thead>
@@ -110,11 +112,11 @@
                 <table class="w-full text-left text-sm text-slate-600">
                     <thead class="bg-slate-900 text-white uppercase text-xs">
                         <tr>
-                            <th class="py-3 px-4">Destino Principal</th>
-                            <th class="py-3 px-4">Opções do Dia</th>
-                            <th class="py-3 px-4 text-center">Data</th>
-                            <th class="py-3 px-4 text-center">Vagas</th>
-                            <th class="py-3 px-4 text-right">Valor Padrão</th>
+                            <th data-sort="destino" onclick="toggleSort('viagens', 'destino')" class="py-3 px-4">Destino Principal <span class="sort-icon text-amber-400 ml-1"></span></th>
+                            <th data-sort="opcoes" onclick="toggleSort('viagens', 'opcoes')" class="py-3 px-4">Opções do Dia <span class="sort-icon text-amber-400 ml-1"></span></th>
+                            <th data-sort="data" onclick="toggleSort('viagens', 'data')" class="py-3 px-4 text-center">Data <span class="sort-icon text-amber-400 ml-1"></span></th>
+                            <th data-sort="vagas" onclick="toggleSort('viagens', 'vagas')" class="py-3 px-4 text-center">Vagas <span class="sort-icon text-amber-400 ml-1"></span></th>
+                            <th data-sort="valor" onclick="toggleSort('viagens', 'valor')" class="py-3 px-4 text-right">Valor Padrão <span class="sort-icon text-amber-400 ml-1"></span></th>
                             <th class="py-3 px-4 text-center">Ações</th>
                         </tr>
                     </thead>
@@ -150,6 +152,21 @@
                         </button>
                     </div>
                 </div>
+                <div class="flex flex-wrap items-center gap-4 pt-2 border-t border-slate-100 text-xs font-bold text-slate-600">
+                    <span class="uppercase text-slate-400">Status:</span>
+                    <label class="inline-flex items-center gap-1.5 cursor-pointer hover:text-slate-900">
+                        <input type="radio" name="pag-status-check" value="todos" checked onchange="renderContasPagar()" class="accent-slate-900 w-4 h-4">
+                        <span>Todos</span>
+                    </label>
+                    <label class="inline-flex items-center gap-1.5 cursor-pointer text-rose-700 hover:text-rose-900">
+                        <input type="radio" name="pag-status-check" value="aberto" onchange="renderContasPagar()" class="accent-rose-600 w-4 h-4">
+                        <span>Em aberto</span>
+                    </label>
+                    <label class="inline-flex items-center gap-1.5 cursor-pointer text-emerald-700 hover:text-emerald-900">
+                        <input type="radio" name="pag-status-check" value="pago" onchange="renderContasPagar()" class="accent-emerald-600 w-4 h-4">
+                        <span>Pagos</span>
+                    </label>
+                </div>
             </div>
 
             <div id="printable-pagar" class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-x-auto">
@@ -169,12 +186,12 @@
                 <table class="w-full text-left text-sm text-slate-600">
                     <thead class="bg-slate-900 text-white uppercase text-xs">
                         <tr>
-                            <th class="py-3 px-4">Origem</th>
-                            <th class="py-3 px-4">Favorecido</th>
-                            <th class="py-3 px-4">Descrição</th>
-                            <th class="py-3 px-4">Vencimento</th>
-                            <th class="py-3 px-4 text-right">Valor</th>
-                            <th class="py-3 px-4 text-center">Status</th>
+                            <th data-sort="origem" onclick="toggleSort('pagar', 'origem')" class="py-3 px-4">Origem <span class="sort-icon text-amber-400 ml-1"></span></th>
+                            <th data-sort="favorecido" onclick="toggleSort('pagar', 'favorecido')" class="py-3 px-4">Favorecido <span class="sort-icon text-amber-400 ml-1"></span></th>
+                            <th data-sort="descricao" onclick="toggleSort('pagar', 'descricao')" class="py-3 px-4">Descrição <span class="sort-icon text-amber-400 ml-1"></span></th>
+                            <th data-sort="vencimento" onclick="toggleSort('pagar', 'vencimento')" class="py-3 px-4">Vencimento <span class="sort-icon text-amber-400 ml-1"></span></th>
+                            <th data-sort="valor" onclick="toggleSort('pagar', 'valor')" class="py-3 px-4 text-right">Valor <span class="sort-icon text-amber-400 ml-1"></span></th>
+                            <th data-sort="status" onclick="toggleSort('pagar', 'status')" class="py-3 px-4 text-center">Status <span class="sort-icon text-amber-400 ml-1"></span></th>
                             <th class="py-3 px-4 text-center no-print">Ações</th>
                         </tr>
                     </thead>
@@ -210,6 +227,21 @@
                         </button>
                     </div>
                 </div>
+                <div class="flex flex-wrap items-center gap-4 pt-2 border-t border-slate-100 text-xs font-bold text-slate-600">
+                    <span class="uppercase text-slate-400">Status:</span>
+                    <label class="inline-flex items-center gap-1.5 cursor-pointer hover:text-slate-900">
+                        <input type="radio" name="rec-status-check" value="todos" onchange="renderContasReceber()" class="accent-slate-900 w-4 h-4">
+                        <span>Todos</span>
+                    </label>
+                    <label class="inline-flex items-center gap-1.5 cursor-pointer text-rose-700 hover:text-rose-900">
+                        <input type="radio" name="rec-status-check" value="aberto" checked onchange="renderContasReceber()" class="accent-rose-600 w-4 h-4">
+                        <span>Em aberto</span>
+                    </label>
+                    <label class="inline-flex items-center gap-1.5 cursor-pointer text-emerald-700 hover:text-emerald-900">
+                        <input type="radio" name="rec-status-check" value="quitado" onchange="renderContasReceber()" class="accent-emerald-600 w-4 h-4">
+                        <span>Quitados</span>
+                    </label>
+                </div>
             </div>
 
             <div id="printable-receber" class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-x-auto">
@@ -229,13 +261,13 @@
                 <table class="w-full text-left text-sm text-slate-600">
                     <thead class="bg-slate-900 text-white uppercase text-xs">
                         <tr>
-                            <th class="py-3 px-4">Origem</th>
-                            <th class="py-3 px-4">Passageiro / Cliente</th>
-                            <th class="py-3 px-4">Referência / Viagem</th>
-                            <th class="py-3 px-4 text-center">Data Ref.</th>
-                            <th class="py-3 px-4 text-right">Valor Total</th>
-                            <th class="py-3 px-4 text-right">Já Pago</th>
-                            <th class="py-3 px-4 text-right text-amber-300">Saldo Pendente</th>
+                            <th data-sort="origem" onclick="toggleSort('receber', 'origem')" class="py-3 px-4">Origem <span class="sort-icon text-amber-400 ml-1"></span></th>
+                            <th data-sort="cliente" onclick="toggleSort('receber', 'cliente')" class="py-3 px-4">Passageiro / Cliente <span class="sort-icon text-amber-400 ml-1"></span></th>
+                            <th data-sort="referencia" onclick="toggleSort('receber', 'referencia')" class="py-3 px-4">Referência / Viagem <span class="sort-icon text-amber-400 ml-1"></span></th>
+                            <th data-sort="data" onclick="toggleSort('receber', 'data')" class="py-3 px-4 text-center">Data Ref. <span class="sort-icon text-amber-400 ml-1"></span></th>
+                            <th data-sort="valorTotal" onclick="toggleSort('receber', 'valorTotal')" class="py-3 px-4 text-right">Valor Total <span class="sort-icon text-amber-400 ml-1"></span></th>
+                            <th data-sort="jaPago" onclick="toggleSort('receber', 'jaPago')" class="py-3 px-4 text-right">Já Pago <span class="sort-icon text-amber-400 ml-1"></span></th>
+                            <th data-sort="saldo" onclick="toggleSort('receber', 'saldo')" class="py-3 px-4 text-right text-amber-300">Saldo Pendente <span class="sort-icon text-amber-400 ml-1"></span></th>
                             <th class="py-3 px-4 text-center no-print">Ações</th>
                         </tr>
                     </thead>
@@ -403,20 +435,20 @@
                     <thead>
                         <tr class="bg-slate-900 text-white uppercase">
                             <th class="p-2 border text-center">N #</th>
-                            <th class="p-2 border">NOME</th>
-                            <th class="p-2 border text-center">Status</th>
-                            <th class="p-2 border">Número (Tel)</th>
-                            <th class="p-2 border">CPF</th>
-                            <th class="p-2 border text-center">Dt Nascimento</th>
-                            <th class="p-2 border text-center">Idade</th>
-                            <th class="p-2 border">Cidade</th>
-                            <th class="p-2 border">Passeio</th>
-                            <th class="p-2 border text-right">Valor Ingresso</th>
-                            <th class="p-2 border min-w-[90px]">Embarque</th>
-                            <th class="p-2 border text-center min-w-[60px]">Horário</th>
-                            <th class="p-2 border text-right">Valor 1</th>
-                            <th class="p-2 border text-right">Valor 2</th>
-                            <th class="p-2 border text-right">Valor Total</th>
+                            <th data-sort="nome" onclick="toggleSort('relatorios', 'nome')" class="p-2 border">NOME <span class="sort-icon text-amber-400"></span></th>
+                            <th data-sort="status" onclick="toggleSort('relatorios', 'status')" class="p-2 border text-center">Status <span class="sort-icon text-amber-400"></span></th>
+                            <th data-sort="telefone" onclick="toggleSort('relatorios', 'telefone')" class="p-2 border">Número (Tel) <span class="sort-icon text-amber-400"></span></th>
+                            <th data-sort="cpf" onclick="toggleSort('relatorios', 'cpf')" class="p-2 border">CPF <span class="sort-icon text-amber-400"></span></th>
+                            <th data-sort="nascimento" onclick="toggleSort('relatorios', 'nascimento')" class="p-2 border text-center">Dt Nascimento <span class="sort-icon text-amber-400"></span></th>
+                            <th data-sort="idade" onclick="toggleSort('relatorios', 'idade')" class="p-2 border text-center">Idade <span class="sort-icon text-amber-400"></span></th>
+                            <th data-sort="cidade" onclick="toggleSort('relatorios', 'cidade')" class="p-2 border">Cidade <span class="sort-icon text-amber-400"></span></th>
+                            <th data-sort="passeio" onclick="toggleSort('relatorios', 'passeio')" class="p-2 border">Passeio <span class="sort-icon text-amber-400"></span></th>
+                            <th data-sort="ingresso" onclick="toggleSort('relatorios', 'ingresso')" class="p-2 border text-right">Valor Ingresso <span class="sort-icon text-amber-400"></span></th>
+                            <th data-sort="embarque" onclick="toggleSort('relatorios', 'embarque')" class="p-2 border min-w-[90px]">Embarque <span class="sort-icon text-amber-400"></span></th>
+                            <th data-sort="horario" onclick="toggleSort('relatorios', 'horario')" class="p-2 border text-center min-w-[60px]">Horário <span class="sort-icon text-amber-400"></span></th>
+                            <th data-sort="sinal1" onclick="toggleSort('relatorios', 'sinal1')" class="p-2 border text-right">Valor 1 <span class="sort-icon text-amber-400"></span></th>
+                            <th data-sort="sinal2" onclick="toggleSort('relatorios', 'sinal2')" class="p-2 border text-right">Valor 2 <span class="sort-icon text-amber-400"></span></th>
+                            <th data-sort="total" onclick="toggleSort('relatorios', 'total')" class="p-2 border text-right">Valor Total <span class="sort-icon text-amber-400"></span></th>
                             <th class="p-2 border text-center no-print">Ações</th>
                         </tr>
                     </thead>
@@ -692,6 +724,65 @@
         let modoFluxoCaixa = 'resumido';
         const CURRENT_MONTH = String(new Date().getMonth() + 1).padStart(2, '0');
         const CURRENT_DAY = String(new Date().getDate()).padStart(2, '0');
+
+        let sortState = {
+            passageiros: { col: null, dir: 'asc' },
+            viagens: { col: null, dir: 'asc' },
+            pagar: { col: null, dir: 'asc' },
+            receber: { col: null, dir: 'asc' },
+            fluxocaixa: { col: null, dir: 'asc' },
+            relatorios: { col: null, dir: 'asc' }
+        };
+
+        function toggleSort(tableKey, col) {
+            if (!sortState[tableKey]) sortState[tableKey] = { col: null, dir: 'asc' };
+            if (sortState[tableKey].col === col) {
+                sortState[tableKey].dir = sortState[tableKey].dir === 'asc' ? 'desc' : 'asc';
+            } else {
+                sortState[tableKey].col = col;
+                sortState[tableKey].dir = 'asc';
+            }
+            if (tableKey === 'passageiros') renderPassageiros();
+            else if (tableKey === 'viagens') renderViagens();
+            else if (tableKey === 'pagar') renderContasPagar();
+            else if (tableKey === 'receber') renderContasReceber();
+            else if (tableKey === 'fluxocaixa') gerarFluxoCaixa();
+            else if (tableKey === 'relatorios') gerarRelatorio();
+        }
+
+        function updateSortIcons(containerSelector, tableKey) {
+            const container = document.querySelector(containerSelector);
+            if (!container) return;
+            const state = sortState[tableKey] || { col: null, dir: 'asc' };
+            container.querySelectorAll('th[data-sort]').forEach(th => {
+                const icon = th.querySelector('.sort-icon');
+                if (!icon) return;
+                if (th.getAttribute('data-sort') === state.col) {
+                    icon.textContent = state.dir === 'asc' ? '▲' : '▼';
+                } else {
+                    icon.textContent = '⇅';
+                    icon.classList.add('opacity-40');
+                }
+                if (th.getAttribute('data-sort') === state.col) icon.classList.remove('opacity-40');
+            });
+        }
+
+        function sortList(arr, tableKey, getterMap) {
+            const state = sortState[tableKey];
+            if (!state || !state.col || !getterMap[state.col]) return arr;
+            const getter = getterMap[state.col];
+            const mult = state.dir === 'asc' ? 1 : -1;
+            return [...arr].sort((a, b) => {
+                let va = getter(a);
+                let vb = getter(b);
+                if (va === null || va === undefined) va = '';
+                if (vb === null || vb === undefined) vb = '';
+                if (typeof va === 'number' && typeof vb === 'number') {
+                    return (va - vb) * mult;
+                }
+                return String(va).localeCompare(String(vb), 'pt-BR', { sensitivity: 'base', numeric: true }) * mult;
+            });
+        }
 
         function enviarParaPlanilha(payload, callback, silent = false) {
             fetch(URL_DO_APPS_SCRIPT, {
@@ -1283,10 +1374,19 @@
                 if(cpf && !mapa.has(cpf)) mapa.set(cpf, p);
             });
 
-            const lista = Array.from(mapa.values()).filter(p =>
+            let lista = Array.from(mapa.values()).filter(p =>
                 (p.NOME || p.nome || '').toLowerCase().includes(query) ||
                 (p.CPF || p.cpf || '').toLowerCase().includes(query)
             );
+
+            lista = sortList(lista, 'passageiros', {
+                nome: p => p.NOME || p.nome || '',
+                cpf: p => p.CPF || p.cpf || '',
+                telefone: p => p.TELEFONE || p.telefone || '',
+                nascimento: p => formatarDataISO(p.NASCIMENTO || p.nasc || ''),
+                cidade: p => p.CIDADE || p.cidade || ''
+            });
+            updateSortIcons('#tab-passageiros', 'passageiros');
             
             const selectExistente = document.getElementById('rel-pass-existente');
             const datalistPass = document.getElementById('lista-nomes-passageiros');
@@ -1389,12 +1489,21 @@
             if (!tbody) return;
             const query = (document.getElementById('search-viagem')?.value || '').toLowerCase();
 
-            const filtradas = db.viagens.filter(v => {
+            let filtradas = db.viagens.filter(v => {
                 const dest = (v.destino || '').toLowerCase();
                 const ops = (v.opcoes || []).join(' ').toLowerCase();
                 const dt = formatarDataBR(v.data).toLowerCase();
                 return dest.includes(query) || ops.includes(query) || dt.includes(query);
             });
+
+            filtradas = sortList(filtradas, 'viagens', {
+                destino: v => v.destino || '',
+                opcoes: v => (v.opcoes || []).join(', '),
+                data: v => formatarDataISO(v.data || ''),
+                vagas: v => Number(v.vagas || 0),
+                valor: v => Number(v.valor || 0)
+            });
+            updateSortIcons('#tab-passeios', 'viagens');
 
             if (!filtradas.length) {
                 tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400 italic">Nenhuma viagem encontrada.</td></tr>`;
@@ -1437,6 +1546,8 @@
             document.getElementById('pag-filtro-mes').value = '';
             document.getElementById('pag-filtro-inicio').value = '';
             document.getElementById('pag-filtro-fim').value = '';
+            const radioTodos = document.querySelector('input[name="pag-status-check"][value="todos"]');
+            if (radioTodos) radioTodos.checked = true;
             renderContasPagar();
         }
 
@@ -1497,17 +1608,32 @@
             const fMes = document.getElementById('pag-filtro-mes')?.value || '';
             const fInicio = document.getElementById('pag-filtro-inicio')?.value || '';
             const fFim = document.getElementById('pag-filtro-fim')?.value || '';
+            const fStatus = document.querySelector('input[name="pag-status-check"]:checked')?.value || 'todos';
 
-            const filtrados = db.contasPagar.filter(c => {
+            let filtrados = db.contasPagar.filter(c => {
                 const matchNome = !fPass || (c.favorecido || '').toLowerCase().includes(fPass) || (c.descricao || '').toLowerCase().includes(fPass);
                 const matchData = verificarFiltroData(formatarDataISO(c.vencimento), fMes, fInicio, fFim);
-                return matchNome && matchData;
+                const isPago = c.status === 'Pago';
+                const matchStatus = fStatus === 'todos' || (fStatus === 'pago' && isPago) || (fStatus === 'aberto' && !isPago);
+                return matchNome && matchData && matchStatus;
             });
+
+            filtrados = sortList(filtrados, 'pagar', {
+                origem: c => c.origem || 'Despesa',
+                favorecido: c => c.favorecido || '',
+                descricao: c => c.descricao || '',
+                vencimento: c => formatarDataISO(c.vencimento || ''),
+                valor: c => Number(c.valor || 0),
+                status: c => c.status || ''
+            });
+            updateSortIcons('#tab-pagar', 'pagar');
 
             const totalFiltrado = filtrados.reduce((acc, c) => acc + Number(c.valor || 0), 0);
             let subPeriodo = 'Período: Geral';
             if (fMes) subPeriodo = `Mês: ${fMes.split('-').reverse().join('/')}`;
             else if (fInicio || fFim) subPeriodo = `De ${fInicio ? formatarDataBR(fInicio) : 'Início'} até ${fFim ? formatarDataBR(fFim) : 'Hoje'}`;
+            if (fStatus === 'pago') subPeriodo += ' | Status: Pagos';
+            else if (fStatus === 'aberto') subPeriodo += ' | Status: Em aberto';
             if (fPass) subPeriodo += ` | Filtro: "${fPass}"`;
 
             if (document.getElementById('pag-rel-subtitulo')) document.getElementById('pag-rel-subtitulo').innerText = subPeriodo;
@@ -1539,6 +1665,8 @@
             document.getElementById('rec-filtro-mes').value = '';
             document.getElementById('rec-filtro-inicio').value = '';
             document.getElementById('rec-filtro-fim').value = '';
+            const radioAberto = document.querySelector('input[name="rec-status-check"][value="aberto"]');
+            if (radioAberto) radioAberto.checked = true;
             renderContasReceber();
         }
 
@@ -1621,6 +1749,20 @@
             enviarParaPlanilha({ TIPO_REGISTRO: "FINANCEIRO", ACTION: "DELETE", ID: String(id) }, null, true);
         }
 
+        function reabrirReceberPassageiro(globalIdx) {
+            const p = db.passageiros[globalIdx];
+            if (!p) return;
+            if (!confirm(`Reabrir status financeiro de ${p.NOME || p.nome} para Em aberto?`)) return;
+            p.STATUS_PAGAMENTO = 'Em aberto';
+            renderAll();
+            enviarParaPlanilha({
+                TIPO_REGISTRO: "CLIENTE", ACTION: "EDIT_PARTIAL",
+                CPF_ORIGINAL: p.CPF || p.cpf, VIAGEM_ORIGINAL: p.VIAGEM_DESTINO || p.viagem_destino,
+                VALOR_1_SINAL: p.VALOR_1_SINAL, VALOR_2_RESTANTE: p.VALOR_2_RESTANTE,
+                STATUS_PAGAMENTO: 'Em aberto'
+            }, null, true);
+        }
+
         function renderContasReceber() {
             const tbody = document.getElementById('table-receber');
             if(!tbody) return;
@@ -1628,44 +1770,45 @@
             const fMes = document.getElementById('rec-filtro-mes')?.value || '';
             const fInicio = document.getElementById('rec-filtro-inicio')?.value || '';
             const fFim = document.getElementById('rec-filtro-fim')?.value || '';
+            const fStatus = document.querySelector('input[name="rec-status-check"]:checked')?.value || 'aberto';
 
-            let html = '', totalSaldoPendente = 0;
+            let registros = [];
 
             db.passageiros.forEach((p, globalIdx) => {
                 const destino = p.VIAGEM_DESTINO || p.viagem_destino;
-                if ((p.STATUS_PAGAMENTO || p.status_pagamento) === 'Quitado' || (p.STATUS_PAGAMENTO || p.status_pagamento) === 'Pago') return;
-
                 const viagem = db.viagens.find(v => v.destino === destino);
-                if(viagem) {
-                    const totalViagem = Number(viagem.valor || 0);
-                    const pago = Number(p.VALOR_1_SINAL || p.valor_1_sinal || 0) + Number(p.VALOR_2_RESTANTE || p.valor_2_restante || 0);
-                    const saldo = totalViagem - pago;
-                    if(saldo > 0) {
-                        const nomePass = p.NOME || p.nome || '';
-                        const cpfPass = p.CPF || p.cpf || '';
-                        const matchNome = !fPass || nomePass.toLowerCase().includes(fPass) || destino.toLowerCase().includes(fPass);
-                        const matchData = verificarFiltroData(formatarDataISO(viagem.data), fMes, fInicio, fFim);
+                if (!viagem) return;
 
-                        if (matchNome && matchData) {
-                            totalSaldoPendente += saldo;
-                            html += `
-                                <tr class="hover:bg-slate-50">
-                                    <td class="p-3"><span class="bg-blue-50 text-blue-700 text-xs font-bold px-2 py-0.5 rounded">Viagem</span></td>
-                                    <td class="p-3 font-bold text-slate-800">${nomePass}</td>
-                                    <td class="p-3 text-blue-600 font-medium">${destino}</td>
-                                    <td class="p-3 text-center text-xs whitespace-nowrap">${formatarDataBR(viagem.data)}</td>
-                                    <td class="p-3 text-right whitespace-nowrap">R$ ${totalViagem.toFixed(2)}</td>
-                                    <td class="p-3 text-right text-emerald-600 whitespace-nowrap">R$ ${pago.toFixed(2)}</td>
-                                    <td class="p-3 text-right font-bold text-rose-600 whitespace-nowrap">R$ ${saldo.toFixed(2)}</td>
-                                    <td class="p-3 text-center whitespace-nowrap space-x-1 no-print">
-                                        <button onclick="abrirDeclaracaoPassageiro('${nomePass.replace(/'/g, "\\'")}', '${cpfPass}')" class="text-xs bg-slate-800 hover:bg-slate-700 text-amber-400 font-bold px-2.5 py-1 rounded" title="Declaração"><i class="fa-solid fa-file-contract"></i> Declaração</button>
-                                        <button onclick="darBaixaReceberPassageiro(${globalIdx}, ${saldo})" class="text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-2.5 py-1 rounded">✅ Dar Baixa</button>
-                                        <button onclick="excluirSaldoReceberPassageiro(${globalIdx})" class="text-xs bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold px-2.5 py-1 rounded" title="Excluir"><i class="fa-solid fa-trash"></i></button>
-                                    </td>
-                                </tr>
-                            `;
-                        }
-                    }
+                const totalViagem = Number(viagem.valor || 0);
+                const s1 = Number(p.VALOR_1_SINAL || p.valor_1_sinal || 0);
+                const s2 = Number(p.VALOR_2_RESTANTE || p.valor_2_restante || 0);
+                const pago = s1 + s2;
+                const statusCalc = calcularStatusPagamento(s1, s2, totalViagem, p.STATUS_PAGAMENTO || p.status_pagamento);
+                const isQuitado = statusCalc === 'Quitado';
+                const saldo = isQuitado ? 0 : Math.max(0, totalViagem - pago);
+
+                if (!isQuitado && saldo <= 0) return;
+
+                const nomePass = p.NOME || p.nome || '';
+                const cpfPass = p.CPF || p.cpf || '';
+                const matchNome = !fPass || nomePass.toLowerCase().includes(fPass) || destino.toLowerCase().includes(fPass);
+                const matchData = verificarFiltroData(formatarDataISO(viagem.data), fMes, fInicio, fFim);
+                const matchStatus = fStatus === 'todos' || (fStatus === 'quitado' && isQuitado) || (fStatus === 'aberto' && !isQuitado);
+
+                if (matchNome && matchData && matchStatus) {
+                    registros.push({
+                        tipoItem: 'viagem',
+                        globalIdx,
+                        origem: 'Viagem',
+                        cliente: nomePass,
+                        cpf: cpfPass,
+                        referencia: destino,
+                        dataISO: formatarDataISO(viagem.data),
+                        valorTotal: totalViagem,
+                        jaPago: isQuitado && pago === 0 ? totalViagem : pago,
+                        saldo,
+                        isQuitado
+                    });
                 }
             });
 
@@ -1674,36 +1817,88 @@
                 const nomeCli = c.cliente || '';
                 const matchNome = !fPass || nomeCli.toLowerCase().includes(fPass) || (c.descricao || '').toLowerCase().includes(fPass);
                 const matchData = verificarFiltroData(formatarDataISO(c.vencimento), fMes, fInicio, fFim);
+                const matchStatus = fStatus === 'todos' || (fStatus === 'quitado' && isRecebido) || (fStatus === 'aberto' && !isRecebido);
 
-                if (matchNome && matchData) {
-                    if (!isRecebido) totalSaldoPendente += Number(c.valor || 0);
-                    html += `
-                        <tr class="hover:bg-slate-50">
-                            <td class="p-3"><span class="bg-amber-50 text-amber-800 text-xs font-bold px-2 py-0.5 rounded">${c.origem || 'Extra'}</span></td>
-                            <td class="p-3 font-bold text-slate-800">${nomeCli}</td>
-                            <td class="p-3 text-slate-600">${c.descricao}</td>
-                            <td class="p-3 text-center text-xs whitespace-nowrap">${formatarDataBR(c.vencimento)}</td>
-                            <td class="p-3 text-right whitespace-nowrap">R$ ${Number(c.valor).toFixed(2)}</td>
-                            <td class="p-3 text-right text-emerald-600 whitespace-nowrap">${isRecebido ? `R$ ${Number(c.valor).toFixed(2)}` : 'R$ 0,00'}</td>
-                            <td class="p-3 text-right font-bold whitespace-nowrap ${isRecebido ? 'text-emerald-600' : 'text-rose-600'}">${isRecebido ? 'Quitado' : `R$ ${Number(c.valor).toFixed(2)}`}</td>
-                            <td class="p-3 text-center whitespace-nowrap space-x-1 no-print">
-                                <button onclick="abrirDeclaracaoPassageiro('${nomeCli.replace(/'/g, "\\'")}')" class="text-xs bg-slate-800 hover:bg-slate-700 text-amber-400 font-bold px-2.5 py-1 rounded" title="Declaração"><i class="fa-solid fa-file-contract"></i> Declaração</button>
-                                <button onclick="darBaixaReceberManual('${c.id}')" class="text-xs ${isRecebido ? 'bg-amber-100 text-amber-800' : 'bg-emerald-600 text-white hover:bg-emerald-700'} font-bold px-2.5 py-1 rounded">${isRecebido ? '↩ Reabrir' : '✅ Dar Baixa'}</button>
-                                <button onclick="excluirReceberManual('${c.id}')" class="text-xs bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold px-2.5 py-1 rounded"><i class="fa-solid fa-trash"></i></button>
-                            </td>
-                        </tr>
-                    `;
+                if (matchNome && matchData && matchStatus) {
+                    const val = Number(c.valor || 0);
+                    registros.push({
+                        tipoItem: 'manual',
+                        id: c.id,
+                        origem: c.origem || 'Extra',
+                        cliente: nomeCli,
+                        cpf: '',
+                        referencia: c.descricao || '',
+                        dataISO: formatarDataISO(c.vencimento),
+                        valorTotal: val,
+                        jaPago: isRecebido ? val : 0,
+                        saldo: isRecebido ? 0 : val,
+                        isQuitado: isRecebido
+                    });
                 }
             });
+
+            registros = sortList(registros, 'receber', {
+                origem: r => r.origem,
+                cliente: r => r.cliente,
+                referencia: r => r.referencia,
+                data: r => r.dataISO,
+                valorTotal: r => r.valorTotal,
+                jaPago: r => r.jaPago,
+                saldo: r => r.saldo
+            });
+            updateSortIcons('#tab-receber', 'receber');
+
+            const totalSaldoPendente = registros.reduce((acc, r) => acc + (r.isQuitado ? 0 : r.saldo), 0);
+            const totalQuitadoList = registros.reduce((acc, r) => acc + r.jaPago, 0);
+
+            const html = registros.map(r => {
+                const badgeOrigem = r.tipoItem === 'viagem'
+                    ? `<span class="bg-blue-50 text-blue-700 text-xs font-bold px-2 py-0.5 rounded">Viagem</span>`
+                    : `<span class="bg-amber-50 text-amber-800 text-xs font-bold px-2 py-0.5 rounded">${r.origem}</span>`;
+                const refClass = r.tipoItem === 'viagem' ? 'p-3 text-blue-600 font-medium' : 'p-3 text-slate-600';
+                const botoesAcao = r.tipoItem === 'viagem'
+                    ? `
+                        <button onclick="abrirDeclaracaoPassageiro('${r.cliente.replace(/'/g, "\\'")}', '${r.cpf}')" class="text-xs bg-slate-800 hover:bg-slate-700 text-amber-400 font-bold px-2.5 py-1 rounded" title="Declaração"><i class="fa-solid fa-file-contract"></i> Declaração</button>
+                        ${r.isQuitado
+                            ? `<button onclick="reabrirReceberPassageiro(${r.globalIdx})" class="text-xs bg-amber-100 text-amber-800 font-bold px-2.5 py-1 rounded">↩ Reabrir</button>`
+                            : `<button onclick="darBaixaReceberPassageiro(${r.globalIdx}, ${r.saldo})" class="text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-2.5 py-1 rounded">✅ Dar Baixa</button>`
+                        }
+                        <button onclick="excluirSaldoReceberPassageiro(${r.globalIdx})" class="text-xs bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold px-2.5 py-1 rounded" title="Excluir"><i class="fa-solid fa-trash"></i></button>
+                    `
+                    : `
+                        <button onclick="abrirDeclaracaoPassageiro('${r.cliente.replace(/'/g, "\\'")}')" class="text-xs bg-slate-800 hover:bg-slate-700 text-amber-400 font-bold px-2.5 py-1 rounded" title="Declaração"><i class="fa-solid fa-file-contract"></i> Declaração</button>
+                        <button onclick="darBaixaReceberManual('${r.id}')" class="text-xs ${r.isQuitado ? 'bg-amber-100 text-amber-800' : 'bg-emerald-600 text-white hover:bg-emerald-700'} font-bold px-2.5 py-1 rounded">${r.isQuitado ? '↩ Reabrir' : '✅ Dar Baixa'}</button>
+                        <button onclick="excluirReceberManual('${r.id}')" class="text-xs bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold px-2.5 py-1 rounded"><i class="fa-solid fa-trash"></i></button>
+                    `;
+
+                return `
+                    <tr class="hover:bg-slate-50">
+                        <td class="p-3">${badgeOrigem}</td>
+                        <td class="p-3 font-bold text-slate-800">${r.cliente}</td>
+                        <td class="${refClass}">${r.referencia}</td>
+                        <td class="p-3 text-center text-xs whitespace-nowrap">${formatarDataBR(r.dataISO)}</td>
+                        <td class="p-3 text-right whitespace-nowrap">R$ ${r.valorTotal.toFixed(2)}</td>
+                        <td class="p-3 text-right text-emerald-600 whitespace-nowrap">R$ ${r.jaPago.toFixed(2)}</td>
+                        <td class="p-3 text-right font-bold whitespace-nowrap ${r.isQuitado ? 'text-emerald-600' : 'text-rose-600'}">${r.isQuitado ? 'Quitado' : `R$ ${r.saldo.toFixed(2)}`}</td>
+                        <td class="p-3 text-center whitespace-nowrap space-x-1 no-print">${botoesAcao}</td>
+                    </tr>
+                `;
+            }).join('');
 
             let subPeriodo = 'Período: Geral';
             if (fMes) subPeriodo = `Mês: ${fMes.split('-').reverse().join('/')}`;
             else if (fInicio || fFim) subPeriodo = `De ${fInicio ? formatarDataBR(fInicio) : 'Início'} até ${fFim ? formatarDataBR(fFim) : 'Hoje'}`;
+            if (fStatus === 'quitado') subPeriodo += ' | Status: Quitados';
+            else if (fStatus === 'aberto') subPeriodo += ' | Status: Em aberto';
             if (fPass) subPeriodo += ` | Filtro: "${fPass}"`;
 
             if (document.getElementById('rec-rel-subtitulo')) document.getElementById('rec-rel-subtitulo').innerText = subPeriodo;
             if (document.getElementById('rec-rel-emissao')) document.getElementById('rec-rel-emissao').innerText = `Emitido em: ${formatarDataBR(new Date().toISOString().slice(0, 10))}`;
-            if (document.getElementById('rec-rel-total-header')) document.getElementById('rec-rel-total-header').innerText = `Saldo Pendente: R$ ${totalSaldoPendente.toFixed(2)}`;
+            if (document.getElementById('rec-rel-total-header')) {
+                document.getElementById('rec-rel-total-header').innerText = fStatus === 'quitado'
+                    ? `Total Quitado: R$ ${totalQuitadoList.toFixed(2)}`
+                    : `Saldo Pendente: R$ ${totalSaldoPendente.toFixed(2)}`;
+            }
 
             tbody.innerHTML = html || `<tr><td colspan="8" class="p-4 text-center text-slate-400 italic">Nenhuma conta a receber encontrada.</td></tr>`;
         }
@@ -1802,7 +1997,12 @@
 
             if (modoFluxoCaixa === 'resumido') {
                 titulo.innerText = `Relatório Resumido — Consolidado por Categoria (${textoPeriodo})`;
-                thead.innerHTML = `<tr><th class="py-3 px-4">Tipo</th><th class="py-3 px-4">Categoria</th><th class="py-3 px-4 text-center">Qtd</th><th class="py-3 px-4 text-right">Valor Consolidado</th></tr>`;
+                thead.innerHTML = `<tr>
+                    <th data-sort="tipo" onclick="toggleSort('fluxocaixa', 'tipo')" class="py-3 px-4 cursor-pointer hover:bg-slate-200">Tipo <span class="sort-icon text-amber-600 ml-1"></span></th>
+                    <th data-sort="categoria" onclick="toggleSort('fluxocaixa', 'categoria')" class="py-3 px-4 cursor-pointer hover:bg-slate-200">Categoria <span class="sort-icon text-amber-600 ml-1"></span></th>
+                    <th data-sort="qtd" onclick="toggleSort('fluxocaixa', 'qtd')" class="py-3 px-4 text-center cursor-pointer hover:bg-slate-200">Qtd <span class="sort-icon text-amber-600 ml-1"></span></th>
+                    <th data-sort="total" onclick="toggleSort('fluxocaixa', 'total')" class="py-3 px-4 text-right cursor-pointer hover:bg-slate-200">Valor Consolidado <span class="sort-icon text-amber-600 ml-1"></span></th>
+                </tr>`;
                 const resumoMap = new Map();
                 lancamentos.forEach(l => {
                     const key = `${l.tipo}|${l.categoria}`;
@@ -1811,7 +2011,14 @@
                     item.qtd += 1;
                     item.total += l.valor;
                 });
-                const linhas = Array.from(resumoMap.values());
+                let linhas = Array.from(resumoMap.values());
+                linhas = sortList(linhas, 'fluxocaixa', {
+                    tipo: r => r.tipo,
+                    categoria: r => r.categoria,
+                    qtd: r => r.qtd,
+                    total: r => r.total
+                });
+                updateSortIcons('#tab-fluxocaixa', 'fluxocaixa');
                 tbody.innerHTML = linhas.length ? linhas.map(r => `
                     <tr class="hover:bg-slate-50">
                         <td class="p-3 font-bold ${r.tipo === 'Entrada' ? 'text-emerald-700' : 'text-rose-700'}">${r.tipo}</td>
@@ -1822,7 +2029,21 @@
                 `).join('') : `<tr><td colspan="4" class="p-4 text-center text-slate-400 italic">Nenhuma movimentação.</td></tr>`;
             } else {
                 titulo.innerText = `Relatório Detalhado — Extrato Analítico (${textoPeriodo})`;
-                thead.innerHTML = `<tr><th class="py-3 px-4">Data</th><th class="py-3 px-4">Tipo</th><th class="py-3 px-4">Origem</th><th class="py-3 px-4">Descrição</th><th class="py-3 px-4 text-right">Valor</th></tr>`;
+                thead.innerHTML = `<tr>
+                    <th data-sort="data" onclick="toggleSort('fluxocaixa', 'data')" class="py-3 px-4 cursor-pointer hover:bg-slate-200">Data <span class="sort-icon text-amber-600 ml-1"></span></th>
+                    <th data-sort="tipo" onclick="toggleSort('fluxocaixa', 'tipo')" class="py-3 px-4 cursor-pointer hover:bg-slate-200">Tipo <span class="sort-icon text-amber-600 ml-1"></span></th>
+                    <th data-sort="origem" onclick="toggleSort('fluxocaixa', 'origem')" class="py-3 px-4 cursor-pointer hover:bg-slate-200">Origem <span class="sort-icon text-amber-600 ml-1"></span></th>
+                    <th data-sort="descricao" onclick="toggleSort('fluxocaixa', 'descricao')" class="py-3 px-4 cursor-pointer hover:bg-slate-200">Descrição <span class="sort-icon text-amber-600 ml-1"></span></th>
+                    <th data-sort="valor" onclick="toggleSort('fluxocaixa', 'valor')" class="py-3 px-4 text-right cursor-pointer hover:bg-slate-200">Valor <span class="sort-icon text-amber-600 ml-1"></span></th>
+                </tr>`;
+                lancamentos = sortList(lancamentos, 'fluxocaixa', {
+                    data: l => l.data || '',
+                    tipo: l => l.tipo,
+                    origem: l => l.origem,
+                    descricao: l => l.descricao,
+                    valor: l => l.valor
+                });
+                updateSortIcons('#tab-fluxocaixa', 'fluxocaixa');
                 tbody.innerHTML = lancamentos.length ? lancamentos.map(l => `
                     <tr class="hover:bg-slate-50">
                         <td class="p-3 text-xs whitespace-nowrap">${formatarDataBR(l.data)}</td>
@@ -1930,13 +2151,31 @@
                 if(document.getElementById('rel-ingresso').value === '') document.getElementById('rel-ingresso').placeholder = `Padrão: R$ ${Number(viagemObj.valor || 0).toFixed(2)}`;
             }
 
-            const inscritos = db.passageiros.map((p, globalIdx) => ({ p, globalIdx })).filter(item => (item.p.VIAGEM_DESTINO || item.p.viagem_destino) === destino);
+            let inscritos = db.passageiros.map((p, globalIdx) => ({ p, globalIdx })).filter(item => (item.p.VIAGEM_DESTINO || item.p.viagem_destino) === destino);
+            const valorPropostoViagem = viagemObj ? Number(viagemObj.valor || 0) : 0;
+
+            inscritos = sortList(inscritos, 'relatorios', {
+                nome: ({ p }) => p.NOME || p.nome || '',
+                status: ({ p }) => calcularStatusPagamento(p.VALOR_1_SINAL || p.valor_1_sinal || 0, p.VALOR_2_RESTANTE || p.valor_2_restante || 0, valorPropostoViagem, p.STATUS_PAGAMENTO || p.status_pagamento),
+                telefone: ({ p }) => p.TELEFONE || p.telefone || '',
+                cpf: ({ p }) => p.CPF || p.cpf || '',
+                nascimento: ({ p }) => formatarDataISO(p.NASCIMENTO || p.nasc || ''),
+                idade: ({ p }) => { const idd = calcularIdade(p.NASCIMENTO || p.nasc); return typeof idd === 'number' ? idd : -1; },
+                cidade: ({ p }) => p.CIDADE || p.cidade || '',
+                passeio: ({ p }) => p.ROTEIRO_OPCAO || p.roteiro_opcao || destino || '',
+                ingresso: ({ p }) => Number(p.VALOR_INGRESSO || p.valor_ingresso || 0),
+                embarque: ({ p }) => (p.LOCAL_EMBARQUE || p.embarque || '') === '-' ? '' : (p.LOCAL_EMBARQUE || p.embarque || ''),
+                horario: ({ p }) => p.HORARIO_EMBARQUE || p.horario_embarque || '',
+                sinal1: ({ p }) => Number(p.VALOR_1_SINAL || p.valor_1_sinal || 0),
+                sinal2: ({ p }) => Number(p.VALOR_2_RESTANTE || p.valor_2_restante || 0),
+                total: ({ p }) => Number(p.VALOR_1_SINAL || p.valor_1_sinal || 0) + Number(p.VALOR_2_RESTANTE || p.valor_2_restante || 0)
+            });
+            updateSortIcons('#tab-relatorios', 'relatorios');
+
             if(!inscritos.length) {
                 tbody.innerHTML = `<tr><td colspan="16" class="p-4 text-center text-slate-400 italic">Nenhum passageiro inscrito.</td></tr>`;
                 return;
             }
-
-            const valorPropostoViagem = viagemObj ? Number(viagemObj.valor || 0) : 0;
             inscritos.forEach(({ p, globalIdx }, idx) => {
                 const s1 = Number(p.VALOR_1_SINAL || p.valor_1_sinal || 0);
                 const s2 = Number(p.VALOR_2_RESTANTE || p.valor_2_restante || 0);
