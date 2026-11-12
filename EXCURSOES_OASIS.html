@@ -429,7 +429,7 @@
         </div>
     </div>
 
-    <!-- MODAL EDITAR CADASTRO GERAL DO CLIENTE (Aba Passageiros) -->
+    <!-- MODAL EDITAR CADASTRO GERAL DO CLIENTE -->
     <div id="modal-editar-cliente-geral" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex justify-center items-center hidden z-50 p-4">
         <div class="bg-white rounded-xl shadow-xl w-full max-w-lg overflow-hidden">
             <div class="px-6 py-4 bg-slate-900 text-white flex justify-between items-center">
@@ -555,7 +555,7 @@
         </div>
     </div>
 
-    <!-- MODAL PASSEIO / VIAGEM -->
+    <!-- MODAL PASSEIO / VIAGEM (SINCRONIZADO COM A ABA VIAGENS NO GOOGLE SHEETS) -->
     <div id="modal-passeio" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex justify-center items-center hidden z-50 p-4">
         <div class="bg-white rounded-xl shadow-xl w-full max-w-lg overflow-hidden">
             <div class="px-6 py-4 bg-slate-900 text-white flex justify-between items-center">
@@ -588,7 +588,7 @@
                 </div>
                 <div class="flex justify-end gap-2 pt-2">
                     <button type="button" onclick="closeModal('modal-passeio')" class="px-4 py-2 border rounded-lg text-sm">Cancelar</button>
-                    <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg text-sm">Salvar Viagem</button>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg text-sm">Salvar Viagem na Nuvem</button>
                 </div>
             </form>
         </div>
@@ -668,7 +668,7 @@
 
     <!-- SCRIPT DE CONTROLE -->
     <script>
-        const URL_DO_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbx7fIsr1dGCc1DpdILj2rH6HgP2DLyrVZ7EXQNPEu5o_5zgFTPFh-7jqIytpGFngz_n/exec";
+        const URL_DO_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbyCTjYwnSBRtZMcPkxirbCiLEfNxDGgGs-2bX8I0nXJqGIMmIP5OWhtXyAfd42J78O4/exec";
 
         let db = {
             passageiros: [],
@@ -689,7 +689,7 @@
                 body: JSON.stringify(payload)
             })
             .then(() => {
-                if (!silent) alert("Operação sincronizada com sucesso!");
+                if (!silent) alert("Operação sincronizada com sucesso na nuvem!");
                 setTimeout(carregarDadosDaNuvem, 1200);
                 if(callback) callback();
             })
@@ -700,15 +700,38 @@
             fetch(URL_DO_APPS_SCRIPT)
                 .then(res => res.json())
                 .then(data => {
+                    // Compatível com retorno { clientes: [...], viagens: [...] } ou array simples
                     if (Array.isArray(data)) {
                         db.passageiros = data;
+                    } else if (data && typeof data === 'object') {
+                        if (Array.isArray(data.clientes)) {
+                            db.passageiros = data.clientes;
+                        }
+                        if (Array.isArray(data.viagens)) {
+                            db.viagens = data.viagens.map(v => {
+                                let opcoesArr = [];
+                                if (Array.isArray(v.OPCOES || v.opcoes)) {
+                                    opcoesArr = v.OPCOES || v.opcoes;
+                                } else if (typeof (v.OPCOES || v.opcoes) === 'string') {
+                                    opcoesArr = String(v.OPCOES || v.opcoes).split(',').map(s => s.trim()).filter(Boolean);
+                                }
+                                return {
+                                    id: v.ID || v.id || Date.now(),
+                                    destino: v.DESTINO || v.destino || '',
+                                    opcoes: opcoesArr,
+                                    data: formatarDataISO(v.DATA || v.data || ''),
+                                    vagas: v.VAGAS || v.vagas || 0,
+                                    valor: v.VALOR || v.valor || 0
+                                };
+                            });
+                            localStorage.setItem('oasis_viagens', JSON.stringify(db.viagens));
+                        }
                     }
                     renderAll();
                 })
-                .catch(err => console.error("Erro ao sincronizar"));
+                .catch(err => console.error("Erro ao sincronizar:", err));
         }
 
-        // IMPRESSÃO DIRETA DE ÁREA ESPECÍFICA
         function imprimirSecao(elementId) {
             document.querySelectorAll('.printable-active').forEach(el => el.classList.remove('printable-active'));
             const el = document.getElementById(elementId);
@@ -775,8 +798,8 @@
             return idade >= 0 ? idade : '-';
         }
 
-
-		function calcularStatusPagamento(valor1, valor2, valorPropostoViagem, statusAtual) {
+        // APENAS "Quitado" OU "Em aberto"
+        function calcularStatusPagamento(valor1, valor2, valorPropostoViagem, statusAtual) {
             if (statusAtual === 'Quitado' || statusAtual === 'Pago') {
                 return 'Quitado';
             }
@@ -788,16 +811,10 @@
             if (totalPago <= 0) return 'Em aberto';
             if (proposto > 0 && totalPago >= proposto) return 'Quitado';
             if (proposto === 0 && totalPago > 0) return 'Quitado';
-            
-            // Mudança: se pagou alguma parte mas não o total, trata como Em aberto até quitar 100%
             return 'Em aberto';
         }
 
-
-
-
-
-        // SALVAR PASSAGEIRO / INSCRIÇÃO (Sem duplicar)
+        // SALVAR PASSAGEIRO / INSCRIÇÃO NA ABA CLIENTES
         function salvarPassageiroNuvem(e) {
             e.preventDefault();
             const editIdx = parseInt(document.getElementById('edit-passageiro-index').value, 10);
@@ -814,10 +831,10 @@
 
             const statusCalculado = calcularStatusPagamento(sinal, restante, valorProposto, null);
             const nascBR = formatarDataBR(document.getElementById('NASCIMENTO').value);
-
             const cpfNovo = document.getElementById('CPF').value.trim();
 
             const payload = {
+                TIPO: "CLIENTE",
                 ACTION: editIdx >= 0 ? "EDIT" : "CREATE",
                 CPF_ORIGINAL: editIdx >= 0 ? cpfOrig : cpfNovo,
                 VIAGEM_ORIGINAL: editIdx >= 0 ? viagemOrig : viagemSel,
@@ -839,7 +856,6 @@
             if (editIdx >= 0 && db.passageiros[editIdx]) {
                 db.passageiros[editIdx] = { ...db.passageiros[editIdx], ...payload };
             } else {
-                // Evita duplicação imediata na memória local antes da sincronização
                 const existLocalIdx = db.passageiros.findIndex(x => 
                     String(x.CPF || x.cpf).trim() === cpfNovo && 
                     String(x.VIAGEM_DESTINO || x.viagem_destino).trim() === viagemSel
@@ -860,7 +876,6 @@
             });
         }
 
-        // EDITAR PASSAGEIRO DIRETAMENTE DA GUIA RELATÓRIOS & LISTAS
         function editarPassageiroRelatorio(globalIdx) {
             const p = db.passageiros[globalIdx];
             if (!p) return;
@@ -894,7 +909,6 @@
             openModal('modal-passageiro');
         }
 
-        // ADICIONAR DIRETO NO RELATÓRIO (Colunas Embarque e Horário em branco por padrão)
         function preencherComPassageiroExistente(cpf) {
             if(!cpf) return;
             const p = db.passageiros.find(x => (x.CPF || x.cpf) === cpf);
@@ -926,6 +940,7 @@
             const nascBR = formatarDataBR(document.getElementById('rel-nasc').value);
 
             const payload = {
+                TIPO: "CLIENTE",
                 ACTION: "CREATE",
                 CPF_ORIGINAL: cpf,
                 VIAGEM_ORIGINAL: viagemSel,
@@ -937,8 +952,8 @@
                 VIAGEM_DESTINO: viagemSel,
                 ROTEIRO_OPCAO: document.getElementById('rel-opcao').value,
                 VALOR_INGRESSO: valorIngresso,
-                LOCAL_EMBARQUE: document.getElementById('rel-embarque').value.trim(), // Fica em branco se vazio
-                HORARIO_EMBARQUE: document.getElementById('rel-horario').value.trim(), // Fica em branco se vazio
+                LOCAL_EMBARQUE: document.getElementById('rel-embarque').value.trim(),
+                HORARIO_EMBARQUE: document.getElementById('rel-horario').value.trim(),
                 VALOR_1_SINAL: s1,
                 VALOR_2_RESTANTE: s2,
                 STATUS_PAGAMENTO: status
@@ -970,7 +985,7 @@
             });
         }
 
-        // ITEM 1: VER CADASTRO, EDITAR E EXCLUIR CADASTRO EM PASSAGEIROS & HISTÓRICO
+        // VER CADASTRO, EDITAR E EXCLUIR CADASTRO EM PASSAGEIROS & HISTÓRICO
         function verHistoricoCliente(cpf) {
             const pGeral = db.passageiros.find(x => (x.CPF || x.cpf) === cpf);
             if (!pGeral) return;
@@ -1046,6 +1061,7 @@
             });
 
             const payload = {
+                TIPO: "CLIENTE",
                 ACTION: "EDIT_CLIENTE",
                 CPF_ORIGINAL: cpfOrig,
                 NOME: novoNome,
@@ -1068,6 +1084,7 @@
             renderAll();
 
             enviarParaPlanilha({
+                TIPO: "CLIENTE",
                 ACTION: "DELETE_CLIENTE",
                 CPF: cpf
             });
@@ -1124,7 +1141,7 @@
             });
         }
 
-        // ITEM 2: VIAGENS COM OPÇÃO "LISTAGEM DE PASSAGEIROS"
+        // VIAGENS SINCRONIZADAS COM A ABA "VIAGENS" NO GOOGLE SHEETS
         function abrirListagemPassageirosViagem(destino) {
             switchTab('relatorios');
             const selectRel = document.getElementById('select-relatorio-passeio');
@@ -1138,16 +1155,19 @@
             e.preventDefault();
             const editId = document.getElementById('viagem-edit-id').value;
             const destino = document.getElementById('viagem-destino').value.trim();
-            const opcoes = document.getElementById('viagem-opcoes').value.split(',').map(s=>s.trim()).filter(Boolean);
+            const opcoesStr = document.getElementById('viagem-opcoes').value.split(',').map(s=>s.trim()).filter(Boolean).join(', ');
+            const opcoesArr = opcoesStr ? opcoesStr.split(',').map(s=>s.trim()) : [];
             const data = document.getElementById('viagem-data').value;
-            const vagas = document.getElementById('viagem-vagas').value;
-            const valor = document.getElementById('viagem-valor').value;
+            const vagas = Number(document.getElementById('viagem-vagas').value || 0);
+            const valor = Number(document.getElementById('viagem-valor').value || 0);
+
+            const idFinal = editId ? String(editId) : String(Date.now());
 
             if(editId) {
-                const v = db.viagens.find(x => x.id == editId);
-                if(v) { v.destino = destino; v.opcoes = opcoes; v.data = data; v.vagas = vagas; v.valor = valor; }
+                const v = db.viagens.find(x => String(x.id) === String(editId));
+                if(v) { v.destino = destino; v.opcoes = opcoesArr; v.data = data; v.vagas = vagas; v.valor = valor; }
             } else {
-                db.viagens.push({ id: Date.now(), destino, opcoes, data, vagas, valor });
+                db.viagens.push({ id: idFinal, destino, opcoes: opcoesArr, data, vagas, valor });
             }
 
             localStorage.setItem('oasis_viagens', JSON.stringify(db.viagens));
@@ -1155,11 +1175,22 @@
             document.getElementById('form-passeio').reset();
             renderViagens();
             atualizarSelectsViagens();
-            alert("Viagem salva com sucesso!");
+
+            // Envia para a aba VIAGENS da planilha
+            enviarParaPlanilha({
+                TIPO: "VIAGEM",
+                ACTION: editId ? "EDIT" : "CREATE",
+                ID: idFinal,
+                DESTINO: destino,
+                OPCOES: opcoesStr,
+                DATA: formatarDataBR(data),
+                VAGAS: vagas,
+                VALOR: valor
+            });
         }
 
         function editarViagem(id) {
-            const v = db.viagens.find(x => x.id === id);
+            const v = db.viagens.find(x => String(x.id) === String(id));
             if(!v) return;
             document.getElementById('viagem-edit-id').value = v.id;
             document.getElementById('viagem-destino').value = v.destino;
@@ -1172,11 +1203,17 @@
         }
 
         function excluirViagem(id) {
-            if(!confirm("Deseja remover esta viagem?")) return;
-            db.viagens = db.viagens.filter(v => v.id !== id);
+            if(!confirm("Deseja remover esta viagem da nuvem?")) return;
+            db.viagens = db.viagens.filter(v => String(v.id) !== String(id));
             localStorage.setItem('oasis_viagens', JSON.stringify(db.viagens));
             renderViagens();
             atualizarSelectsViagens();
+
+            enviarParaPlanilha({
+                TIPO: "VIAGEM",
+                ACTION: "DELETE_VIAGEM_NUVEM",
+                ID: String(id)
+            });
         }
 
         function renderViagens() {
@@ -1200,8 +1237,8 @@
                                 <i class="fa-solid fa-clipboard-list"></i> Listagem de Passageiros (${qtdInscritos})
                             </button>
                             <div class="flex justify-between px-1">
-                                <button onclick="editarViagem(${v.id})" class="text-blue-600 hover:underline text-xs font-bold"><i class="fa-solid fa-pen"></i> Editar</button>
-                                <button onclick="excluirViagem(${v.id})" class="text-rose-600 hover:underline text-xs font-bold"><i class="fa-solid fa-trash"></i> Excluir</button>
+                                <button onclick="editarViagem('${v.id}')" class="text-blue-600 hover:underline text-xs font-bold"><i class="fa-solid fa-pen"></i> Editar</button>
+                                <button onclick="excluirViagem('${v.id}')" class="text-rose-600 hover:underline text-xs font-bold"><i class="fa-solid fa-trash"></i> Excluir</button>
                             </div>
                         </div>
                     </div>
@@ -1209,7 +1246,7 @@
             });
         }
 
-        // ITEM 3: CONTAS A PAGAR & RECEBER COM ORIGEM, DAR BAIXA E EXCLUIR
+        // CONTAS A PAGAR & RECEBER
         function salvarPagar(e) {
             e.preventDefault();
             db.contasPagar.push({
@@ -1290,7 +1327,6 @@
             if (!p) return;
             if (!confirm(`Confirmar o recebimento do saldo restante de R$ ${saldoRestante.toFixed(2)} de ${p.NOME || p.nome}?`)) return;
 
-            const s1 = Number(p.VALOR_1_SINAL || p.valor_1_sinal || 0);
             const s2Atual = Number(p.VALOR_2_RESTANTE || p.valor_2_restante || 0);
             const novoS2 = s2Atual + saldoRestante;
 
@@ -1298,6 +1334,7 @@
             p.STATUS_PAGAMENTO = 'Quitado';
 
             const payload = {
+                TIPO: "CLIENTE",
                 ACTION: "EDIT",
                 CPF_ORIGINAL: p.CPF || p.cpf,
                 VIAGEM_ORIGINAL: p.VIAGEM_DESTINO || p.viagem_destino,
@@ -1316,6 +1353,7 @@
 
             p.STATUS_PAGAMENTO = 'Quitado';
             const payload = {
+                TIPO: "CLIENTE",
                 ACTION: "EDIT",
                 CPF_ORIGINAL: p.CPF || p.cpf,
                 VIAGEM_ORIGINAL: p.VIAGEM_DESTINO || p.viagem_destino,
@@ -1348,7 +1386,6 @@
             const tbody = document.getElementById('table-receber');
             let html = '';
 
-            // 1. Saldos Devedores automáticos de Viagens
             db.passageiros.forEach((p, globalIdx) => {
                 const destino = p.VIAGEM_DESTINO || p.viagem_destino;
                 const statusAtual = p.STATUS_PAGAMENTO || p.status_pagamento || '';
@@ -1382,7 +1419,6 @@
                 }
             });
 
-            // 2. Receitas Avulsas / Manuais
             db.contasReceber.forEach(c => {
                 const isRecebido = c.status === 'Recebido';
                 html += `
@@ -1408,7 +1444,7 @@
             tbody.innerHTML = html || `<tr><td colspan="7" class="p-4 text-center text-slate-400 italic">Nenhuma conta a receber encontrada.</td></tr>`;
         }
 
-        // ITEM 4: FLUXO DE CAIXA DETALHADO E RESUMIDO FORMATADO
+        // FLUXO DE CAIXA DETALHADO E RESUMIDO
         function setModoFluxoCaixa(modo) {
             modoFluxoCaixa = modo;
             const btnRes = document.getElementById('btn-fc-resumido');
@@ -1441,7 +1477,7 @@
             const fimFiltro = document.getElementById('fc-fim')?.value || '';
 
             if (!mesFiltro && !inicioFiltro && !fimFiltro) return true;
-            if (!dataISO) return true; // Se o registro não tem data vinculada, exibe no consolidado
+            if (!dataISO) return true;
 
             if (mesFiltro) {
                 return dataISO.startsWith(mesFiltro);
@@ -1465,7 +1501,6 @@
 
             let lancamentos = [];
 
-            // Entradas de Passageiros
             db.passageiros.forEach(p => {
                 const pago = Number(p.VALOR_1_SINAL || p.valor_1_sinal || 0) + Number(p.VALOR_2_RESTANTE || p.valor_2_restante || 0);
                 if (pago > 0) {
@@ -1485,7 +1520,6 @@
                 }
             });
 
-            // Entradas Avulsas Recebidas
             db.contasReceber.forEach(c => {
                 if ((c.status === 'Recebido' || !c.status) && c.valor > 0) {
                     const dataRef = formatarDataISO(c.vencimento);
@@ -1502,7 +1536,6 @@
                 }
             });
 
-            // Saídas Pagas
             db.contasPagar.filter(c => c.status === 'Pago').forEach(c => {
                 const dataRef = formatarDataISO(c.vencimento);
                 if (dataDentroDoFiltroFC(dataRef)) {
@@ -1672,7 +1705,7 @@
             document.getElementById('badge-receber-count').innerText = totalSaldosDevedores.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
         }
 
-        // ITEM 5: RELATÓRIOS & LISTAS (EMBARQUE E HORÁRIO EM BRANCO PARA PREENCHIMENTO MANUAL)
+        // RELATÓRIOS & LISTAS
         function gerarRelatorio() {
             const destino = document.getElementById('select-relatorio-passeio').value;
             const tbody = document.getElementById('relatorio-tabela-body');
@@ -1714,7 +1747,6 @@
                 const cidade = p.CIDADE || p.cidade || '-';
                 const passeio = p.ROTEIRO_OPCAO || p.roteiro_opcao || destino || '-';
                 
-                // Deixa Embarque e Horário em branco (caso não tenham sido preenchidos manualmente)
                 const rawEmb = p.LOCAL_EMBARQUE || p.embarque || '';
                 const embarque = (rawEmb === '-' || rawEmb === 'undefined') ? '' : rawEmb;
                 const rawHor = p.HORARIO_EMBARQUE || p.horario_embarque || '';
@@ -1723,9 +1755,7 @@
                 const statusBruto = p.STATUS_PAGAMENTO || p.status_pagamento || '';
                 const status = calcularStatusPagamento(s1, s2, valorPropostoViagem, statusBruto);
 
-                let badgeClass = 'bg-rose-100 text-rose-800';
-                if (status === 'Quitado') badgeClass = 'bg-emerald-100 text-emerald-800';
-                else if (status === 'Parcialmente Quitado') badgeClass = 'bg-amber-100 text-amber-800';
+                let badgeClass = status === 'Quitado' ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800';
 
                 tbody.innerHTML += `
                     <tr class="hover:bg-slate-50">
@@ -1763,6 +1793,7 @@
                 renderContasReceber();
                 renderDashboard();
                 enviarParaPlanilha({
+                    TIPO: "CLIENTE",
                     ACTION: "EDIT",
                     CPF_ORIGINAL: p.CPF || p.cpf,
                     VIAGEM_ORIGINAL: p.VIAGEM_DESTINO || p.viagem_destino,
@@ -1780,6 +1811,7 @@
                 db.passageiros.splice(globalIdx, 1);
                 renderAll();
                 enviarParaPlanilha({
+                    TIPO: "CLIENTE",
                     ACTION: "DELETE_VIAGEM",
                     CPF: cpf,
                     VIAGEM_DESTINO: viagem
@@ -1787,7 +1819,6 @@
             }
         }
 
-        // EXPORTAR PARA EXCEL (Com Embarque e Horário em branco se vazios)
         function exportarRelatorioExcel() {
             const destino = document.getElementById('select-relatorio-passeio').value;
             const inscritos = db.passageiros.filter(p => (p.VIAGEM_DESTINO || p.viagem_destino) === destino);
