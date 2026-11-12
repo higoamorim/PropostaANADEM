@@ -3,422 +3,435 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ExcursõesPro - GRUPO OASIS DF (Gestão Avançada)</title>
-    <!-- Tailwind CSS CDN -->
+    <title>GRUPO OASIS DF — Sistema de Excursões & Gestão</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; }
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
         @media print {
-            @page { size: landscape; margin: 8mm; }
-            body * { visibility: hidden; }
-            .printable-active, .printable-active * { visibility: visible; }
-            .printable-active { position: absolute; left: 0; top: 0; width: 100%; padding: 8px !important; border: 0 !important; box-shadow: none !important; background: white !important; }
+            body { background: white !important; color: black !important; }
             .no-print { display: none !important; }
-            table { font-size: 9px !important; }
-            th, td { padding: 4px !important; }
+            .printable-active { display: block !important; width: 100% !important; position: absolute; top: 0; left: 0; margin: 0; padding: 15px; box-shadow: none; border: none; }
+            table { font-size: 10px !important; width: 100% !important; border-collapse: collapse !important; }
+            th, td { border: 1px solid #cbd5e1 !important; padding: 4px 6px !important; }
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased flex flex-col md:flex-row min-h-screen">
+<body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col">
 
-    <!-- SIDEBAR NAV -->
-    <aside class="w-full md:w-64 bg-slate-900 text-slate-300 flex-shrink-0 flex flex-col justify-between shadow-xl z-20 no-print">
-        <div>
-            <div class="h-24 flex items-center gap-3 px-4 bg-slate-950 border-b border-slate-800">
-                <div class="flex items-center gap-3 w-full">
-                    <img src="logo-oasisturdf - Copia.png" alt="Logo GRUPO OASIS DF" id="sidebar-logo"
-                         onerror="this.style.display='none'; document.getElementById('sidebar-logo-fallback').classList.remove('hidden');"
-                         class="h-12 w-auto max-w-[140px] object-contain rounded">
-                    <div id="sidebar-logo-fallback" class="hidden flex items-center gap-2">
-                        <i class="fa-solid fa-bus-simple text-amber-400 text-2xl"></i>
-                    </div>
-                    <span class="font-bold text-base text-white tracking-wide leading-tight">GRUPO OASIS <span class="text-amber-400">DF</span></span>
+    <!-- CABEÇALHO -->
+    <header class="bg-slate-900 text-white shadow-md no-print sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <img src="logo-oasisturdf - Copia.png" alt="GRUPO OASIS DF" onerror="this.style.display='none';" class="h-12 w-auto object-contain bg-white rounded p-1">
+                <div>
+                    <h1 class="text-base font-black uppercase tracking-wider text-amber-400">GRUPO OASIS DF</h1>
+                    <p class="text-[11px] text-slate-400">Sistema Oficial de Excursões & Controle Financeiro</p>
                 </div>
             </div>
-            <nav class="mt-6 px-3 space-y-1" id="main-nav">
-                <button onclick="switchTab('dashboard')" id="nav-dashboard" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg text-amber-400 bg-slate-800 transition-colors">
-                    <i class="fa-solid fa-chart-pie w-5 text-center"></i> Dashboard
-                </button>
-                <button onclick="switchTab('passageiros')" id="nav-passageiros" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg hover:bg-slate-800 hover:text-white transition-colors">
-                    <i class="fa-solid fa-users w-5 text-center"></i> Passageiros & Histórico
-                </button>
-                <button onclick="switchTab('passeios')" id="nav-passeios" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg hover:bg-slate-800 hover:text-white transition-colors">
-                    <i class="fa-solid fa-map-location-dot w-5 text-center"></i> Viagens / Passeios
-                </button>
-                <button onclick="switchTab('pagar')" id="nav-pagar" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg hover:bg-slate-800 hover:text-white transition-colors">
-                    <i class="fa-solid fa-arrow-up-from-bracket text-red-400 w-5 text-center"></i> Contas a Pagar
-                </button>
-                <button onclick="switchTab('receber')" id="nav-receber" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg hover:bg-slate-800 hover:text-white transition-colors">
-                    <i class="fa-solid fa-arrow-down-to-bracket text-emerald-400 w-5 text-center"></i> Contas a Receber
-                </button>
-                <button onclick="switchTab('fluxocaixa')" id="nav-fluxocaixa" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg hover:bg-slate-800 hover:text-white transition-colors">
-                    <i class="fa-solid fa-chart-line text-cyan-400 w-5 text-center"></i> Fluxo de Caixa
-                </button>
-                <button onclick="switchTab('relatorios')" id="nav-relatorios" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg hover:bg-slate-800 hover:text-white transition-colors">
-                    <i class="fa-solid fa-file-pdf text-amber-400 w-5 text-center"></i> Relatórios & Listas
-                </button>
+            <nav class="flex flex-wrap gap-1 justify-center">
+                <button onclick="switchTab('dashboard')" id="nav-dashboard" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-800 text-amber-400 transition flex items-center gap-1.5"><i class="fa-solid fa-chart-pie"></i> Início</button>
+                <button onclick="switchTab('passageiros')" id="nav-passageiros" class="px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-slate-800 hover:text-amber-400 transition flex items-center gap-1.5"><i class="fa-solid fa-users"></i> Passageiros</button>
+                <button onclick="switchTab('passeios')" id="nav-passeios" class="px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-slate-800 hover:text-amber-400 transition flex items-center gap-1.5"><i class="fa-solid fa-map-location-dot"></i> Viagens</button>
+                <button onclick="switchTab('pagar')" id="nav-pagar" class="px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-slate-800 hover:text-amber-400 transition flex items-center gap-1.5"><i class="fa-solid fa-file-invoice-dollar"></i> Contas a Pagar</button>
+                <button onclick="switchTab('receber')" id="nav-receber" class="px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-slate-800 hover:text-amber-400 transition flex items-center gap-1.5"><i class="fa-solid fa-money-bill-wave"></i> Contas a Receber</button>
+                <button onclick="switchTab('fluxocaixa')" id="nav-fluxocaixa" class="px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-slate-800 hover:text-amber-400 transition flex items-center gap-1.5"><i class="fa-solid fa-wallet"></i> Fluxo de Caixa</button>
+                <button onclick="switchTab('relatorios')" id="nav-relatorios" class="px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-slate-800 hover:text-amber-400 transition flex items-center gap-1.5"><i class="fa-solid fa-print"></i> Relatórios & Embarque</button>
             </nav>
         </div>
-        <div class="p-4 border-t border-slate-800 text-xs text-slate-500">
-            <div class="flex items-center gap-2 mb-1">
-                <span id="status-indicator" class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span id="status-text" class="text-slate-400 font-medium">Conectado ao Google Sheets</span>
-            </div>
-            <p>GRUPO OASIS DF — Gestão Profissional</p>
-        </div>
-    </aside>
+    </header>
 
-    <!-- MAIN CONTENT -->
-    <main class="flex-1 flex flex-col h-screen overflow-y-auto custom-scrollbar">
-        <header class="bg-white border-b border-slate-200 px-6 py-4 flex justify-between items-center sticky top-0 z-10 no-print">
-            <h1 id="page-title" class="text-xl font-bold text-slate-800">Dashboard de Controle — GRUPO OASIS DF</h1>
-            <div class="flex items-center gap-3">
-                <button onclick="carregarDadosDaNuvem()" class="bg-slate-900 hover:bg-slate-800 text-amber-400 text-xs font-bold px-3 py-2 rounded-lg flex items-center gap-2 shadow">
-                    <i class="fa-solid fa-rotate"></i> Sincronizar Agora
+    <!-- CORPO PRINCIPAL -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 space-y-6">
+
+        <!-- DASHBOARD -->
+        <div id="tab-dashboard" class="space-y-6">
+            <div id="widget-aniversariante-hoje"></div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+                    <h3 class="font-bold text-slate-800 text-sm uppercase flex items-center gap-2"><i class="fa-solid fa-cake-candles text-amber-500"></i> Aniversariantes do Mês</h3>
+                    <div id="widget-aniversariantes" class="space-y-2 max-h-60 overflow-y-auto"></div>
+                </div>
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+                    <h3 class="font-bold text-slate-800 text-sm uppercase flex items-center gap-2"><i class="fa-solid fa-bell text-blue-500"></i> Resumo Financeiro Pendente</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="p-4 bg-rose-50 border border-rose-200 rounded-xl">
+                            <span class="text-xs font-bold text-rose-700 uppercase">Contas a Pagar</span>
+                            <h4 id="badge-pagar-count" class="text-xl font-black text-rose-800 mt-1">R$ 0,00</h4>
+                        </div>
+                        <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl">
+                            <span class="text-xs font-bold text-emerald-700 uppercase">Saldos a Receber</span>
+                            <h4 id="badge-receber-count" class="text-xl font-black text-emerald-800 mt-1">R$ 0,00</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PASSAGEIROS / CLIENTES -->
+        <div id="tab-passageiros" class="hidden space-y-6">
+            <div class="bg-white p-5 border border-slate-200 rounded-xl shadow-sm flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div class="w-full sm:w-96">
+                    <input type="text" id="search-passageiro" oninput="renderPassageiros()" placeholder="Pesquisar passageiro por nome ou CPF..." class="w-full px-3 py-2 border rounded-lg text-sm">
+                </div>
+                <button onclick="openModal('modal-passageiro')" class="w-full sm:w-auto bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold px-4 py-2 rounded-lg text-sm shadow flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-user-plus"></i> Novo Passageiro / Inscrição
                 </button>
             </div>
-        </header>
-
-        <div class="p-6 space-y-6">
-
-            <!-- DASHBOARD -->
-            <div id="tab-dashboard" class="space-y-6">
-                <div id="widget-aniversariante-hoje"></div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-2 h-full bg-amber-400"></div>
-                        <h3 class="font-bold text-sm text-slate-700 uppercase mb-3"><i class="fa-solid fa-cake-candles text-amber-500 mr-2"></i> Aniversariantes do Mês</h3>
-                        <div id="widget-aniversariantes" class="space-y-2 max-h-48 overflow-y-auto"></div>
-                    </div>
-                    <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-2 h-full bg-rose-500"></div>
-                        <h3 class="font-bold text-sm text-slate-700 uppercase mb-3"><i class="fa-solid fa-circle-exclamation text-rose-500 mr-2"></i> Contas a Pagar</h3>
-                        <h4 id="badge-pagar-count" class="text-2xl font-extrabold text-rose-600">R$ 0,00</h4>
-                    </div>
-                    <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-2 h-full bg-emerald-500"></div>
-                        <h3 class="font-bold text-sm text-slate-700 uppercase mb-3"><i class="fa-solid fa-hand-holding-dollar text-emerald-500 mr-2"></i> Contas a Receber (Saldos)</h3>
-                        <h4 id="badge-receber-count" class="text-2xl font-extrabold text-emerald-600">R$ 0,00</h4>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <button onclick="openModal('modal-passageiro')" class="p-4 bg-white border border-slate-200 hover:border-amber-400 rounded-xl shadow-sm text-left group">
-                        <div class="w-10 h-10 rounded-lg bg-amber-50 text-amber-600 group-hover:bg-amber-400 group-hover:text-white flex items-center justify-center mb-3 transition">
-                            <i class="fa-solid fa-user-plus text-lg"></i>
-                        </div>
-                        <h3 class="font-bold text-slate-800 group-hover:text-amber-600">Novo Passageiro</h3>
-                        <p class="text-xs text-slate-500 mt-1">Cadastrar na planilha</p>
-                    </button>
-                    <button onclick="openModal('modal-passeio')" class="p-4 bg-white border border-slate-200 hover:border-blue-400 rounded-xl shadow-sm text-left group">
-                        <div class="w-10 h-10 rounded-lg bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white flex items-center justify-center mb-3 transition">
-                            <i class="fa-solid fa-bus text-lg"></i>
-                        </div>
-                        <h3 class="font-bold text-slate-800 group-hover:text-blue-600">Nova Viagem</h3>
-                        <p class="text-xs text-slate-500 mt-1">Gerencie destinos e opções</p>
-                    </button>
-                    <button onclick="openModal('modal-pagar')" class="p-4 bg-white border border-slate-200 hover:border-rose-400 rounded-xl shadow-sm text-left group">
-                        <div class="w-10 h-10 rounded-lg bg-rose-50 text-rose-600 group-hover:bg-rose-600 group-hover:text-white flex items-center justify-center mb-3 transition">
-                            <i class="fa-solid fa-file-invoice-dollar text-lg"></i>
-                        </div>
-                        <h3 class="font-bold text-slate-800 group-hover:text-rose-600">Nova Conta a Pagar</h3>
-                        <p class="text-xs text-slate-500 mt-1">Custos operacionais</p>
-                    </button>
-                    <button onclick="openModal('modal-receber')" class="p-4 bg-white border border-slate-200 hover:border-emerald-400 rounded-xl shadow-sm text-left group">
-                        <div class="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white flex items-center justify-center mb-3 transition">
-                            <i class="fa-solid fa-money-bill-wave text-lg"></i>
-                        </div>
-                        <h3 class="font-bold text-slate-800 group-hover:text-emerald-600">Nova Conta a Receber</h3>
-                        <p class="text-xs text-slate-500 mt-1">Lançamento de receitas</p>
-                    </button>
-                </div>
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+                <table class="w-full text-left text-sm text-slate-600">
+                    <thead class="bg-slate-900 text-white uppercase text-xs">
+                        <tr>
+                            <th class="py-3 px-4">Nome Completo</th>
+                            <th class="py-3 px-4">CPF</th>
+                            <th class="py-3 px-4">Telefone</th>
+                            <th class="py-3 px-4">Nascimento</th>
+                            <th class="py-3 px-4">Cidade</th>
+                            <th class="py-3 px-4 text-center">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-passageiros" class="divide-y divide-slate-100"></tbody>
+                </table>
             </div>
+        </div>
 
-            <!-- PASSAGEIROS -->
-            <div id="tab-passageiros" class="hidden space-y-6">
-                <div class="flex justify-between items-center">
-                    <input type="text" id="search-passageiro" onkeyup="renderPassageiros()" placeholder="Filtrar por nome ou CPF..." class="w-72 px-4 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
-                    <button onclick="openModal('modal-passageiro')" class="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold px-4 py-2 rounded-lg text-sm shadow">
-                        <i class="fa-solid fa-plus"></i> Novo Passageiro
-                    </button>
+        <!-- VIAGENS / PASSEIOS -->
+        <div id="tab-passeios" class="hidden space-y-6">
+            <div class="bg-white p-5 border border-slate-200 rounded-xl shadow-sm flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div class="w-full sm:w-96">
+                    <input type="text" id="search-viagem" oninput="renderViagens()" placeholder="Pesquisar destino ou opção..." class="w-full px-3 py-2 border rounded-lg text-sm">
                 </div>
-                <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-x-auto">
-                    <table class="w-full text-left text-sm text-slate-600">
-                        <thead class="bg-slate-50 text-slate-400 uppercase text-xs">
-                            <tr>
-                                <th class="py-3 px-4">Nome</th>
-                                <th class="py-3 px-4">CPF</th>
-                                <th class="py-3 px-4">Telefone</th>
-                                <th class="py-3 px-4">Nascimento</th>
-                                <th class="py-3 px-4">Cidade</th>
-                                <th class="py-3 px-4 text-center">Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody id="table-passageiros" class="divide-y divide-slate-100"></tbody>
-                    </table>
-                </div>
+                <button onclick="openModal('modal-passeio')" class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded-lg text-sm shadow flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-map-location-dot"></i> Criar Nova Viagem
+                </button>
             </div>
-
-            <!-- VIAGENS / PASSEIOS -->
-            <div id="tab-passeios" class="hidden space-y-6">
-                <div class="flex justify-between items-center">
-                    <h2 class="text-lg font-bold text-slate-800">Gestão de Viagens e Excursões — GRUPO OASIS DF</h2>
-                    <button onclick="openModal('modal-passeio')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded-lg text-sm shadow">
-                        <i class="fa-solid fa-plus"></i> Nova Viagem
-                    </button>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="grid-passeios"></div>
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+                <table class="w-full text-left text-sm text-slate-600">
+                    <thead class="bg-slate-900 text-white uppercase text-xs">
+                        <tr>
+                            <th class="py-3 px-4">Destino Principal</th>
+                            <th class="py-3 px-4">Opções do Dia</th>
+                            <th class="py-3 px-4 text-center">Data</th>
+                            <th class="py-3 px-4 text-center">Vagas</th>
+                            <th class="py-3 px-4 text-right">Valor Padrão</th>
+                            <th class="py-3 px-4 text-center">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-passeios" class="divide-y divide-slate-100"></tbody>
+                </table>
             </div>
+        </div>
 
-            <!-- CONTAS A PAGAR -->
-            <div id="tab-pagar" class="hidden space-y-6">
-                <div class="flex justify-between items-center">
-                    <h2 class="text-lg font-bold text-slate-800">Contas a Pagar</h2>
-                    <button onclick="openModal('modal-pagar')" class="bg-rose-500 hover:bg-rose-600 text-white font-bold px-4 py-2 rounded-lg text-sm shadow">
-                        <i class="fa-solid fa-plus"></i> Nova Conta a Pagar
-                    </button>
-                </div>
-                <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-x-auto">
-                    <table class="w-full text-left text-sm text-slate-600">
-                        <thead class="bg-slate-50 text-slate-400 uppercase text-xs">
-                            <tr>
-                                <th class="py-3 px-4">Origem</th>
-                                <th class="py-3 px-4">Descrição</th>
-                                <th class="py-3 px-4">Vencimento</th>
-                                <th class="py-3 px-4">Valor</th>
-                                <th class="py-3 px-4">Status</th>
-                                <th class="py-3 px-4 text-center">Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody id="table-pagar" class="divide-y divide-slate-100"></tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- CONTAS A RECEBER -->
-            <div id="tab-receber" class="hidden space-y-6">
-                <div class="flex justify-between items-center">
+        <!-- CONTAS A PAGAR -->
+        <div id="tab-pagar" class="hidden space-y-6">
+            <div class="bg-white p-5 border border-slate-200 rounded-xl shadow-sm space-y-4 no-print">
+                <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 items-end">
                     <div>
-                        <h2 class="text-lg font-bold text-slate-800">Contas a Receber (Saldos Devedores & Receitas)</h2>
-                        <p class="text-xs text-slate-500">Contabiliza saldos pendentes de viagens e lançamentos avulsos.</p>
+                        <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Filtrar Nome / Descrição</label>
+                        <input type="text" id="pag-filtro-pass" oninput="renderContasPagar()" placeholder="Nome ou serviço..." class="w-full px-3 py-2 border rounded-lg text-sm">
                     </div>
-                    <button onclick="openModal('modal-receber')" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-4 py-2 rounded-lg text-sm shadow">
-                        <i class="fa-solid fa-plus"></i> Lançar Receita Extra
-                    </button>
-                </div>
-                <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-x-auto">
-                    <table class="w-full text-left text-sm text-slate-600">
-                        <thead class="bg-slate-50 text-slate-400 uppercase text-xs">
-                            <tr>
-                                <th class="py-3 px-4">Origem</th>
-                                <th class="py-3 px-4">Passageiro / Cliente</th>
-                                <th class="py-3 px-4">Referência / Viagem</th>
-                                <th class="py-3 px-4">Valor Total</th>
-                                <th class="py-3 px-4">Já Pago</th>
-                                <th class="py-3 px-4 font-bold text-rose-600">Saldo Pendente</th>
-                                <th class="py-3 px-4 text-center">Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody id="table-receber" class="divide-y divide-slate-100"></tbody>
-                    </table>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Mês Vencimento</label>
+                        <input type="month" id="pag-filtro-mes" onchange="renderContasPagar()" class="w-full px-3 py-2 border rounded-lg text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Início</label>
+                        <input type="date" id="pag-filtro-inicio" onchange="renderContasPagar()" class="w-full px-3 py-2 border rounded-lg text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Fim</label>
+                        <input type="date" id="pag-filtro-fim" onchange="renderContasPagar()" class="w-full px-3 py-2 border rounded-lg text-sm">
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="limparFiltrosPagar()" class="px-3 py-2 border rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-100">Limpar</button>
+                        <button onclick="openModal('modal-pagar')" class="flex-1 bg-rose-600 hover:bg-rose-700 text-white font-bold px-3 py-2 rounded-lg text-xs shadow flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-plus"></i> Nova Conta
+                        </button>
+                    </div>
                 </div>
             </div>
 
-            <!-- FLUXO DE CAIXA -->
-            <div id="tab-fluxocaixa" class="hidden space-y-6">
-                <div class="bg-white p-5 border border-slate-200 rounded-xl shadow-sm space-y-4 no-print">
-                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 items-end">
+            <div id="printable-pagar" class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-x-auto">
+                <div class="flex items-center justify-between border-b border-slate-200 p-4 bg-slate-50">
+                    <div class="flex items-center gap-3">
+                        <img src="logo-oasisturdf - Copia.png" alt="GRUPO OASIS DF" onerror="this.style.display='none';" class="h-12 w-auto object-contain">
                         <div>
-                            <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Filtrar por Mês</label>
-                            <input type="month" id="fc-mes" onchange="limparDatasRangeFC(); gerarFluxoCaixa();" class="w-full px-3 py-2 border rounded-lg text-sm">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Data Inicial</label>
-                            <input type="date" id="fc-inicio" onchange="document.getElementById('fc-mes').value=''; gerarFluxoCaixa();" class="w-full px-3 py-2 border rounded-lg text-sm">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Data Final</label>
-                            <input type="date" id="fc-fim" onchange="document.getElementById('fc-mes').value=''; gerarFluxoCaixa();" class="w-full px-3 py-2 border rounded-lg text-sm">
-                        </div>
-                        <div class="flex gap-2">
-                            <button onclick="limparFiltrosFC()" class="px-3 py-2 border rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-100">Limpar</button>
-                            <button onclick="imprimirSecao('printable-fluxocaixa')" class="flex-1 bg-slate-900 hover:bg-slate-800 text-amber-400 font-bold px-3 py-2 rounded-lg text-xs shadow flex items-center justify-center gap-2">
-                                <i class="fa-solid fa-print"></i> Imprimir / PDF
-                            </button>
+                            <h3 class="font-bold text-slate-900 text-base">GRUPO OASIS DF — Relatório de Contas a Pagar</h3>
+                            <p id="pag-rel-subtitulo" class="text-xs text-slate-500">Período: Geral</p>
                         </div>
                     </div>
+                    <div class="text-right text-xs text-slate-500">
+                        <p id="pag-rel-emissao"></p>
+                        <p id="pag-rel-total-header" class="font-bold text-rose-700 text-sm mt-0.5"></p>
+                    </div>
+                </div>
+                <table class="w-full text-left text-sm text-slate-600">
+                    <thead class="bg-slate-900 text-white uppercase text-xs">
+                        <tr>
+                            <th class="py-3 px-4">Origem</th>
+                            <th class="py-3 px-4">Favorecido</th>
+                            <th class="py-3 px-4">Descrição</th>
+                            <th class="py-3 px-4">Vencimento</th>
+                            <th class="py-3 px-4 text-right">Valor</th>
+                            <th class="py-3 px-4 text-center">Status</th>
+                            <th class="py-3 px-4 text-center no-print">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-pagar" class="divide-y divide-slate-100"></tbody>
+                </table>
+            </div>
+        </div>
 
-                    <div class="flex items-center gap-2 pt-2 border-t border-slate-100">
-                        <span class="text-xs font-bold text-slate-500 uppercase mr-2">Modo do Relatório:</span>
-                        <button id="btn-fc-resumido" onclick="setModoFluxoCaixa('resumido')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-amber-500 text-slate-900 shadow">
-                            <i class="fa-solid fa-layer-group mr-1"></i> Resumido
+        <!-- CONTAS A RECEBER -->
+        <div id="tab-receber" class="hidden space-y-6">
+            <div class="bg-white p-5 border border-slate-200 rounded-xl shadow-sm space-y-4 no-print">
+                <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 items-end">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Filtrar Cliente / Destino</label>
+                        <input type="text" id="rec-filtro-pass" oninput="renderContasReceber()" placeholder="Nome ou destino..." class="w-full px-3 py-2 border rounded-lg text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Mês Referência</label>
+                        <input type="month" id="rec-filtro-mes" onchange="renderContasReceber()" class="w-full px-3 py-2 border rounded-lg text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Início</label>
+                        <input type="date" id="rec-filtro-inicio" onchange="renderContasReceber()" class="w-full px-3 py-2 border rounded-lg text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Fim</label>
+                        <input type="date" id="rec-filtro-fim" onchange="renderContasReceber()" class="w-full px-3 py-2 border rounded-lg text-sm">
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="limparFiltrosReceber()" class="px-3 py-2 border rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-100">Limpar</button>
+                        <button onclick="openModal('modal-receber')" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-2 rounded-lg text-xs shadow flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-plus"></i> Novo Recebimento
                         </button>
-                        <button id="btn-fc-detalhado" onclick="setModoFluxoCaixa('detalhado')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200">
-                            <i class="fa-solid fa-list-ul mr-1"></i> Detalhado
+                    </div>
+                </div>
+            </div>
+
+            <div id="printable-receber" class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-x-auto">
+                <div class="flex items-center justify-between border-b border-slate-200 p-4 bg-slate-50">
+                    <div class="flex items-center gap-3">
+                        <img src="logo-oasisturdf - Copia.png" alt="GRUPO OASIS DF" onerror="this.style.display='none';" class="h-12 w-auto object-contain">
+                        <div>
+                            <h3 class="font-bold text-slate-900 text-base">GRUPO OASIS DF — Relatório de Contas a Receber</h3>
+                            <p id="rec-rel-subtitulo" class="text-xs text-slate-500">Período: Geral</p>
+                        </div>
+                    </div>
+                    <div class="text-right text-xs text-slate-500">
+                        <p id="rec-rel-emissao"></p>
+                        <p id="rec-rel-total-header" class="font-bold text-emerald-700 text-sm mt-0.5"></p>
+                    </div>
+                </div>
+                <table class="w-full text-left text-sm text-slate-600">
+                    <thead class="bg-slate-900 text-white uppercase text-xs">
+                        <tr>
+                            <th class="py-3 px-4">Origem</th>
+                            <th class="py-3 px-4">Passageiro / Cliente</th>
+                            <th class="py-3 px-4">Referência / Viagem</th>
+                            <th class="py-3 px-4 text-center">Data Ref.</th>
+                            <th class="py-3 px-4 text-right">Valor Total</th>
+                            <th class="py-3 px-4 text-right">Já Pago</th>
+                            <th class="py-3 px-4 text-right text-amber-300">Saldo Pendente</th>
+                            <th class="py-3 px-4 text-center no-print">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-receber" class="divide-y divide-slate-100"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- FLUXO DE CAIXA -->
+        <div id="tab-fluxocaixa" class="hidden space-y-6">
+            <div class="bg-white p-5 border border-slate-200 rounded-xl shadow-sm space-y-4 no-print">
+                <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 items-end">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Filtrar por Mês</label>
+                        <input type="month" id="fc-mes" onchange="limparDatasRangeFC(); gerarFluxoCaixa();" class="w-full px-3 py-2 border rounded-lg text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Data Inicial</label>
+                        <input type="date" id="fc-inicio" onchange="document.getElementById('fc-mes').value=''; gerarFluxoCaixa();" class="w-full px-3 py-2 border rounded-lg text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Data Final</label>
+                        <input type="date" id="fc-fim" onchange="document.getElementById('fc-mes').value=''; gerarFluxoCaixa();" class="w-full px-3 py-2 border rounded-lg text-sm">
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="limparFiltrosFC()" class="px-3 py-2 border rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-100">Limpar</button>
+                        <button onclick="imprimirSecao('printable-fluxocaixa')" class="flex-1 bg-slate-900 hover:bg-slate-800 text-amber-400 font-bold px-3 py-2 rounded-lg text-xs shadow flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-print"></i> Imprimir / PDF
                         </button>
                     </div>
                 </div>
 
-                <!-- ÁREA IMPRESSÁVEL DO FLUXO DE CAIXA -->
-                <div id="printable-fluxocaixa" class="space-y-6">
-                    <div class="hidden print:flex items-center justify-between border-b pb-3 mb-3">
+                <div class="flex items-center gap-2 pt-2 border-t border-slate-100">
+                    <span class="text-xs font-bold text-slate-500 uppercase mr-2">Modo do Relatório:</span>
+                    <button id="btn-fc-resumido" onclick="setModoFluxoCaixa('resumido')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-amber-500 text-slate-900 shadow">
+                        <i class="fa-solid fa-layer-group mr-1"></i> Resumido
+                    </button>
+                    <button id="btn-fc-detalhado" onclick="setModoFluxoCaixa('detalhado')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200">
+                        <i class="fa-solid fa-list-ul mr-1"></i> Detalhado
+                    </button>
+                </div>
+            </div>
+
+            <div id="printable-fluxocaixa" class="space-y-6">
+                <div class="bg-white p-4 rounded-xl border border-slate-200 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <img src="logo-oasisturdf - Copia.png" alt="GRUPO OASIS DF" onerror="this.style.display='none';" class="h-12 w-auto object-contain">
                         <div>
                             <h2 class="text-lg font-bold text-slate-900">GRUPO OASIS DF — Relatório de Fluxo de Caixa</h2>
                             <p id="fc-print-periodo" class="text-xs text-slate-500">Período: Geral</p>
                         </div>
-                        <p id="fc-print-emissao" class="text-xs text-slate-500"></p>
                     </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
-                            <span class="text-xs font-bold text-slate-400 uppercase">Total Entradas</span>
-                            <h3 id="fc-total-entradas" class="text-2xl font-extrabold text-emerald-600">R$ 0,00</h3>
-                        </div>
-                        <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
-                            <span class="text-xs font-bold text-slate-400 uppercase">Total Saídas</span>
-                            <h3 id="fc-total-saidas" class="text-2xl font-extrabold text-rose-600">R$ 0,00</h3>
-                        </div>
-                        <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
-                            <span class="text-xs font-bold text-slate-400 uppercase">Saldo do Período</span>
-                            <h3 id="fc-saldo-periodo" class="text-2xl font-extrabold text-slate-800">R$ 0,00</h3>
-                        </div>
-                    </div>
-
-                    <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
-                        <div id="fc-tabela-titulo" class="p-4 bg-slate-900 text-white font-bold text-sm">Relatório Resumido — Consolidado por Categoria</div>
-                        <table class="w-full text-left text-sm text-slate-600">
-                            <thead id="fc-thead" class="bg-slate-100 text-slate-500 uppercase text-xs"></thead>
-                            <tbody id="table-fluxocaixa" class="divide-y divide-slate-100"></tbody>
-                        </table>
-                    </div>
+                    <p id="fc-print-emissao" class="text-xs text-slate-500"></p>
                 </div>
-            </div>
 
-            <!-- RELATÓRIOS & LISTAS DE EMBARQUE -->
-            <div id="tab-relatorios" class="hidden space-y-6">
-                <div class="bg-white p-6 border border-slate-200 rounded-xl shadow-sm space-y-4 no-print">
-                    <div class="flex flex-col sm:flex-row gap-4 items-end justify-between">
-                        <div class="w-full sm:w-80">
-                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Selecione a Viagem</label>
-                            <select id="select-relatorio-passeio" onchange="gerarRelatorio()" class="w-full px-3 py-2 border rounded-lg text-sm"></select>
-                        </div>
-                        <div class="flex gap-2">
-                            <button onclick="exportarRelatorioExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded-lg text-sm shadow flex items-center gap-2">
-                                <i class="fa-solid fa-file-excel"></i> Exportar Excel
-                            </button>
-                            <button onclick="imprimirSecao('printable-area')" class="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold px-4 py-2 rounded-lg text-sm shadow flex items-center gap-2">
-                                <i class="fa-solid fa-print"></i> Imprimir / PDF
-                            </button>
-                        </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
+                        <span class="text-xs font-bold text-slate-400 uppercase">Total Entradas</span>
+                        <h3 id="fc-total-entradas" class="text-2xl font-extrabold text-emerald-600">R$ 0,00</h3>
                     </div>
-
-                    <!-- Inserir Passageiro Direto na Lista -->
-                    <div class="bg-amber-50 border border-amber-200 rounded-xl p-4">
-                        <h3 class="font-bold text-xs uppercase text-slate-800 mb-2"><i class="fa-solid fa-user-plus text-amber-600 mr-1"></i> Inserir Passageiro nesta Viagem (Novo ou Já Cadastrado)</h3>
-                        <div class="grid grid-cols-1 sm:grid-cols-4 gap-2">
-                            <select id="rel-pass-existente" onchange="preencherComPassageiroExistente(this.value)" class="px-3 py-2 border rounded text-xs bg-white">
-                                <option value="">-- Selecionar da Base --</option>
-                            </select>
-                            <input type="text" id="rel-nome" placeholder="Nome Completo" class="px-3 py-2 border rounded text-xs bg-white">
-                            <input type="text" id="rel-cpf" placeholder="CPF" class="px-3 py-2 border rounded text-xs bg-white">
-                            <input type="text" id="rel-tel" placeholder="Telefone" class="px-3 py-2 border rounded text-xs bg-white">
-                        </div>
-                        <div class="grid grid-cols-1 sm:grid-cols-4 gap-2 mt-2">
-                            <div>
-                                <label class="block text-[10px] font-bold text-slate-500 uppercase">Dt. Nascimento</label>
-                                <input type="date" id="rel-nasc" class="w-full px-3 py-1.5 border rounded text-xs bg-white">
-                            </div>
-                            <div>
-                                <label class="block text-[10px] font-bold text-slate-500 uppercase">Cidade</label>
-                                <input type="text" id="rel-cidade" placeholder="Cidade" class="w-full px-3 py-1.5 border rounded text-xs bg-white">
-                            </div>
-                            <div>
-                                <label class="block text-[10px] font-bold text-slate-500 uppercase">Passeio / Opção</label>
-                                <select id="rel-opcao" class="w-full px-3 py-1.5 border rounded text-xs bg-white"></select>
-                            </div>
-                            <div>
-                                <label class="block text-[10px] font-bold text-slate-500 uppercase">Valor Ingresso (R$)</label>
-                                <input type="number" step="0.01" id="rel-ingresso" placeholder="0.00" class="w-full px-3 py-1.5 border rounded text-xs bg-white">
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-1 sm:grid-cols-4 gap-2 mt-2">
-                            <div>
-                                <label class="block text-[10px] font-bold text-slate-500 uppercase">Local Embarque (Opcional)</label>
-                                <input type="text" id="rel-embarque" placeholder="Deixar em branco se manual" class="w-full px-3 py-1.5 border rounded text-xs bg-white">
-                            </div>
-                            <div>
-                                <label class="block text-[10px] font-bold text-slate-500 uppercase">Horário Embarque (Opcional)</label>
-                                <input type="text" id="rel-horario" placeholder="Deixar em branco se manual" class="w-full px-3 py-1.5 border rounded text-xs bg-white">
-                            </div>
-                            <div>
-                                <label class="block text-[10px] font-bold text-slate-500 uppercase">Valor 1 / Sinal (R$)</label>
-                                <input type="number" step="0.01" id="rel-sinal1" placeholder="Valor 1 (R$)" class="w-full px-3 py-1.5 border rounded text-xs bg-white">
-                            </div>
-                            <div>
-                                <label class="block text-[10px] font-bold text-slate-500 uppercase">Valor 2 / Restante (R$)</label>
-                                <input type="number" step="0.01" id="rel-sinal2" placeholder="Valor 2 (R$)" class="w-full px-3 py-1.5 border rounded text-xs bg-white">
-                            </div>
-                        </div>
-                        <div class="flex justify-end mt-3">
-                            <button onclick="adicionarPassageiroDiretoRelatorio()" class="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold px-4 py-2 rounded text-xs shadow">Adicionar à Lista</button>
-                        </div>
+                    <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
+                        <span class="text-xs font-bold text-slate-400 uppercase">Total Saídas</span>
+                        <h3 id="fc-total-saidas" class="text-2xl font-extrabold text-rose-600">R$ 0,00</h3>
+                    </div>
+                    <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
+                        <span class="text-xs font-bold text-slate-400 uppercase">Saldo do Período</span>
+                        <h3 id="fc-saldo-periodo" class="text-2xl font-extrabold text-slate-800">R$ 0,00</h3>
                     </div>
                 </div>
 
-                <!-- ÁREA IMPRESSÁVEL -->
-                <div id="printable-area" class="bg-white p-6 border border-slate-200 rounded-xl shadow-sm overflow-x-auto">
-                    <div class="flex items-center justify-between border-b border-slate-200 pb-4 mb-4">
-                        <div class="flex items-center gap-4">
-                            <img src="logo-oasisturdf - Copia.png" alt="GRUPO OASIS DF Logo"
-                                 onerror="this.style.display='none';"
-                                 class="h-16 w-auto max-w-[180px] object-contain">
-                            <div>
-                                <h2 id="rel-titulo-viagem" class="text-lg font-bold text-slate-900">Selecione uma viagem para visualizar a lista</h2>
-                                <p id="rel-subtitulo-viagem" class="text-xs text-slate-500">GRUPO OASIS DF — Lista Oficial de Embarque e Controle Financeiro</p>
-                            </div>
-                        </div>
-                        <div class="text-right text-xs text-slate-500">
-                            <p id="rel-data-emissao"></p>
-                        </div>
-                    </div>
-                    <table class="w-full text-left text-[11px] text-slate-700 border-collapse">
-                        <thead>
-                            <tr class="bg-slate-900 text-white uppercase">
-                                <th class="p-2 border text-center">N #</th>
-                                <th class="p-2 border">NOME</th>
-                                <th class="p-2 border text-center">Status</th>
-                                <th class="p-2 border">Número (Tel)</th>
-                                <th class="p-2 border">CPF</th>
-                                <th class="p-2 border text-center">Dt Nascimento</th>
-                                <th class="p-2 border text-center">Idade</th>
-                                <th class="p-2 border">Cidade</th>
-                                <th class="p-2 border">Passeio</th>
-                                <th class="p-2 border text-right">Valor Ingresso</th>
-                                <th class="p-2 border min-w-[90px]">Embarque</th>
-                                <th class="p-2 border text-center min-w-[60px]">Horário</th>
-                                <th class="p-2 border text-right">Valor 1</th>
-                                <th class="p-2 border text-right">Valor 2</th>
-                                <th class="p-2 border text-right">Valor Total</th>
-                                <th class="p-2 border text-center no-print">Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody id="relatorio-tabela-body"></tbody>
+                <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+                    <div id="fc-tabela-titulo" class="p-4 bg-slate-900 text-white font-bold text-sm">Relatório Resumido — Consolidado por Categoria</div>
+                    <table class="w-full text-left text-sm text-slate-600">
+                        <thead id="fc-thead" class="bg-slate-100 text-slate-500 uppercase text-xs"></thead>
+                        <tbody id="table-fluxocaixa" class="divide-y divide-slate-100"></tbody>
                     </table>
                 </div>
             </div>
-
         </div>
+
+        <!-- RELATÓRIOS & LISTAS DE EMBARQUE -->
+        <div id="tab-relatorios" class="hidden space-y-6">
+            <div class="bg-white p-6 border border-slate-200 rounded-xl shadow-sm space-y-4 no-print">
+                <div class="flex flex-col sm:flex-row gap-4 items-end justify-between">
+                    <div class="w-full sm:w-80">
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Selecione a Viagem</label>
+                        <select id="select-relatorio-passeio" onchange="gerarRelatorio()" class="w-full px-3 py-2 border rounded-lg text-sm"></select>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="exportarRelatorioExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded-lg text-sm shadow flex items-center gap-2">
+                            <i class="fa-solid fa-file-excel"></i> Exportar Excel
+                        </button>
+                        <button onclick="imprimirSecao('printable-area')" class="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold px-4 py-2 rounded-lg text-sm shadow flex items-center gap-2">
+                            <i class="fa-solid fa-print"></i> Imprimir / PDF
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-amber-50 border border-amber-200 rounded-xl p-4">
+                    <h3 class="font-bold text-xs uppercase text-slate-800 mb-2"><i class="fa-solid fa-user-plus text-amber-600 mr-1"></i> Inserir Passageiro nesta Viagem (Novo ou Já Cadastrado)</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-2">
+                        <select id="rel-pass-existente" onchange="preencherComPassageiroExistente(this.value)" class="px-3 py-2 border rounded text-xs bg-white">
+                            <option value="">-- Selecionar da Base --</option>
+                        </select>
+                        <input type="text" id="rel-nome" placeholder="Nome Completo" class="px-3 py-2 border rounded text-xs bg-white">
+                        <input type="text" id="rel-cpf" placeholder="CPF" class="px-3 py-2 border rounded text-xs bg-white">
+                        <input type="text" id="rel-tel" placeholder="Telefone" class="px-3 py-2 border rounded text-xs bg-white">
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-2 mt-2">
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-500 uppercase">Dt. Nascimento</label>
+                            <input type="date" id="rel-nasc" class="w-full px-3 py-1.5 border rounded text-xs bg-white">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-500 uppercase">Cidade</label>
+                            <input type="text" id="rel-cidade" placeholder="Cidade" class="w-full px-3 py-1.5 border rounded text-xs bg-white">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-500 uppercase">Passeio / Opção</label>
+                            <select id="rel-opcao" class="w-full px-3 py-1.5 border rounded text-xs bg-white"></select>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-500 uppercase">Valor Ingresso (R$)</label>
+                            <input type="number" step="0.01" id="rel-ingresso" placeholder="0.00" class="w-full px-3 py-1.5 border rounded text-xs bg-white">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-2 mt-2">
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-500 uppercase">Local Embarque (Opcional)</label>
+                            <input type="text" id="rel-embarque" placeholder="Deixar em branco se manual" class="w-full px-3 py-1.5 border rounded text-xs bg-white">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-500 uppercase">Horário Embarque (Opcional)</label>
+                            <input type="text" id="rel-horario" placeholder="Deixar em branco se manual" class="w-full px-3 py-1.5 border rounded text-xs bg-white">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-500 uppercase">Valor 1 / Sinal (R$)</label>
+                            <input type="number" step="0.01" id="rel-sinal1" placeholder="Valor 1 (R$)" class="w-full px-3 py-1.5 border rounded text-xs bg-white">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-500 uppercase">Valor 2 / Restante (R$)</label>
+                            <input type="number" step="0.01" id="rel-sinal2" placeholder="Valor 2 (R$)" class="w-full px-3 py-1.5 border rounded text-xs bg-white">
+                        </div>
+                    </div>
+                    <div class="flex justify-end mt-3">
+                        <button onclick="adicionarPassageiroDiretoRelatorio()" class="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold px-4 py-2 rounded text-xs shadow">Adicionar à Lista</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="printable-area" class="bg-white p-6 border border-slate-200 rounded-xl shadow-sm overflow-x-auto">
+                <div class="flex items-center justify-between border-b border-slate-200 pb-4 mb-4">
+                    <div class="flex items-center gap-4">
+                        <img src="logo-oasisturdf - Copia.png" alt="GRUPO OASIS DF Logo" onerror="this.style.display='none';" class="h-16 w-auto max-w-[180px] object-contain">
+                        <div>
+                            <h2 id="rel-titulo-viagem" class="text-lg font-bold text-slate-900">Selecione uma viagem para visualizar a lista</h2>
+                            <p id="rel-subtitulo-viagem" class="text-xs text-slate-500">GRUPO OASIS DF — Lista Oficial de Embarque e Controle Financeiro</p>
+                        </div>
+                    </div>
+                    <div class="text-right text-xs text-slate-500">
+                        <p id="rel-data-emissao"></p>
+                    </div>
+                </div>
+                <table class="w-full text-left text-[11px] text-slate-700 border-collapse">
+                    <thead>
+                        <tr class="bg-slate-900 text-white uppercase">
+                            <th class="p-2 border text-center">N #</th>
+                            <th class="p-2 border">NOME</th>
+                            <th class="p-2 border text-center">Status</th>
+                            <th class="p-2 border">Número (Tel)</th>
+                            <th class="p-2 border">CPF</th>
+                            <th class="p-2 border text-center">Dt Nascimento</th>
+                            <th class="p-2 border text-center">Idade</th>
+                            <th class="p-2 border">Cidade</th>
+                            <th class="p-2 border">Passeio</th>
+                            <th class="p-2 border text-right">Valor Ingresso</th>
+                            <th class="p-2 border min-w-[90px]">Embarque</th>
+                            <th class="p-2 border text-center min-w-[60px]">Horário</th>
+                            <th class="p-2 border text-right">Valor 1</th>
+                            <th class="p-2 border text-right">Valor 2</th>
+                            <th class="p-2 border text-right">Valor Total</th>
+                            <th class="p-2 border text-center no-print">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="relatorio-tabela-body"></tbody>
+                </table>
+            </div>
+        </div>
+
     </main>
 
-    <!-- MODAL HISTÓRICO / VER CADASTRO DO CLIENTE -->
+    <!-- MODAIS -->
+            <div id="printable-declaracao" class="p-8 bg-white text-slate-800 space-y-6"></div>
+        </div>
+    </div>
+
     <div id="modal-historico" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex justify-center items-center hidden z-50 p-4">
         <div class="bg-white rounded-xl shadow-xl w-full max-w-xl overflow-hidden">
             <div class="px-6 py-4 bg-slate-900 text-white flex justify-between items-center">
@@ -429,7 +442,6 @@
         </div>
     </div>
 
-    <!-- MODAL EDITAR CADASTRO GERAL DO CLIENTE -->
     <div id="modal-editar-cliente-geral" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex justify-center items-center hidden z-50 p-4">
         <div class="bg-white rounded-xl shadow-xl w-full max-w-lg overflow-hidden">
             <div class="px-6 py-4 bg-slate-900 text-white flex justify-between items-center">
@@ -462,7 +474,6 @@
                         <input type="text" id="edit-cli-cidade" class="w-full px-3 py-2 border rounded-lg text-sm">
                     </div>
                 </div>
-                <p class="text-[11px] text-slate-500">Esta alteração atualizará os dados cadastrais deste passageiro em todas as viagens vinculadas a ele.</p>
                 <div class="flex justify-end gap-2 pt-2">
                     <button type="button" onclick="closeModal('modal-editar-cliente-geral')" class="px-4 py-2 border rounded-lg text-sm">Cancelar</button>
                     <button type="submit" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold rounded-lg text-sm shadow">Salvar Alterações</button>
@@ -471,7 +482,6 @@
         </div>
     </div>
 
-    <!-- MODAL PASSAGEIRO (CADASTRAR / EDITAR INSCRIÇÃO NA VIAGEM) -->
     <div id="modal-passageiro" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex justify-center items-center hidden z-50 p-4">
         <div class="bg-white rounded-xl shadow-xl w-full max-w-xl overflow-hidden">
             <div class="px-6 py-4 bg-slate-900 text-white flex justify-between items-center">
@@ -506,10 +516,8 @@
                         <input type="text" id="CIDADE" placeholder="Ex: Brasília" class="w-full px-3 py-2 border rounded-lg text-sm">
                     </div>
                 </div>
-
                 <hr class="border-slate-100 my-2">
                 <p class="text-xs font-bold text-amber-600 uppercase">Vínculo com a Viagem & Embarque</p>
-
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Viagem</label>
@@ -520,7 +528,6 @@
                         <select id="ROTEIRO_OPCAO" class="w-full px-3 py-2 border rounded-lg text-sm"></select>
                     </div>
                 </div>
-
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Local de Embarque (Opcional)</label>
@@ -531,7 +538,6 @@
                         <input type="text" id="HORARIO_EMBARQUE" placeholder="Em branco para preencher depois" class="w-full px-3 py-2 border rounded-lg text-sm">
                     </div>
                 </div>
-
                 <div class="grid grid-cols-3 gap-3">
                     <div>
                         <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Valor Ingresso</label>
@@ -546,7 +552,6 @@
                         <input type="number" step="0.01" id="VALOR_2_RESTANTE" value="0" class="w-full px-3 py-2 border rounded-lg text-sm">
                     </div>
                 </div>
-
                 <div class="flex justify-end gap-2 pt-2">
                     <button type="button" onclick="closeModal('modal-passageiro')" class="px-4 py-2 border rounded-lg text-sm">Cancelar</button>
                     <button type="submit" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold rounded-lg text-sm shadow">Salvar Inscrição</button>
@@ -555,7 +560,6 @@
         </div>
     </div>
 
-    <!-- MODAL PASSEIO / VIAGEM (SINCRONIZADO COM A ABA VIAGENS NO GOOGLE SHEETS) -->
     <div id="modal-passeio" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex justify-center items-center hidden z-50 p-4">
         <div class="bg-white rounded-xl shadow-xl w-full max-w-lg overflow-hidden">
             <div class="px-6 py-4 bg-slate-900 text-white flex justify-between items-center">
@@ -594,21 +598,24 @@
         </div>
     </div>
 
-    <!-- MODAL PAGAR -->
     <div id="modal-pagar" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex justify-center items-center hidden z-50 p-4">
         <div class="bg-white rounded-xl shadow-xl w-full max-w-lg overflow-hidden">
             <div class="px-6 py-4 bg-slate-900 text-white flex justify-between items-center">
-                <h3 class="font-bold flex items-center gap-2"><i class="fa-solid fa-file-invoice-dollar text-rose-400"></i> Conta a Pagar</h3>
+                <h3 class="font-bold flex items-center gap-2"><i class="fa-solid fa-file-invoice-dollar text-rose-400"></i> Nova Conta a Pagar</h3>
                 <button onclick="closeModal('modal-pagar')" class="text-slate-400"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <form id="form-pagar" onsubmit="salvarPagar(event)" class="p-6 space-y-4">
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Origem / Viagem Vinculada</label>
-                    <input type="text" id="pag-origem" placeholder="Ex: Transporte Pirenópolis / Despesa Fixa" required class="w-full px-3 py-2 border rounded-lg text-sm">
+                    <input type="text" id="pag-origem" placeholder="Ex: Transporte / Reembolso / Despesa Fixa" required class="w-full px-3 py-2 border rounded-lg text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Passageiro ou Fornecedor (Favorecido)</label>
+                    <input type="text" id="pag-favorecido" list="lista-nomes-passageiros" placeholder="Digite ou selecione um passageiro/fornecedor..." required class="w-full px-3 py-2 border rounded-lg text-sm">
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Descrição</label>
-                    <input type="text" id="pag-desc" placeholder="Ex: Ônibus / Van / Guia" required class="w-full px-3 py-2 border rounded-lg text-sm">
+                    <input type="text" id="pag-desc" placeholder="Ex: Ônibus / Van / Devolução" required class="w-full px-3 py-2 border rounded-lg text-sm">
                 </div>
                 <div class="grid grid-cols-2 gap-3">
                     <div>
@@ -622,13 +629,12 @@
                 </div>
                 <div class="flex justify-end gap-2 pt-2">
                     <button type="button" onclick="closeModal('modal-pagar')" class="px-4 py-2 border rounded-lg text-sm">Cancelar</button>
-                    <button type="submit" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-lg text-sm">Salvar</button>
+                    <button type="submit" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-lg text-sm">Salvar na Planilha</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- MODAL RECEBER -->
     <div id="modal-receber" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex justify-center items-center hidden z-50 p-4">
         <div class="bg-white rounded-xl shadow-xl w-full max-w-lg overflow-hidden">
             <div class="px-6 py-4 bg-slate-900 text-white flex justify-between items-center">
@@ -641,12 +647,12 @@
                     <input type="text" id="rec-origem" value="Lançamento Manual" required class="w-full px-3 py-2 border rounded-lg text-sm">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Cliente</label>
-                    <input type="text" id="rec-cliente" required class="w-full px-3 py-2 border rounded-lg text-sm">
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Passageiro / Cliente</label>
+                    <input type="text" id="rec-cliente" list="lista-nomes-passageiros" placeholder="Digite ou selecione o passageiro..." required class="w-full px-3 py-2 border rounded-lg text-sm">
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Descrição</label>
-                    <input type="text" id="rec-desc" required class="w-full px-3 py-2 border rounded-lg text-sm">
+                    <input type="text" id="rec-desc" placeholder="Ex: Taxa Extra / Aluguel Equipamento" required class="w-full px-3 py-2 border rounded-lg text-sm">
                 </div>
                 <div class="grid grid-cols-2 gap-3">
                     <div>
@@ -660,15 +666,21 @@
                 </div>
                 <div class="flex justify-end gap-2 pt-2">
                     <button type="button" onclick="closeModal('modal-receber')" class="px-4 py-2 border rounded-lg text-sm">Cancelar</button>
-                    <button type="submit" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg text-sm">Salvar</button>
+                    <button type="submit" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg text-sm">Salvar na Planilha</button>
                 </div>
             </form>
         </div>
     </div>
 
+    <datalist id="lista-nomes-passageiros"></datalist>
+
     <!-- SCRIPT DE CONTROLE -->
     <script>
-        const URL_DO_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbyCTjYwnSBRtZMcPkxirbCiLEfNxDGgGs-2bX8I0nXJqGIMmIP5OWhtXyAfd42J78O4/exec";
+
+
+
+
+        const URL_DO_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbz1CoR0BDJwrdVGqfJwd_AbxETOUGOmPKMgSmDf2TQBAF52DcX5ITjY4H_g95QxeIUv/exec";
 
         let db = {
             passageiros: [],
@@ -700,21 +712,15 @@
             fetch(URL_DO_APPS_SCRIPT)
                 .then(res => res.json())
                 .then(data => {
-                    // Compatível com retorno { clientes: [...], viagens: [...] } ou array simples
                     if (Array.isArray(data)) {
                         db.passageiros = data;
                     } else if (data && typeof data === 'object') {
-                        if (Array.isArray(data.clientes)) {
-                            db.passageiros = data.clientes;
-                        }
+                        if (Array.isArray(data.clientes)) db.passageiros = data.clientes;
                         if (Array.isArray(data.viagens)) {
                             db.viagens = data.viagens.map(v => {
                                 let opcoesArr = [];
-                                if (Array.isArray(v.OPCOES || v.opcoes)) {
-                                    opcoesArr = v.OPCOES || v.opcoes;
-                                } else if (typeof (v.OPCOES || v.opcoes) === 'string') {
-                                    opcoesArr = String(v.OPCOES || v.opcoes).split(',').map(s => s.trim()).filter(Boolean);
-                                }
+                                if (Array.isArray(v.OPCOES || v.opcoes)) opcoesArr = v.OPCOES || v.opcoes;
+                                else if (typeof (v.OPCOES || v.opcoes) === 'string') opcoesArr = String(v.OPCOES || v.opcoes).split(',').map(s => s.trim()).filter(Boolean);
                                 return {
                                     id: v.ID || v.id || Date.now(),
                                     destino: v.DESTINO || v.destino || '',
@@ -725,6 +731,28 @@
                                 };
                             });
                             localStorage.setItem('oasis_viagens', JSON.stringify(db.viagens));
+                        }
+                        if (Array.isArray(data.financeiro)) {
+                            const pagarNuvem = [], receberNuvem = [];
+                            data.financeiro.forEach(f => {
+                                const tipoFin = String(f.TIPO || '').toUpperCase().trim();
+                                const item = {
+                                    id: String(f.ID || Date.now()),
+                                    origem: f.ORIGEM || 'Lançamento',
+                                    favorecido: f.CLIENTE_FORNECEDOR || '',
+                                    cliente: f.CLIENTE_FORNECEDOR || '',
+                                    descricao: f.DESCRICAO || '',
+                                    vencimento: formatarDataISO(f.VENCIMENTO || ''),
+                                    valor: Number(f.VALOR || 0),
+                                    status: f.STATUS || 'Pendente'
+                                };
+                                if (tipoFin === 'PAGAR') pagarNuvem.push(item);
+                                else if (tipoFin === 'RECEBER') receberNuvem.push(item);
+                            });
+                            db.contasPagar = pagarNuvem;
+                            db.contasReceber = receberNuvem;
+                            localStorage.setItem('oasis_pagar', JSON.stringify(db.contasPagar));
+                            localStorage.setItem('oasis_receber', JSON.stringify(db.contasReceber));
                         }
                     }
                     renderAll();
@@ -742,30 +770,15 @@
             }
         }
 
-        // PADRONIZAÇÃO DE DATAS
         function parseDateComponents(dataStr) {
             if (!dataStr) return null;
             const s = String(dataStr).trim();
             const isoMatch = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
-            if (isoMatch) {
-                return { year: isoMatch[1], month: isoMatch[2], day: isoMatch[3] };
-            }
+            if (isoMatch) return { year: isoMatch[1], month: isoMatch[2], day: isoMatch[3] };
             const brMatch = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
-            if (brMatch) {
-                return {
-                    year: brMatch[3],
-                    month: brMatch[2].padStart(2, '0'),
-                    day: brMatch[1].padStart(2, '0')
-                };
-            }
+            if (brMatch) return { year: brMatch[3], month: brMatch[2].padStart(2, '0'), day: brMatch[1].padStart(2, '0') };
             const dt = new Date(s);
-            if (!isNaN(dt.getTime())) {
-                return {
-                    year: String(dt.getUTCFullYear()),
-                    month: String(dt.getUTCMonth() + 1).padStart(2, '0'),
-                    day: String(dt.getUTCDate()).padStart(2, '0')
-                };
-            }
+            if (!isNaN(dt.getTime())) return { year: String(dt.getUTCFullYear()), month: String(dt.getUTCMonth() + 1).padStart(2, '0'), day: String(dt.getUTCDate()).padStart(2, '0') };
             return null;
         }
 
@@ -787,34 +800,22 @@
             const p = parseDateComponents(dataStr);
             if (!p) return '-';
             const hoje = new Date();
-            const ano = parseInt(p.year, 10);
-            const mes = parseInt(p.month, 10) - 1;
-            const dia = parseInt(p.day, 10);
-            let idade = hoje.getFullYear() - ano;
-            const m = hoje.getMonth() - mes;
-            if (m < 0 || (m === 0 && hoje.getDate() < dia)) {
-                idade--;
-            }
+            let idade = hoje.getFullYear() - parseInt(p.year, 10);
+            const m = hoje.getMonth() - (parseInt(p.month, 10) - 1);
+            if (m < 0 || (m === 0 && hoje.getDate() < parseInt(p.day, 10))) idade--;
             return idade >= 0 ? idade : '-';
         }
 
-        // APENAS "Quitado" OU "Em aberto"
         function calcularStatusPagamento(valor1, valor2, valorPropostoViagem, statusAtual) {
-            if (statusAtual === 'Quitado' || statusAtual === 'Pago') {
-                return 'Quitado';
-            }
-            const v1 = Number(valor1 || 0);
-            const v2 = Number(valor2 || 0);
-            const totalPago = v1 + v2;
+            if (statusAtual === 'Quitado' || statusAtual === 'Pago') return 'Quitado';
+            const totalPago = Number(valor1 || 0) + Number(valor2 || 0);
             const proposto = Number(valorPropostoViagem || 0);
-
             if (totalPago <= 0) return 'Em aberto';
             if (proposto > 0 && totalPago >= proposto) return 'Quitado';
             if (proposto === 0 && totalPago > 0) return 'Quitado';
             return 'Em aberto';
         }
 
-        // SALVAR PASSAGEIRO / INSCRIÇÃO NA ABA CLIENTES
         function salvarPassageiroNuvem(e) {
             e.preventDefault();
             const editIdx = parseInt(document.getElementById('edit-passageiro-index').value, 10);
@@ -824,7 +825,6 @@
             const sinal = Number(document.getElementById('VALOR_1_SINAL').value || 0);
             const restante = Number(document.getElementById('VALOR_2_RESTANTE').value || 0);
             const ingresso = Number(document.getElementById('VALOR_INGRESSO').value || 0);
-            
             const viagemSel = document.getElementById('VIAGEM_DESTINO').value;
             const viagemObj = db.viagens.find(v => v.destino === viagemSel);
             const valorProposto = viagemObj ? Number(viagemObj.valor || 0) : ingresso;
@@ -834,7 +834,7 @@
             const cpfNovo = document.getElementById('CPF').value.trim();
 
             const payload = {
-                TIPO: "CLIENTE",
+                TIPO_REGISTRO: "CLIENTE",
                 ACTION: editIdx >= 0 ? "EDIT" : "CREATE",
                 CPF_ORIGINAL: editIdx >= 0 ? cpfOrig : cpfNovo,
                 VIAGEM_ORIGINAL: editIdx >= 0 ? viagemOrig : viagemSel,
@@ -856,15 +856,9 @@
             if (editIdx >= 0 && db.passageiros[editIdx]) {
                 db.passageiros[editIdx] = { ...db.passageiros[editIdx], ...payload };
             } else {
-                const existLocalIdx = db.passageiros.findIndex(x => 
-                    String(x.CPF || x.cpf).trim() === cpfNovo && 
-                    String(x.VIAGEM_DESTINO || x.viagem_destino).trim() === viagemSel
-                );
-                if (existLocalIdx >= 0) {
-                    db.passageiros[existLocalIdx] = { ...db.passageiros[existLocalIdx], ...payload };
-                } else {
-                    db.passageiros.push(payload);
-                }
+                const existLocalIdx = db.passageiros.findIndex(x => String(x.CPF || x.cpf).trim() === cpfNovo && String(x.VIAGEM_DESTINO || x.viagem_destino).trim() === viagemSel);
+                if (existLocalIdx >= 0) db.passageiros[existLocalIdx] = { ...db.passageiros[existLocalIdx], ...payload };
+                else db.passageiros.push(payload);
             }
 
             enviarParaPlanilha(payload, () => {
@@ -879,7 +873,6 @@
         function editarPassageiroRelatorio(globalIdx) {
             const p = db.passageiros[globalIdx];
             if (!p) return;
-
             const cpfAtual = p.CPF || p.cpf || '';
             const viagemAtual = p.VIAGEM_DESTINO || p.viagem_destino || '';
 
@@ -898,10 +891,8 @@
             atualizarOpcoesRoteiroModal();
             document.getElementById('ROTEIRO_OPCAO').value = p.ROTEIRO_OPCAO || p.roteiro_opcao || viagemAtual;
 
-            const emb = p.LOCAL_EMBARQUE || p.embarque || '';
-            const hor = p.HORARIO_EMBARQUE || p.horario_embarque || '';
-            document.getElementById('LOCAL_EMBARQUE').value = emb === '-' ? '' : emb;
-            document.getElementById('HORARIO_EMBARQUE').value = hor;
+            document.getElementById('LOCAL_EMBARQUE').value = (p.LOCAL_EMBARQUE || p.embarque || '') === '-' ? '' : (p.LOCAL_EMBARQUE || p.embarque || '');
+            document.getElementById('HORARIO_EMBARQUE').value = p.HORARIO_EMBARQUE || p.horario_embarque || '';
             document.getElementById('VALOR_INGRESSO').value = p.VALOR_INGRESSO || p.valor_ingresso || 0;
             document.getElementById('VALOR_1_SINAL').value = p.VALOR_1_SINAL || p.valor_1_sinal || 0;
             document.getElementById('VALOR_2_RESTANTE').value = p.VALOR_2_RESTANTE || p.valor_2_restante || 0;
@@ -940,7 +931,7 @@
             const nascBR = formatarDataBR(document.getElementById('rel-nasc').value);
 
             const payload = {
-                TIPO: "CLIENTE",
+                TIPO_REGISTRO: "CLIENTE",
                 ACTION: "CREATE",
                 CPF_ORIGINAL: cpf,
                 VIAGEM_ORIGINAL: viagemSel,
@@ -959,15 +950,9 @@
                 STATUS_PAGAMENTO: status
             };
 
-            const existLocalIdx = db.passageiros.findIndex(x => 
-                String(x.CPF || x.cpf).trim() === cpf && 
-                String(x.VIAGEM_DESTINO || x.viagem_destino).trim() === viagemSel
-            );
-            if (existLocalIdx >= 0) {
-                db.passageiros[existLocalIdx] = { ...db.passageiros[existLocalIdx], ...payload };
-            } else {
-                db.passageiros.push(payload);
-            }
+            const existLocalIdx = db.passageiros.findIndex(x => String(x.CPF || x.cpf).trim() === cpf && String(x.VIAGEM_DESTINO || x.viagem_destino).trim() === viagemSel);
+            if (existLocalIdx >= 0) db.passageiros[existLocalIdx] = { ...db.passageiros[existLocalIdx], ...payload };
+            else db.passageiros.push(payload);
             gerarRelatorio();
 
             enviarParaPlanilha(payload, () => {
@@ -985,7 +970,205 @@
             });
         }
 
-        // VER CADASTRO, EDITAR E EXCLUIR CADASTRO EM PASSAGEIROS & HISTÓRICO
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        function abrirDeclaracaoPassageiro(nomeBusca, cpfBusca = '') {
+            const termoNome = String(nomeBusca || '').trim().toLowerCase();
+            const termoCpf = String(cpfBusca || '').trim();
+
+            const pCadastro = db.passageiros.find(p => 
+                (termoCpf && String(p.CPF || p.cpf).trim() === termoCpf) ||
+                (termoNome && String(p.NOME || p.nome || '').trim().toLowerCase() === termoNome)
+            );
+
+            const nomeOficial = pCadastro ? (pCadastro.NOME || pCadastro.nome) : nomeBusca;
+            const cpfOficial = pCadastro ? (pCadastro.CPF || pCadastro.cpf) : (cpfBusca || 'Não informado');
+            const telOficial = pCadastro ? (pCadastro.TELEFONE || pCadastro.telefone) : '-';
+            const cidadeOficial = pCadastro ? (pCadastro.CIDADE || pCadastro.cidade) : '-';
+
+            const viagensPass = db.passageiros.filter(p => 
+                (termoCpf && String(p.CPF || p.cpf).trim() === termoCpf) ||
+                (String(p.NOME || p.nome || '').trim().toLowerCase() === String(nomeOficial).trim().toLowerCase())
+            );
+
+            const receberPass = db.contasReceber.filter(c => String(c.cliente || '').trim().toLowerCase().includes(String(nomeOficial).trim().toLowerCase()));
+            const pagarPass = db.contasPagar.filter(c => String(c.favorecido || '').trim().toLowerCase().includes(String(nomeOficial).trim().toLowerCase()));
+
+            let totalExcursoesContratado = 0, totalExcursoesPago = 0, linhasExcursoes = '';
+            viagensPass.forEach(v => {
+                const dest = v.VIAGEM_DESTINO || v.viagem_destino || 'Excursão';
+                const opcao = v.ROTEIRO_OPCAO || v.roteiro_opcao || dest;
+                const viagemObj = db.viagens.find(x => x.destino === dest);
+                const dataViagem = viagemObj ? formatarDataBR(viagemObj.data) : '-';
+                const valorPacote = viagemObj ? Number(viagemObj.valor || 0) : Number(v.VALOR_INGRESSO || v.valor_ingresso || 0);
+                const s1 = Number(v.VALOR_1_SINAL || v.valor_1_sinal || 0);
+                const s2 = Number(v.VALOR_2_RESTANTE || v.valor_2_restante || 0);
+                const pago = s1 + s2;
+                const status = calcularStatusPagamento(s1, s2, valorPacote, v.STATUS_PAGAMENTO || v.status_pagamento);
+
+                totalExcursoesContratado += valorPacote;
+                totalExcursoesPago += pago;
+
+                linhasExcursoes += `
+                    <tr class="border-b">
+                        <td class="p-2 text-xs">${dataViagem}</td>
+                        <td class="p-2 text-xs font-bold">${dest} <span class="font-normal text-slate-500">(${opcao})</span></td>
+                        <td class="p-2 text-xs text-right">R$ ${valorPacote.toFixed(2)}</td>
+                        <td class="p-2 text-xs text-right text-emerald-700 font-semibold">R$ ${pago.toFixed(2)}</td>
+                        <td class="p-2 text-xs text-center font-bold ${status === 'Quitado' ? 'text-emerald-700' : 'text-rose-600'}">${status}</td>
+                    </tr>
+                `;
+            });
+
+            let totalReceberExtra = 0, totalReceberExtraPago = 0, linhasReceber = '';
+            receberPass.forEach(r => {
+                const val = Number(r.valor || 0);
+                const pago = r.status === 'Recebido' ? val : 0;
+                totalReceberExtra += val;
+                totalReceberExtraPago += pago;
+                linhasReceber += `
+                    <tr class="border-b">
+                        <td class="p-2 text-xs">${formatarDataBR(r.vencimento)}</td>
+                        <td class="p-2 text-xs">${r.origem || 'Receita Extra'} — <strong>${r.descricao}</strong></td>
+                        <td class="p-2 text-xs text-right">R$ ${val.toFixed(2)}</td>
+                        <td class="p-2 text-xs text-right text-emerald-700 font-semibold">R$ ${pago.toFixed(2)}</td>
+                        <td class="p-2 text-xs text-center font-bold">${r.status || 'Pendente'}</td>
+                    </tr>
+                `;
+            });
+
+            let totalPagarPass = 0, linhasPagar = '';
+            pagarPass.forEach(pg => {
+                const val = Number(pg.valor || 0);
+                totalPagarPass += val;
+                linhasPagar += `
+                    <tr class="border-b">
+                        <td class="p-2 text-xs">${formatarDataBR(pg.vencimento)}</td>
+                        <td class="p-2 text-xs">${pg.origem || 'Reembolso/Crédito'} — <strong>${pg.descricao}</strong></td>
+                        <td class="p-2 text-xs text-right text-rose-700 font-semibold">R$ ${val.toFixed(2)}</td>
+                        <td class="p-2 text-xs text-center font-bold">${pg.status || 'Pendente'}</td>
+                    </tr>
+                `;
+            });
+
+            const somatorioGeralMovimentado = totalExcursoesContratado + totalReceberExtra;
+            const somatorioGeralQuitado = totalExcursoesPago + totalReceberExtraPago;
+            const saldoGeralDevedor = Math.max(0, somatorioGeralMovimentado - somatorioGeralQuitado);
+
+            const corpoHTML = `
+                <div class="flex items-center justify-between border-b-2 border-slate-900 pb-4">
+                    <div class="flex items-center gap-4">
+                        <img src="logo-oasisturdf - Copia.png" alt="GRUPO OASIS DF" onerror="this.style.display='none';" class="h-16 w-auto object-contain">
+                        <div>
+                            <h2 class="text-xl font-black text-slate-900 uppercase tracking-wide">GRUPO OASIS DF</h2>
+                            <p class="text-xs text-slate-600 font-semibold">Turismo, Excursões & Eventos — Brasília / DF</p>
+                            <p class="text-[11px] text-slate-500">CNPJ: 64.382.483/0001-19</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="bg-slate-900 text-amber-400 text-xs font-bold px-3 py-1 rounded uppercase">Declaração Financeira</span>
+                        <p class="text-xs text-slate-500 mt-2">Data: <strong>${formatarDataBR(new Date().toISOString().slice(0, 10))}</strong></p>
+                    </div>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 text-xs space-y-1">
+                    <p class="text-sm text-slate-800 leading-relaxed">
+                        Declaramos para os devidos fins que o(a) passageiro(a) <strong>${nomeOficial}</strong>, CPF <strong>${cpfOficial}</strong>, telefone <strong>${telOficial}</strong>, residente em <strong>${cidadeOficial}</strong>, possui o seguinte histórico junto ao <strong>GRUPO OASIS DF</strong>:
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-xs uppercase bg-slate-900 text-white px-3 py-1.5 rounded-t">1. Histórico de Excursões & Viagens Participadas (${viagensPass.length})</h4>
+                    <table class="w-full text-left border border-slate-200">
+                        <thead class="bg-slate-100 text-[11px] uppercase text-slate-600">
+                            <tr><th class="p-2">Data</th><th class="p-2">Excursão</th><th class="p-2 text-right">Pacote</th><th class="p-2 text-right">Pago</th><th class="p-2 text-center">Status</th></tr>
+                        </thead>
+                        <tbody>${linhasExcursoes || '<tr><td colspan="5" class="p-3 text-center text-xs text-slate-400 italic">Nenhuma excursão registrada.</td></tr>'}</tbody>
+                    </table>
+                </div>
+                <div>
+                    <h4 class="font-bold text-xs uppercase bg-emerald-800 text-white px-3 py-1.5 rounded-t">2. Contas a Receber Avulsas (${receberPass.length})</h4>
+                    <table class="w-full text-left border border-slate-200">
+                        <thead class="bg-slate-100 text-[11px] uppercase text-slate-600">
+                            <tr><th class="p-2">Data</th><th class="p-2">Descrição</th><th class="p-2 text-right">Valor</th><th class="p-2 text-right">Quitado</th><th class="p-2 text-center">Status</th></tr>
+                        </thead>
+                        <tbody>${linhasReceber || '<tr><td colspan="5" class="p-3 text-center text-xs text-slate-400 italic">Nenhum lançamento extra.</td></tr>'}</tbody>
+                    </table>
+                </div>
+                <div>
+                    <h4 class="font-bold text-xs uppercase bg-rose-800 text-white px-3 py-1.5 rounded-t">3. Contas a Pagar / Reembolsos (${pagarPass.length})</h4>
+                    <table class="w-full text-left border border-slate-200">
+                        <thead class="bg-slate-100 text-[11px] uppercase text-slate-600">
+                            <tr><th class="p-2">Vencimento</th><th class="p-2">Descrição</th><th class="p-2 text-right">Valor</th><th class="p-2 text-center">Status</th></tr>
+                        </thead>
+                        <tbody>${linhasPagar || '<tr><td colspan="4" class="p-3 text-center text-xs text-slate-400 italic">Nenhum registro a pagar.</td></tr>'}</tbody>
+                    </table>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 bg-amber-50 border border-amber-200 p-4 rounded-xl">
+                    <div><span class="block text-[10px] font-bold uppercase text-slate-500">Total Contratado</span><strong class="text-sm text-slate-900">R$ ${somatorioGeralMovimentado.toFixed(2)}</strong></div>
+                    <div><span class="block text-[10px] font-bold uppercase text-slate-500">Total Pago</span><strong class="text-sm text-emerald-700">R$ ${somatorioGeralQuitado.toFixed(2)}</strong></div>
+                    <div><span class="block text-[10px] font-bold uppercase text-slate-500">Saldo Pendente</span><strong class="text-sm text-rose-600">R$ ${saldoGeralDevedor.toFixed(2)}</strong></div>
+                    <div><span class="block text-[10px] font-bold uppercase text-slate-500">Reembolsos</span><strong class="text-sm text-slate-800">R$ ${totalPagarPass.toFixed(2)}</strong></div>
+                </div>
+                <div class="pt-8 text-center text-xs text-slate-600">
+                    <div class="w-64 border-t border-slate-400 mx-auto pt-2">
+                        <p class="font-bold text-slate-800">GRUPO OASIS DF</p>
+                        <p class="text-[11px]">Coordenação Administrativa</p>
+                    </div>
+                </div>
+            `;
+
+            const janelaPrint = window.open('', '_blank', 'width=900,height=700,top=100,left=150');
+            if (!janelaPrint) {
+                alert("Por favor, permita os pop-ups do navegador para visualizar a declaração.");
+                return;
+            }
+
+            janelaPrint.document.write(`
+                <!DOCTYPE html>
+                <html lang="pt-BR">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Declaração Financeira — GRUPO OASIS DF</title>
+                    <script src="https://cdn.tailwindcss.com"><\/script>
+                    <style>
+                        body { background: #ffffff !important; color: #1e293b !important; font-family: sans-serif; padding: 30px; }
+                        @media print {
+                            .no-print { display: none !important; }
+                            body { padding: 0 !important; }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="max-w-2xl mx-auto bg-white p-6 space-y-6">
+                        ${corpoHTML}
+                        <div class="no-print flex justify-end gap-3 pt-6 border-t border-slate-200">
+                            <button onclick="window.print()" class="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold px-4 py-2 rounded-lg text-sm shadow cursor-pointer">
+                                🖨️ Imprimir / Salvar PDF
+                            </button>
+                            <button onclick="window.close()" class="bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold px-4 py-2 rounded-lg text-sm cursor-pointer">
+                                ✕ Fechar Janela
+                            </button>
+                        </div>
+                    </div>
+                </body>
+                </html>
+            `);
+            janelaPrint.document.close();
+            janelaPrint.focus();
+        }
+
         function verHistoricoCliente(cpf) {
             const pGeral = db.passageiros.find(x => (x.CPF || x.cpf) === cpf);
             if (!pGeral) return;
@@ -1004,21 +1187,27 @@
                 </div>`;
             }).join('') || '<p class="text-xs text-slate-400 italic">Nenhum passeio registrado.</p>';
 
+            const nomeCli = pGeral.NOME || pGeral.nome || '';
             document.getElementById('conteudo-historico').innerHTML = `
                 <div class="space-y-4">
                     <div class="p-4 bg-amber-50/70 rounded-xl border border-amber-200 text-xs space-y-1.5">
                         <div class="flex justify-between items-center border-b border-amber-200 pb-1.5 mb-2">
                             <span class="font-bold text-amber-900 uppercase">Dados Cadastrais</span>
-                            <button onclick="closeModal('modal-historico'); abrirEditarClienteGeral('${cpf}')" class="bg-blue-600 text-white px-2.5 py-1 rounded text-[11px] font-bold hover:bg-blue-700">
-                                <i class="fa-solid fa-pen"></i> Editar Cadastro
-                            </button>
+                            <div class="space-x-1">
+                                <button onclick="closeModal('modal-historico'); abrirDeclaracaoPassageiro('${nomeCli.replace(/'/g, "\\'")}', '${cpf}')" class="bg-slate-800 text-amber-400 px-2.5 py-1 rounded text-[11px] font-bold hover:bg-slate-700">
+                                    <i class="fa-solid fa-file-contract"></i> Declaração
+                                </button>
+                                <button onclick="closeModal('modal-historico'); abrirEditarClienteGeral('${cpf}')" class="bg-blue-600 text-white px-2.5 py-1 rounded text-[11px] font-bold hover:bg-blue-700">
+                                    <i class="fa-solid fa-pen"></i> Editar
+                                </button>
+                            </div>
                         </div>
-                        <p><strong>Nome Completo:</strong> ${pGeral.NOME || pGeral.nome || '-'}</p>
-                        <p><strong>CPF:</strong> ${pGeral.CPF || pGeral.cpf || '-'}</p>
+                        <p><strong>Nome Completo:</strong> ${nomeCli || '-'}</p>
+                        <p><strong>CPF:</strong> ${cpf || '-'}</p>
                         <p><strong>Telefone:</strong> ${pGeral.TELEFONE || pGeral.telefone || '-'}</p>
                         <p><strong>Nascimento:</strong> ${formatarDataBR(pGeral.NASCIMENTO || pGeral.nasc)} (${calcularIdade(pGeral.NASCIMENTO || pGeral.nasc)} anos)</p>
                         <p><strong>Cidade:</strong> ${pGeral.CIDADE || pGeral.cidade || '-'}</p>
-                        <p class="pt-1"><strong>Total Investido (Acumulado):</strong> <span class="text-emerald-700 font-extrabold text-sm">R$ ${totalPagoGeral.toFixed(2)}</span></p>
+                        <p class="pt-1"><strong>Total Investido:</strong> <span class="text-emerald-700 font-extrabold text-sm">R$ ${totalPagoGeral.toFixed(2)}</span></p>
                     </div>
                     <div>
                         <h4 class="font-bold text-xs uppercase text-slate-700 mb-2">Histórico de Viagens & Passeios (${inscricoes.length})</h4>
@@ -1060,8 +1249,8 @@
                 }
             });
 
-            const payload = {
-                TIPO: "CLIENTE",
+            enviarParaPlanilha({
+                TIPO_REGISTRO: "CLIENTE",
                 ACTION: "EDIT_CLIENTE",
                 CPF_ORIGINAL: cpfOrig,
                 NOME: novoNome,
@@ -1069,9 +1258,7 @@
                 TELEFONE: novoTel,
                 NASCIMENTO: novaNascBR,
                 CIDADE: novaCidade
-            };
-
-            enviarParaPlanilha(payload, () => {
+            }, () => {
                 closeModal('modal-editar-cliente-geral');
                 renderAll();
             });
@@ -1079,20 +1266,15 @@
 
         function excluirCadastroCliente(cpf, nome) {
             if (!confirm(`Tem certeza que deseja EXCLUIR TODO O CADASTRO de "${nome}" (CPF: ${cpf}) e todas as suas inscrições da planilha?`)) return;
-
             db.passageiros = db.passageiros.filter(p => (p.CPF || p.cpf) !== cpf);
             renderAll();
-
-            enviarParaPlanilha({
-                TIPO: "CLIENTE",
-                ACTION: "DELETE_CLIENTE",
-                CPF: cpf
-            });
+            enviarParaPlanilha({ TIPO_REGISTRO: "CLIENTE", ACTION: "DELETE_CLIENTE", CPF: cpf });
         }
 
         function renderPassageiros() {
             const query = (document.getElementById('search-passageiro')?.value || '').toLowerCase();
             const tbody = document.getElementById('table-passageiros');
+            if(!tbody) return;
             tbody.innerHTML = '';
 
             const mapa = new Map();
@@ -1105,10 +1287,13 @@
                 (p.NOME || p.nome || '').toLowerCase().includes(query) ||
                 (p.CPF || p.cpf || '').toLowerCase().includes(query)
             );
+            
             const selectExistente = document.getElementById('rel-pass-existente');
-            if(selectExistente) {
-                selectExistente.innerHTML = '<option value="">-- Selecionar da Base --</option>' + Array.from(mapa.values()).map(p => `<option value="${p.CPF || p.cpf}">${p.NOME || p.nome}</option>`).join('');
-            }
+            const datalistPass = document.getElementById('lista-nomes-passageiros');
+            const todosUnicos = Array.from(mapa.values());
+
+            if(selectExistente) selectExistente.innerHTML = '<option value="">-- Selecionar da Base --</option>' + todosUnicos.map(p => `<option value="${p.CPF || p.cpf}">${p.NOME || p.nome}</option>`).join('');
+            if(datalistPass) datalistPass.innerHTML = todosUnicos.map(p => `<option value="${p.NOME || p.nome}">`).join('');
 
             if(!lista.length) {
                 tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400 italic">Nenhum passageiro encontrado.</td></tr>`;
@@ -1126,29 +1311,19 @@
                         <td class="p-3 text-xs">${formatarDataBR(p.NASCIMENTO || p.nasc)}</td>
                         <td class="p-3 text-xs">${p.CIDADE || p.cidade || '-'}</td>
                         <td class="p-3 text-center whitespace-nowrap space-x-1">
-                            <button onclick="verHistoricoCliente('${cpf}')" class="text-xs bg-amber-100 text-amber-900 hover:bg-amber-200 font-bold px-2.5 py-1 rounded shadow-sm" title="Ver Cadastro e Histórico">
-                                <i class="fa-solid fa-eye"></i> Ver Cadastro
-                            </button>
-                            <button onclick="abrirEditarClienteGeral('${cpf}')" class="text-xs bg-blue-100 text-blue-800 hover:bg-blue-200 font-bold px-2.5 py-1 rounded shadow-sm" title="Editar Cadastro">
-                                <i class="fa-solid fa-pen"></i> Editar
-                            </button>
-                            <button onclick="excluirCadastroCliente('${cpf}', '${nome.replace(/'/g, "\\'")}')" class="text-xs bg-rose-100 text-rose-800 hover:bg-rose-200 font-bold px-2.5 py-1 rounded shadow-sm" title="Excluir Cadastro">
-                                <i class="fa-solid fa-trash"></i> Excluir
-                            </button>
+                            <button onclick="verHistoricoCliente('${cpf}')" class="text-xs bg-amber-100 text-amber-900 hover:bg-amber-200 font-bold px-2.5 py-1 rounded shadow-sm"><i class="fa-solid fa-eye"></i> Ver Cadastro</button>
+                            <button onclick="abrirEditarClienteGeral('${cpf}')" class="text-xs bg-blue-100 text-blue-800 hover:bg-blue-200 font-bold px-2.5 py-1 rounded shadow-sm"><i class="fa-solid fa-pen"></i> Editar</button>
+                            <button onclick="excluirCadastroCliente('${cpf}', '${nome.replace(/'/g, "\\'")}')" class="text-xs bg-rose-100 text-rose-800 hover:bg-rose-200 font-bold px-2.5 py-1 rounded shadow-sm"><i class="fa-solid fa-trash"></i> Excluir</button>
                         </td>
                     </tr>
                 `;
             });
         }
 
-        // VIAGENS SINCRONIZADAS COM A ABA "VIAGENS" NO GOOGLE SHEETS
         function abrirListagemPassageirosViagem(destino) {
             switchTab('relatorios');
             const selectRel = document.getElementById('select-relatorio-passeio');
-            if (selectRel) {
-                selectRel.value = destino;
-                gerarRelatorio();
-            }
+            if (selectRel) { selectRel.value = destino; gerarRelatorio(); }
         }
 
         function salvarViagemSistema(e) {
@@ -1160,7 +1335,6 @@
             const data = document.getElementById('viagem-data').value;
             const vagas = Number(document.getElementById('viagem-vagas').value || 0);
             const valor = Number(document.getElementById('viagem-valor').value || 0);
-
             const idFinal = editId ? String(editId) : String(Date.now());
 
             if(editId) {
@@ -1176,9 +1350,8 @@
             renderViagens();
             atualizarSelectsViagens();
 
-            // Envia para a aba VIAGENS da planilha
             enviarParaPlanilha({
-                TIPO: "VIAGEM",
+                TIPO_REGISTRO: "VIAGEM",
                 ACTION: editId ? "EDIT" : "CREATE",
                 ID: idFinal,
                 DESTINO: destino,
@@ -1208,188 +1381,259 @@
             localStorage.setItem('oasis_viagens', JSON.stringify(db.viagens));
             renderViagens();
             atualizarSelectsViagens();
-
-            enviarParaPlanilha({
-                TIPO: "VIAGEM",
-                ACTION: "DELETE_VIAGEM_NUVEM",
-                ID: String(id)
-            });
+            enviarParaPlanilha({ TIPO_REGISTRO: "VIAGEM", ACTION: "DELETE_VIAGEM_NUVEM", ID: String(id) });
         }
 
         function renderViagens() {
-            const grid = document.getElementById('grid-passeios');
-            grid.innerHTML = '';
-            db.viagens.forEach(v => {
-                const qtdInscritos = db.passageiros.filter(p => (p.VIAGEM_DESTINO || p.viagem_destino) === v.destino).length;
-                const badges = (v.opcoes || []).map(o => `<span class="bg-amber-50 text-amber-800 text-[10px] px-2 py-0.5 rounded border">${o}</span>`).join(' ');
-                grid.innerHTML += `
-                    <div class="bg-white border rounded-xl p-5 shadow-sm space-y-3 flex flex-col justify-between">
-                        <div>
-                            <div class="flex justify-between items-start gap-2">
-                                <h3 class="font-bold text-slate-800">${v.destino}</h3>
-                                <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-1 rounded whitespace-nowrap">R$ ${Number(v.valor).toFixed(2)}</span>
-                            </div>
-                            <p class="text-xs text-slate-500 mt-1">Data: ${formatarDataBR(v.data)} | Vagas: ${qtdInscritos}/${v.vagas}</p>
-                            ${badges ? `<div class="flex flex-wrap gap-1 mt-2"><span class="text-[10px] font-bold text-slate-400 w-full">Opções:</span>${badges}</div>` : ''}
-                        </div>
-                        <div class="pt-3 border-t space-y-2">
-                            <button onclick="abrirListagemPassageirosViagem('${v.destino.replace(/'/g, "\\'")}')" class="w-full bg-slate-900 hover:bg-slate-800 text-amber-400 text-xs font-bold py-2 px-3 rounded-lg flex items-center justify-center gap-2 shadow-sm">
-                                <i class="fa-solid fa-clipboard-list"></i> Listagem de Passageiros (${qtdInscritos})
-                            </button>
-                            <div class="flex justify-between px-1">
-                                <button onclick="editarViagem('${v.id}')" class="text-blue-600 hover:underline text-xs font-bold"><i class="fa-solid fa-pen"></i> Editar</button>
-                                <button onclick="excluirViagem('${v.id}')" class="text-rose-600 hover:underline text-xs font-bold"><i class="fa-solid fa-trash"></i> Excluir</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
+            const tbody = document.getElementById('table-passeios');
+            if (!tbody) return;
+            const query = (document.getElementById('search-viagem')?.value || '').toLowerCase();
+
+            const filtradas = db.viagens.filter(v => {
+                const dest = (v.destino || '').toLowerCase();
+                const ops = (v.opcoes || []).join(' ').toLowerCase();
+                const dt = formatarDataBR(v.data).toLowerCase();
+                return dest.includes(query) || ops.includes(query) || dt.includes(query);
             });
+
+            if (!filtradas.length) {
+                tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400 italic">Nenhuma viagem encontrada.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = filtradas.map(v => {
+                const qtdInscritos = db.passageiros.filter(p => (p.VIAGEM_DESTINO || p.viagem_destino) === v.destino).length;
+                const badges = (v.opcoes || []).map(o => `<span class="bg-amber-50 text-amber-800 text-[10px] px-2 py-0.5 rounded border border-amber-200">${o}</span>`).join(' ');
+                return `
+                    <tr class="hover:bg-slate-50">
+                        <td class="p-3 font-bold text-slate-800">${v.destino}</td>
+                        <td class="p-3"><div class="flex flex-wrap gap-1">${badges || '<span class="text-xs text-slate-400">-</span>'}</div></td>
+                        <td class="p-3 text-center text-xs whitespace-nowrap font-medium">${formatarDataBR(v.data)}</td>
+                        <td class="p-3 text-center text-xs whitespace-nowrap">
+                            <span class="px-2 py-0.5 rounded font-bold ${qtdInscritos >= Number(v.vagas) ? 'bg-rose-100 text-rose-700' : 'bg-blue-50 text-blue-700'}">${qtdInscritos} / ${v.vagas}</span>
+                        </td>
+                        <td class="p-3 text-right font-bold text-amber-700 whitespace-nowrap">R$ ${Number(v.valor).toFixed(2)}</td>
+                        <td class="p-3 text-center whitespace-nowrap space-x-1">
+                            <button onclick="abrirListagemPassageirosViagem('${v.destino.replace(/'/g, "\\'")}')" class="bg-slate-900 hover:bg-slate-800 text-amber-400 text-xs font-bold px-2.5 py-1 rounded shadow-sm"><i class="fa-solid fa-clipboard-list"></i> Lista (${qtdInscritos})</button>
+                            <button onclick="editarViagem('${v.id}')" class="bg-blue-100 hover:bg-blue-200 text-blue-800 text-xs font-bold px-2.5 py-1 rounded"><i class="fa-solid fa-pen"></i> Editar</button>
+                            <button onclick="excluirViagem('${v.id}')" class="bg-rose-100 hover:bg-rose-200 text-rose-800 text-xs font-bold px-2.5 py-1 rounded"><i class="fa-solid fa-trash"></i> Excluir</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
         }
 
-        // CONTAS A PAGAR & RECEBER
+        function verificarFiltroData(dataISO, mesFiltro, inicioFiltro, fimFiltro) {
+            if (!mesFiltro && !inicioFiltro && !fimFiltro) return true;
+            if (!dataISO) return false;
+            if (mesFiltro) return dataISO.startsWith(mesFiltro);
+            if (inicioFiltro && dataISO < inicioFiltro) return false;
+            if (fimFiltro && dataISO > fimFiltro) return false;
+            return true;
+        }
+
+        function limparFiltrosPagar() {
+            document.getElementById('pag-filtro-pass').value = '';
+            document.getElementById('pag-filtro-mes').value = '';
+            document.getElementById('pag-filtro-inicio').value = '';
+            document.getElementById('pag-filtro-fim').value = '';
+            renderContasPagar();
+        }
+
         function salvarPagar(e) {
             e.preventDefault();
-            db.contasPagar.push({
-                id: Date.now(),
+            const novoItem = {
+                id: String(Date.now()),
                 origem: document.getElementById('pag-origem').value.trim() || 'Lançamento Manual',
+                favorecido: document.getElementById('pag-favorecido').value.trim(),
                 descricao: document.getElementById('pag-desc').value.trim(),
                 vencimento: document.getElementById('pag-venc').value,
                 valor: Number(document.getElementById('pag-valor').value),
                 status: 'Pendente'
-            });
+            };
+            db.contasPagar.push(novoItem);
             localStorage.setItem('oasis_pagar', JSON.stringify(db.contasPagar));
             closeModal('modal-pagar');
             document.getElementById('form-pagar').reset();
             renderContasPagar();
             renderDashboard();
+
+            enviarParaPlanilha({
+                TIPO_REGISTRO: "FINANCEIRO", ACTION: "CREATE", ID: novoItem.id, TIPO: "PAGAR",
+                ORIGEM: novoItem.origem, CLIENTE_FORNECEDOR: novoItem.favorecido, DESCRICAO: novoItem.descricao,
+                VENCIMENTO: formatarDataBR(novoItem.vencimento), VALOR: novoItem.valor, STATUS: novoItem.status
+            });
         }
 
         function darBaixaPagar(id) {
-            const item = db.contasPagar.find(x => x.id === id);
+            const item = db.contasPagar.find(x => String(x.id) === String(id));
             if(item) {
                 item.status = item.status === 'Pago' ? 'Pendente' : 'Pago';
-                item.dataPagamento = new Date().toISOString().slice(0, 10);
                 localStorage.setItem('oasis_pagar', JSON.stringify(db.contasPagar));
                 renderContasPagar();
                 renderDashboard();
+
+                enviarParaPlanilha({
+                    TIPO_REGISTRO: "FINANCEIRO", ACTION: "EDIT", ID: String(item.id), TIPO: "PAGAR",
+                    ORIGEM: item.origem, CLIENTE_FORNECEDOR: item.favorecido || '', DESCRICAO: item.descricao,
+                    VENCIMENTO: formatarDataBR(item.vencimento), VALOR: item.valor, STATUS: item.status
+                }, null, true);
             }
         }
 
         function excluirContaPagar(id) {
-            if (!confirm("Deseja excluir esta conta a pagar?")) return;
-            db.contasPagar = db.contasPagar.filter(x => x.id !== id);
+            if (!confirm("Deseja excluir esta conta a pagar da planilha?")) return;
+            db.contasPagar = db.contasPagar.filter(x => String(x.id) !== String(id));
             localStorage.setItem('oasis_pagar', JSON.stringify(db.contasPagar));
             renderContasPagar();
             renderDashboard();
+            enviarParaPlanilha({ TIPO_REGISTRO: "FINANCEIRO", ACTION: "DELETE", ID: String(id) }, null, true);
         }
 
         function renderContasPagar() {
             const tbody = document.getElementById('table-pagar');
-            tbody.innerHTML = db.contasPagar.map(c => `
-                <tr class="hover:bg-slate-50">
-                    <td class="p-3"><span class="bg-slate-100 text-slate-700 text-xs font-semibold px-2 py-0.5 rounded">${c.origem || 'Despesa Operacional'}</span></td>
-                    <td class="p-3 font-semibold text-slate-800">${c.descricao}</td>
-                    <td class="p-3 text-xs">${formatarDataBR(c.vencimento)}</td>
-                    <td class="p-3 font-bold text-rose-600">R$ ${Number(c.valor).toFixed(2)}</td>
-                    <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-bold ${c.status === 'Pago' ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">${c.status}</span></td>
-                    <td class="p-3 text-center whitespace-nowrap space-x-1">
-                        <button onclick="darBaixaPagar(${c.id})" class="text-xs ${c.status === 'Pago' ? 'bg-amber-100 text-amber-800' : 'bg-emerald-600 text-white hover:bg-emerald-700'} font-bold px-2.5 py-1 rounded">
-                            ${c.status === 'Pago' ? '↩ Reabrir' : '✅ Dar Baixa'}
-                        </button>
-                        <button onclick="excluirContaPagar(${c.id})" class="text-xs bg-rose-100 text-rose-700 hover:bg-rose-200 font-bold px-2.5 py-1 rounded">
-                            <i class="fa-solid fa-trash"></i> Excluir
-                        </button>
-                    </td>
-                </tr>
-            `).join('') || `<tr><td colspan="6" class="p-4 text-center text-slate-400 italic">Nenhuma conta cadastrada.</td></tr>`;
+            if(!tbody) return;
+            const fPass = (document.getElementById('pag-filtro-pass')?.value || '').toLowerCase();
+            const fMes = document.getElementById('pag-filtro-mes')?.value || '';
+            const fInicio = document.getElementById('pag-filtro-inicio')?.value || '';
+            const fFim = document.getElementById('pag-filtro-fim')?.value || '';
+
+            const filtrados = db.contasPagar.filter(c => {
+                const matchNome = !fPass || (c.favorecido || '').toLowerCase().includes(fPass) || (c.descricao || '').toLowerCase().includes(fPass);
+                const matchData = verificarFiltroData(formatarDataISO(c.vencimento), fMes, fInicio, fFim);
+                return matchNome && matchData;
+            });
+
+            const totalFiltrado = filtrados.reduce((acc, c) => acc + Number(c.valor || 0), 0);
+            let subPeriodo = 'Período: Geral';
+            if (fMes) subPeriodo = `Mês: ${fMes.split('-').reverse().join('/')}`;
+            else if (fInicio || fFim) subPeriodo = `De ${fInicio ? formatarDataBR(fInicio) : 'Início'} até ${fFim ? formatarDataBR(fFim) : 'Hoje'}`;
+            if (fPass) subPeriodo += ` | Filtro: "${fPass}"`;
+
+            if (document.getElementById('pag-rel-subtitulo')) document.getElementById('pag-rel-subtitulo').innerText = subPeriodo;
+            if (document.getElementById('pag-rel-emissao')) document.getElementById('pag-rel-emissao').innerText = `Emitido em: ${formatarDataBR(new Date().toISOString().slice(0, 10))}`;
+            if (document.getElementById('pag-rel-total-header')) document.getElementById('pag-rel-total-header').innerText = `Total Listado: R$ ${totalFiltrado.toFixed(2)}`;
+
+            tbody.innerHTML = filtrados.map(c => {
+                const fav = c.favorecido || '-';
+                return `
+                    <tr class="hover:bg-slate-50">
+                        <td class="p-3"><span class="bg-slate-100 text-slate-700 text-xs font-semibold px-2 py-0.5 rounded">${c.origem || 'Despesa'}</span></td>
+                        <td class="p-3 font-bold text-slate-800">${fav}</td>
+                        <td class="p-3 text-slate-700">${c.descricao}</td>
+                        <td class="p-3 text-xs whitespace-nowrap">${formatarDataBR(c.vencimento)}</td>
+                        <td class="p-3 text-right font-bold text-rose-600 whitespace-nowrap">R$ ${Number(c.valor).toFixed(2)}</td>
+                        <td class="p-3 text-center"><span class="px-2 py-0.5 rounded text-xs font-bold ${c.status === 'Pago' ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">${c.status}</span></td>
+                        <td class="p-3 text-center whitespace-nowrap space-x-1 no-print">
+                            ${fav !== '-' ? `<button onclick="abrirDeclaracaoPassageiro('${fav.replace(/'/g, "\\'")}')" class="text-xs bg-slate-800 text-amber-400 hover:bg-slate-700 font-bold px-2.5 py-1 rounded" title="Declaração"><i class="fa-solid fa-file-contract"></i> Declaração</button>` : ''}
+                            <button onclick="darBaixaPagar('${c.id}')" class="text-xs ${c.status === 'Pago' ? 'bg-amber-100 text-amber-800' : 'bg-emerald-600 text-white hover:bg-emerald-700'} font-bold px-2.5 py-1 rounded">${c.status === 'Pago' ? '↩ Reabrir' : '✅ Dar Baixa'}</button>
+                            <button onclick="excluirContaPagar('${c.id}')" class="text-xs bg-rose-100 text-rose-700 hover:bg-rose-200 font-bold px-2.5 py-1 rounded"><i class="fa-solid fa-trash"></i> Excluir</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('') || `<tr><td colspan="7" class="p-4 text-center text-slate-400 italic">Nenhuma conta a pagar encontrada.</td></tr>`;
+        }
+
+        function limparFiltrosReceber() {
+            document.getElementById('rec-filtro-pass').value = '';
+            document.getElementById('rec-filtro-mes').value = '';
+            document.getElementById('rec-filtro-inicio').value = '';
+            document.getElementById('rec-filtro-fim').value = '';
+            renderContasReceber();
         }
 
         function salvarReceber(e) {
             e.preventDefault();
-            db.contasReceber.push({
-                id: Date.now(),
+            const novoItem = {
+                id: String(Date.now()),
                 origem: document.getElementById('rec-origem').value.trim() || 'Lançamento Manual',
                 cliente: document.getElementById('rec-cliente').value.trim(),
                 descricao: document.getElementById('rec-desc').value.trim(),
                 vencimento: document.getElementById('rec-venc').value,
                 valor: Number(document.getElementById('rec-valor').value),
                 status: 'Pendente'
-            });
+            };
+            db.contasReceber.push(novoItem);
             localStorage.setItem('oasis_receber', JSON.stringify(db.contasReceber));
             closeModal('modal-receber');
             document.getElementById('form-receber').reset();
             renderContasReceber();
             renderDashboard();
+
+            enviarParaPlanilha({
+                TIPO_REGISTRO: "FINANCEIRO", ACTION: "CREATE", ID: novoItem.id, TIPO: "RECEBER",
+                ORIGEM: novoItem.origem, CLIENTE_FORNECEDOR: novoItem.cliente, DESCRICAO: novoItem.descricao,
+                VENCIMENTO: formatarDataBR(novoItem.vencimento), VALOR: novoItem.valor, STATUS: novoItem.status
+            });
         }
 
         function darBaixaReceberPassageiro(globalIdx, saldoRestante) {
             const p = db.passageiros[globalIdx];
             if (!p) return;
-            if (!confirm(`Confirmar o recebimento do saldo restante de R$ ${saldoRestante.toFixed(2)} de ${p.NOME || p.nome}?`)) return;
+            if (!confirm(`Confirmar o recebimento do saldo de R$ ${saldoRestante.toFixed(2)} de ${p.NOME || p.nome}?`)) return;
 
-            const s2Atual = Number(p.VALOR_2_RESTANTE || p.valor_2_restante || 0);
-            const novoS2 = s2Atual + saldoRestante;
-
+            const novoS2 = Number(p.VALOR_2_RESTANTE || p.valor_2_restante || 0) + saldoRestante;
             p.VALOR_2_RESTANTE = novoS2;
             p.STATUS_PAGAMENTO = 'Quitado';
 
-            const payload = {
-                TIPO: "CLIENTE",
-                ACTION: "EDIT",
-                CPF_ORIGINAL: p.CPF || p.cpf,
-                VIAGEM_ORIGINAL: p.VIAGEM_DESTINO || p.viagem_destino,
-                VALOR_2_RESTANTE: novoS2,
-                STATUS_PAGAMENTO: 'Quitado'
-            };
-
             renderAll();
-            enviarParaPlanilha(payload);
+            enviarParaPlanilha({
+                TIPO_REGISTRO: "CLIENTE", ACTION: "EDIT",
+                CPF_ORIGINAL: p.CPF || p.cpf, VIAGEM_ORIGINAL: p.VIAGEM_DESTINO || p.viagem_destino,
+                VALOR_2_RESTANTE: novoS2, STATUS_PAGAMENTO: 'Quitado'
+            });
         }
 
         function excluirSaldoReceberPassageiro(globalIdx) {
             const p = db.passageiros[globalIdx];
             if (!p) return;
-            if (!confirm(`Deseja dispensar/zerar a cobrança pendente deste passageiro (marcar como Quitado sem alterar valores)?`)) return;
-
+            if (!confirm(`Deseja dispensar/zerar a cobrança pendente deste passageiro?`)) return;
             p.STATUS_PAGAMENTO = 'Quitado';
-            const payload = {
-                TIPO: "CLIENTE",
-                ACTION: "EDIT",
-                CPF_ORIGINAL: p.CPF || p.cpf,
-                VIAGEM_ORIGINAL: p.VIAGEM_DESTINO || p.viagem_destino,
-                STATUS_PAGAMENTO: 'Quitado'
-            };
-
             renderAll();
-            enviarParaPlanilha(payload);
+            enviarParaPlanilha({
+                TIPO_REGISTRO: "CLIENTE", ACTION: "EDIT",
+                CPF_ORIGINAL: p.CPF || p.cpf, VIAGEM_ORIGINAL: p.VIAGEM_DESTINO || p.viagem_destino,
+                STATUS_PAGAMENTO: 'Quitado'
+            });
         }
 
         function darBaixaReceberManual(id) {
-            const item = db.contasReceber.find(x => x.id === id);
+            const item = db.contasReceber.find(x => String(x.id) === String(id));
             if (item) {
                 item.status = item.status === 'Recebido' ? 'Pendente' : 'Recebido';
                 localStorage.setItem('oasis_receber', JSON.stringify(db.contasReceber));
                 renderContasReceber();
                 renderDashboard();
+                enviarParaPlanilha({
+                    TIPO_REGISTRO: "FINANCEIRO", ACTION: "EDIT", ID: String(item.id), TIPO: "RECEBER",
+                    ORIGEM: item.origem, CLIENTE_FORNECEDOR: item.cliente, DESCRICAO: item.descricao,
+                    VENCIMENTO: formatarDataBR(item.vencimento), VALOR: item.valor, STATUS: item.status
+                }, null, true);
             }
         }
 
         function excluirReceberManual(id) {
-            if (!confirm("Deseja excluir esta conta a receber?")) return;
-            db.contasReceber = db.contasReceber.filter(x => x.id !== id);
+            if (!confirm("Deseja excluir esta conta a receber da planilha?")) return;
+            db.contasReceber = db.contasReceber.filter(x => String(x.id) !== String(id));
             localStorage.setItem('oasis_receber', JSON.stringify(db.contasReceber));
             renderContasReceber();
             renderDashboard();
+            enviarParaPlanilha({ TIPO_REGISTRO: "FINANCEIRO", ACTION: "DELETE", ID: String(id) }, null, true);
         }
 
         function renderContasReceber() {
             const tbody = document.getElementById('table-receber');
-            let html = '';
+            if(!tbody) return;
+            const fPass = (document.getElementById('rec-filtro-pass')?.value || '').toLowerCase();
+            const fMes = document.getElementById('rec-filtro-mes')?.value || '';
+            const fInicio = document.getElementById('rec-filtro-inicio')?.value || '';
+            const fFim = document.getElementById('rec-filtro-fim')?.value || '';
+
+            let html = '', totalSaldoPendente = 0;
 
             db.passageiros.forEach((p, globalIdx) => {
                 const destino = p.VIAGEM_DESTINO || p.viagem_destino;
-                const statusAtual = p.STATUS_PAGAMENTO || p.status_pagamento || '';
-                if (statusAtual === 'Quitado' || statusAtual === 'Pago') return;
+                if ((p.STATUS_PAGAMENTO || p.status_pagamento) === 'Quitado' || (p.STATUS_PAGAMENTO || p.status_pagamento) === 'Pago') return;
 
                 const viagem = db.viagens.find(v => v.destino === destino);
                 if(viagem) {
@@ -1397,54 +1641,73 @@
                     const pago = Number(p.VALOR_1_SINAL || p.valor_1_sinal || 0) + Number(p.VALOR_2_RESTANTE || p.valor_2_restante || 0);
                     const saldo = totalViagem - pago;
                     if(saldo > 0) {
-                        html += `
-                            <tr class="hover:bg-slate-50">
-                                <td class="p-3"><span class="bg-blue-50 text-blue-700 text-xs font-bold px-2 py-0.5 rounded">Viagem / Excursão</span></td>
-                                <td class="p-3 font-bold text-slate-800">${p.NOME || p.nome}</td>
-                                <td class="p-3 text-blue-600 font-medium">${destino}</td>
-                                <td class="p-3">R$ ${totalViagem.toFixed(2)}</td>
-                                <td class="p-3 text-emerald-600">R$ ${pago.toFixed(2)}</td>
-                                <td class="p-3 font-bold text-rose-600">R$ ${saldo.toFixed(2)}</td>
-                                <td class="p-3 text-center whitespace-nowrap space-x-1">
-                                    <button onclick="darBaixaReceberPassageiro(${globalIdx}, ${saldo})" class="text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-2.5 py-1 rounded">
-                                        ✅ Dar Baixa
-                                    </button>
-                                    <button onclick="excluirSaldoReceberPassageiro(${globalIdx})" class="text-xs bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold px-2.5 py-1 rounded" title="Dispensar / Excluir Cobrança">
-                                        <i class="fa-solid fa-trash"></i> Excluir
-                                    </button>
-                                </td>
-                            </tr>
-                        `;
+                        const nomePass = p.NOME || p.nome || '';
+                        const cpfPass = p.CPF || p.cpf || '';
+                        const matchNome = !fPass || nomePass.toLowerCase().includes(fPass) || destino.toLowerCase().includes(fPass);
+                        const matchData = verificarFiltroData(formatarDataISO(viagem.data), fMes, fInicio, fFim);
+
+                        if (matchNome && matchData) {
+                            totalSaldoPendente += saldo;
+                            html += `
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3"><span class="bg-blue-50 text-blue-700 text-xs font-bold px-2 py-0.5 rounded">Viagem</span></td>
+                                    <td class="p-3 font-bold text-slate-800">${nomePass}</td>
+                                    <td class="p-3 text-blue-600 font-medium">${destino}</td>
+                                    <td class="p-3 text-center text-xs whitespace-nowrap">${formatarDataBR(viagem.data)}</td>
+                                    <td class="p-3 text-right whitespace-nowrap">R$ ${totalViagem.toFixed(2)}</td>
+                                    <td class="p-3 text-right text-emerald-600 whitespace-nowrap">R$ ${pago.toFixed(2)}</td>
+                                    <td class="p-3 text-right font-bold text-rose-600 whitespace-nowrap">R$ ${saldo.toFixed(2)}</td>
+                                    <td class="p-3 text-center whitespace-nowrap space-x-1 no-print">
+                                        <button onclick="abrirDeclaracaoPassageiro('${nomePass.replace(/'/g, "\\'")}', '${cpfPass}')" class="text-xs bg-slate-800 hover:bg-slate-700 text-amber-400 font-bold px-2.5 py-1 rounded" title="Declaração"><i class="fa-solid fa-file-contract"></i> Declaração</button>
+                                        <button onclick="darBaixaReceberPassageiro(${globalIdx}, ${saldo})" class="text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-2.5 py-1 rounded">✅ Dar Baixa</button>
+                                        <button onclick="excluirSaldoReceberPassageiro(${globalIdx})" class="text-xs bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold px-2.5 py-1 rounded" title="Excluir"><i class="fa-solid fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            `;
+                        }
                     }
                 }
             });
 
             db.contasReceber.forEach(c => {
                 const isRecebido = c.status === 'Recebido';
-                html += `
-                    <tr class="hover:bg-slate-50">
-                        <td class="p-3"><span class="bg-amber-50 text-amber-800 text-xs font-bold px-2 py-0.5 rounded">${c.origem || 'Receita Extra'}</span></td>
-                        <td class="p-3 font-bold text-slate-800">${c.cliente}</td>
-                        <td class="p-3 text-slate-600">${c.descricao} (${formatarDataBR(c.vencimento)})</td>
-                        <td class="p-3">R$ ${Number(c.valor).toFixed(2)}</td>
-                        <td class="p-3 text-emerald-600">${isRecebido ? `R$ ${Number(c.valor).toFixed(2)}` : 'R$ 0,00'}</td>
-                        <td class="p-3 font-bold ${isRecebido ? 'text-emerald-600' : 'text-rose-600'}">${isRecebido ? 'Quitado' : `R$ ${Number(c.valor).toFixed(2)}`}</td>
-                        <td class="p-3 text-center whitespace-nowrap space-x-1">
-                            <button onclick="darBaixaReceberManual(${c.id})" class="text-xs ${isRecebido ? 'bg-amber-100 text-amber-800' : 'bg-emerald-600 text-white hover:bg-emerald-700'} font-bold px-2.5 py-1 rounded">
-                                ${isRecebido ? '↩ Reabrir' : '✅ Dar Baixa'}
-                            </button>
-                            <button onclick="excluirReceberManual(${c.id})" class="text-xs bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold px-2.5 py-1 rounded">
-                                <i class="fa-solid fa-trash"></i> Excluir
-                            </button>
-                        </td>
-                    </tr>
-                `;
+                const nomeCli = c.cliente || '';
+                const matchNome = !fPass || nomeCli.toLowerCase().includes(fPass) || (c.descricao || '').toLowerCase().includes(fPass);
+                const matchData = verificarFiltroData(formatarDataISO(c.vencimento), fMes, fInicio, fFim);
+
+                if (matchNome && matchData) {
+                    if (!isRecebido) totalSaldoPendente += Number(c.valor || 0);
+                    html += `
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-3"><span class="bg-amber-50 text-amber-800 text-xs font-bold px-2 py-0.5 rounded">${c.origem || 'Extra'}</span></td>
+                            <td class="p-3 font-bold text-slate-800">${nomeCli}</td>
+                            <td class="p-3 text-slate-600">${c.descricao}</td>
+                            <td class="p-3 text-center text-xs whitespace-nowrap">${formatarDataBR(c.vencimento)}</td>
+                            <td class="p-3 text-right whitespace-nowrap">R$ ${Number(c.valor).toFixed(2)}</td>
+                            <td class="p-3 text-right text-emerald-600 whitespace-nowrap">${isRecebido ? `R$ ${Number(c.valor).toFixed(2)}` : 'R$ 0,00'}</td>
+                            <td class="p-3 text-right font-bold whitespace-nowrap ${isRecebido ? 'text-emerald-600' : 'text-rose-600'}">${isRecebido ? 'Quitado' : `R$ ${Number(c.valor).toFixed(2)}`}</td>
+                            <td class="p-3 text-center whitespace-nowrap space-x-1 no-print">
+                                <button onclick="abrirDeclaracaoPassageiro('${nomeCli.replace(/'/g, "\\'")}')" class="text-xs bg-slate-800 hover:bg-slate-700 text-amber-400 font-bold px-2.5 py-1 rounded" title="Declaração"><i class="fa-solid fa-file-contract"></i> Declaração</button>
+                                <button onclick="darBaixaReceberManual('${c.id}')" class="text-xs ${isRecebido ? 'bg-amber-100 text-amber-800' : 'bg-emerald-600 text-white hover:bg-emerald-700'} font-bold px-2.5 py-1 rounded">${isRecebido ? '↩ Reabrir' : '✅ Dar Baixa'}</button>
+                                <button onclick="excluirReceberManual('${c.id}')" class="text-xs bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold px-2.5 py-1 rounded"><i class="fa-solid fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    `;
+                }
             });
 
-            tbody.innerHTML = html || `<tr><td colspan="7" class="p-4 text-center text-slate-400 italic">Nenhuma conta a receber encontrada.</td></tr>`;
+            let subPeriodo = 'Período: Geral';
+            if (fMes) subPeriodo = `Mês: ${fMes.split('-').reverse().join('/')}`;
+            else if (fInicio || fFim) subPeriodo = `De ${fInicio ? formatarDataBR(fInicio) : 'Início'} até ${fFim ? formatarDataBR(fFim) : 'Hoje'}`;
+            if (fPass) subPeriodo += ` | Filtro: "${fPass}"`;
+
+            if (document.getElementById('rec-rel-subtitulo')) document.getElementById('rec-rel-subtitulo').innerText = subPeriodo;
+            if (document.getElementById('rec-rel-emissao')) document.getElementById('rec-rel-emissao').innerText = `Emitido em: ${formatarDataBR(new Date().toISOString().slice(0, 10))}`;
+            if (document.getElementById('rec-rel-total-header')) document.getElementById('rec-rel-total-header').innerText = `Saldo Pendente: R$ ${totalSaldoPendente.toFixed(2)}`;
+
+            tbody.innerHTML = html || `<tr><td colspan="8" class="p-4 text-center text-slate-400 italic">Nenhuma conta a receber encontrada.</td></tr>`;
         }
 
-        // FLUXO DE CAIXA DETALHADO E RESUMIDO
         function setModoFluxoCaixa(modo) {
             modoFluxoCaixa = modo;
             const btnRes = document.getElementById('btn-fc-resumido');
@@ -1475,13 +1738,9 @@
             const mesFiltro = document.getElementById('fc-mes')?.value || '';
             const inicioFiltro = document.getElementById('fc-inicio')?.value || '';
             const fimFiltro = document.getElementById('fc-fim')?.value || '';
-
             if (!mesFiltro && !inicioFiltro && !fimFiltro) return true;
             if (!dataISO) return true;
-
-            if (mesFiltro) {
-                return dataISO.startsWith(mesFiltro);
-            }
+            if (mesFiltro) return dataISO.startsWith(mesFiltro);
             if (inicioFiltro && dataISO < inicioFiltro) return false;
             if (fimFiltro && dataISO > fimFiltro) return false;
             return true;
@@ -1496,11 +1755,10 @@
             if (mesFiltro) textoPeriodo = `Período: Mês ${mesFiltro.split('-').reverse().join('/')}`;
             else if (inicioFiltro || fimFiltro) textoPeriodo = `Período: ${inicioFiltro ? formatarDataBR(inicioFiltro) : 'Início'} até ${fimFiltro ? formatarDataBR(fimFiltro) : 'Hoje'}`;
 
-            document.getElementById('fc-print-periodo').innerText = textoPeriodo;
-            document.getElementById('fc-print-emissao').innerText = `Emitido em: ${formatarDataBR(new Date().toISOString().slice(0, 10))}`;
+            if(document.getElementById('fc-print-periodo')) document.getElementById('fc-print-periodo').innerText = textoPeriodo;
+            if(document.getElementById('fc-print-emissao')) document.getElementById('fc-print-emissao').innerText = `Emitido em: ${formatarDataBR(new Date().toISOString().slice(0, 10))}`;
 
             let lancamentos = [];
-
             db.passageiros.forEach(p => {
                 const pago = Number(p.VALOR_1_SINAL || p.valor_1_sinal || 0) + Number(p.VALOR_2_RESTANTE || p.valor_2_restante || 0);
                 if (pago > 0) {
@@ -1508,30 +1766,16 @@
                     const viagemObj = db.viagens.find(v => v.destino === destino);
                     const dataRef = viagemObj ? formatarDataISO(viagemObj.data) : '';
                     if (dataDentroDoFiltroFC(dataRef)) {
-                        lancamentos.push({
-                            tipo: 'Entrada',
-                            categoria: 'Inscrições / Sinais de Viagens',
-                            data: dataRef,
-                            origem: destino,
-                            descricao: `Passageiro: ${p.NOME || p.nome}`,
-                            valor: pago
-                        });
+                        lancamentos.push({ tipo: 'Entrada', categoria: 'Inscrições / Sinais de Viagens', data: dataRef, origem: destino, descricao: `Passageiro: ${p.NOME || p.nome}`, valor: pago });
                     }
                 }
             });
 
             db.contasReceber.forEach(c => {
-                if ((c.status === 'Recebido' || !c.status) && c.valor > 0) {
+                if (c.status === 'Recebido' && c.valor > 0) {
                     const dataRef = formatarDataISO(c.vencimento);
                     if (dataDentroDoFiltroFC(dataRef)) {
-                        lancamentos.push({
-                            tipo: 'Entrada',
-                            categoria: 'Receitas Extras / Avulsas',
-                            data: dataRef,
-                            origem: c.origem || 'Receita Extra',
-                            descricao: `${c.cliente} — ${c.descricao}`,
-                            valor: Number(c.valor)
-                        });
+                        lancamentos.push({ tipo: 'Entrada', categoria: 'Receitas Extras / Avulsas', data: dataRef, origem: c.origem || 'Receita Extra', descricao: `${c.cliente} — ${c.descricao}`, valor: Number(c.valor) });
                     }
                 }
             });
@@ -1539,14 +1783,7 @@
             db.contasPagar.filter(c => c.status === 'Pago').forEach(c => {
                 const dataRef = formatarDataISO(c.vencimento);
                 if (dataDentroDoFiltroFC(dataRef)) {
-                    lancamentos.push({
-                        tipo: 'Saída',
-                        categoria: 'Custos Operacionais / Contas Pagas',
-                        data: dataRef,
-                        origem: c.origem || 'Despesa',
-                        descricao: c.descricao,
-                        valor: Number(c.valor)
-                    });
+                    lancamentos.push({ tipo: 'Saída', categoria: 'Custos Operacionais / Contas Pagas', data: dataRef, origem: c.origem || 'Despesa', descricao: `${c.favorecido ? c.favorecido + ' — ' : ''}${c.descricao}`, valor: Number(c.valor) });
                 }
             });
 
@@ -1554,24 +1791,18 @@
             const totalSaidas = lancamentos.filter(l => l.tipo === 'Saída').reduce((acc, l) => acc + l.valor, 0);
             const saldo = totalEntradas - totalSaidas;
 
-            document.getElementById('fc-total-entradas').innerText = totalEntradas.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
-            document.getElementById('fc-total-saidas').innerText = totalSaidas.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
-            document.getElementById('fc-saldo-periodo').innerText = saldo.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+            if(document.getElementById('fc-total-entradas')) document.getElementById('fc-total-entradas').innerText = totalEntradas.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+            if(document.getElementById('fc-total-saidas')) document.getElementById('fc-total-saidas').innerText = totalSaidas.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+            if(document.getElementById('fc-saldo-periodo')) document.getElementById('fc-saldo-periodo').innerText = saldo.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
 
             const thead = document.getElementById('fc-thead');
             const tbody = document.getElementById('table-fluxocaixa');
             const titulo = document.getElementById('fc-tabela-titulo');
+            if(!tbody || !thead) return;
 
             if (modoFluxoCaixa === 'resumido') {
                 titulo.innerText = `Relatório Resumido — Consolidado por Categoria (${textoPeriodo})`;
-                thead.innerHTML = `
-                    <tr>
-                        <th class="py-3 px-4">Tipo</th>
-                        <th class="py-3 px-4">Categoria</th>
-                        <th class="py-3 px-4 text-center">Qtd. Lançamentos</th>
-                        <th class="py-3 px-4 text-right">Valor Consolidado</th>
-                    </tr>
-                `;
+                thead.innerHTML = `<tr><th class="py-3 px-4">Tipo</th><th class="py-3 px-4">Categoria</th><th class="py-3 px-4 text-center">Qtd</th><th class="py-3 px-4 text-right">Valor Consolidado</th></tr>`;
                 const resumoMap = new Map();
                 lancamentos.forEach(l => {
                     const key = `${l.tipo}|${l.categoria}`;
@@ -1580,40 +1811,27 @@
                     item.qtd += 1;
                     item.total += l.valor;
                 });
-
                 const linhas = Array.from(resumoMap.values());
                 tbody.innerHTML = linhas.length ? linhas.map(r => `
                     <tr class="hover:bg-slate-50">
                         <td class="p-3 font-bold ${r.tipo === 'Entrada' ? 'text-emerald-700' : 'text-rose-700'}">${r.tipo}</td>
                         <td class="p-3 font-medium text-slate-800">${r.categoria}</td>
                         <td class="p-3 text-center">${r.qtd}</td>
-                        <td class="p-3 text-right font-bold ${r.tipo === 'Entrada' ? 'text-emerald-600' : 'text-rose-600'}">
-                            ${r.tipo === 'Entrada' ? '+' : '-'} R$ ${r.total.toFixed(2)}
-                        </td>
+                        <td class="p-3 text-right font-bold ${r.tipo === 'Entrada' ? 'text-emerald-600' : 'text-rose-600'}">${r.tipo === 'Entrada' ? '+' : '-'} R$ ${r.total.toFixed(2)}</td>
                     </tr>
-                `).join('') : `<tr><td colspan="4" class="p-4 text-center text-slate-400 italic">Nenhuma movimentação no período selecionado.</td></tr>`;
+                `).join('') : `<tr><td colspan="4" class="p-4 text-center text-slate-400 italic">Nenhuma movimentação.</td></tr>`;
             } else {
                 titulo.innerText = `Relatório Detalhado — Extrato Analítico (${textoPeriodo})`;
-                thead.innerHTML = `
-                    <tr>
-                        <th class="py-3 px-4">Data</th>
-                        <th class="py-3 px-4">Tipo</th>
-                        <th class="py-3 px-4">Origem</th>
-                        <th class="py-3 px-4">Descrição</th>
-                        <th class="py-3 px-4 text-right">Valor</th>
-                    </tr>
-                `;
+                thead.innerHTML = `<tr><th class="py-3 px-4">Data</th><th class="py-3 px-4">Tipo</th><th class="py-3 px-4">Origem</th><th class="py-3 px-4">Descrição</th><th class="py-3 px-4 text-right">Valor</th></tr>`;
                 tbody.innerHTML = lancamentos.length ? lancamentos.map(l => `
                     <tr class="hover:bg-slate-50">
                         <td class="p-3 text-xs whitespace-nowrap">${formatarDataBR(l.data)}</td>
                         <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-bold ${l.tipo === 'Entrada' ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">${l.tipo}</span></td>
                         <td class="p-3 text-xs font-semibold text-slate-700">${l.origem}</td>
                         <td class="p-3 text-slate-800">${l.descricao}</td>
-                        <td class="p-3 text-right font-bold whitespace-nowrap ${l.tipo === 'Entrada' ? 'text-emerald-600' : 'text-rose-600'}">
-                            ${l.tipo === 'Entrada' ? '+' : '-'} R$ ${l.valor.toFixed(2)}
-                        </td>
+                        <td class="p-3 text-right font-bold whitespace-nowrap ${l.tipo === 'Entrada' ? 'text-emerald-600' : 'text-rose-600'}">${l.tipo === 'Entrada' ? '+' : '-'} R$ ${l.valor.toFixed(2)}</td>
                     </tr>
-                `).join('') : `<tr><td colspan="5" class="p-4 text-center text-slate-400 italic">Nenhuma movimentação detalhada neste período.</td></tr>`;
+                `).join('') : `<tr><td colspan="5" class="p-4 text-center text-slate-400 italic">Nenhuma movimentação detalhada.</td></tr>`;
             }
         }
 
@@ -1622,14 +1840,9 @@
             const selectRelatorio = document.getElementById('select-relatorio-passeio');
             const valAtualRel = selectRelatorio ? selectRelatorio.value : '';
             let html = '<option value="">-- Selecione a Viagem --</option>';
-            db.viagens.forEach(v => {
-                html += `<option value="${v.destino}">${v.destino} (${formatarDataBR(v.data)})</option>`;
-            });
+            db.viagens.forEach(v => { html += `<option value="${v.destino}">${v.destino} (${formatarDataBR(v.data)})</option>`; });
             if(selectPassageiro) selectPassageiro.innerHTML = html;
-            if(selectRelatorio) {
-                selectRelatorio.innerHTML = html;
-                if(valAtualRel) selectRelatorio.value = valAtualRel;
-            }
+            if(selectRelatorio) { selectRelatorio.innerHTML = html; if(valAtualRel) selectRelatorio.value = valAtualRel; }
             atualizarOpcoesRoteiroModal();
         }
 
@@ -1658,38 +1871,31 @@
             });
 
             const bannerHoje = document.getElementById('widget-aniversariante-hoje');
-            if(niversHoje.length > 0) {
-                bannerHoje.innerHTML = `
-                    <div class="bg-gradient-to-r from-amber-500 to-amber-400 p-4 rounded-xl text-slate-900 shadow-md flex items-center justify-between animate-pulse">
-                        <div class="flex items-center gap-3">
-                            <i class="fa-solid fa-crown text-2xl"></i>
-                            <div>
-                                <h4 class="font-black uppercase text-sm">Aniversariante de Hoje! 🎉</h4>
-                                <p class="text-xs font-bold">${niversHoje.map(n => n.NOME || n.nome).join(', ')}</p>
+            if(bannerHoje) {
+                if(niversHoje.length > 0) {
+                    bannerHoje.innerHTML = `
+                        <div class="bg-gradient-to-r from-amber-500 to-amber-400 p-4 rounded-xl text-slate-900 shadow-md flex items-center justify-between animate-pulse">
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-crown text-2xl"></i>
+                                <div><h4 class="font-black uppercase text-sm">Aniversariante de Hoje! 🎉</h4><p class="text-xs font-bold">${niversHoje.map(n => n.NOME || n.nome).join(', ')}</p></div>
                             </div>
+                            <span class="text-xs bg-slate-900 text-amber-400 font-bold px-3 py-1 rounded">Parabéns!</span>
                         </div>
-                        <span class="text-xs bg-slate-900 text-amber-400 font-bold px-3 py-1 rounded">Parabéns!</span>
-                    </div>
-                `;
-            } else {
-                bannerHoje.innerHTML = '';
+                    `;
+                } else { bannerHoje.innerHTML = ''; }
             }
 
-            document.getElementById('widget-aniversariantes').innerHTML = niversMes.length ? niversMes.map(p => {
-                const d = parseDateComponents(p.NASCIMENTO || p.nasc || '');
-                return `
-                    <div class="p-2 bg-amber-50 rounded border text-xs flex justify-between">
-                        <strong>${p.NOME || p.nome}</strong><span>${d ? `${d.day}/${d.month}` : '-'}</span>
-                    </div>
-                `;
-            }).join('') : '<p class="text-xs text-slate-400 italic">Nenhum aniversariante neste mês.</p>';
+            if(document.getElementById('widget-aniversariantes')) {
+                document.getElementById('widget-aniversariantes').innerHTML = niversMes.length ? niversMes.map(p => {
+                    const d = parseDateComponents(p.NASCIMENTO || p.nasc || '');
+                    return `<div class="p-2 bg-amber-50 rounded border text-xs flex justify-between"><strong>${p.NOME || p.nome}</strong><span>${d ? `${d.day}/${d.month}` : '-'}</span></div>`;
+                }).join('') : '<p class="text-xs text-slate-400 italic">Nenhum aniversariante neste mês.</p>';
+            }
 
-            const totalPagar = db.contasPagar.filter(c => c.status === 'Pendente').reduce((acc, c) => acc + c.valor, 0);
-            
+            const totalPagar = db.contasPagar.filter(c => c.status === 'Pendente').reduce((acc, c) => acc + Number(c.valor || 0), 0);
             let totalSaldosDevedores = 0;
             db.passageiros.forEach(p => {
-                const statusAtual = p.STATUS_PAGAMENTO || p.status_pagamento || '';
-                if (statusAtual === 'Quitado' || statusAtual === 'Pago') return;
+                if ((p.STATUS_PAGAMENTO || p.status_pagamento) === 'Quitado' || (p.STATUS_PAGAMENTO || p.status_pagamento) === 'Pago') return;
                 const viagem = db.viagens.find(v => v.destino === (p.VIAGEM_DESTINO || p.viagem_destino));
                 if(viagem) {
                     const valorTotal = Number(viagem.valor || 0);
@@ -1697,64 +1903,46 @@
                     if(pago < valorTotal) totalSaldosDevedores += (valorTotal - pago);
                 }
             });
-            db.contasReceber.filter(c => c.status !== 'Recebido').forEach(c => {
-                totalSaldosDevedores += Number(c.valor || 0);
-            });
+            db.contasReceber.filter(c => c.status !== 'Recebido').forEach(c => { totalSaldosDevedores += Number(c.valor || 0); });
 
-            document.getElementById('badge-pagar-count').innerText = totalPagar.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
-            document.getElementById('badge-receber-count').innerText = totalSaldosDevedores.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+            if(document.getElementById('badge-pagar-count')) document.getElementById('badge-pagar-count').innerText = totalPagar.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+            if(document.getElementById('badge-receber-count')) document.getElementById('badge-receber-count').innerText = totalSaldosDevedores.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
         }
 
-        // RELATÓRIOS & LISTAS
         function gerarRelatorio() {
-            const destino = document.getElementById('select-relatorio-passeio').value;
+            const selectRel = document.getElementById('select-relatorio-passeio');
+            if(!selectRel) return;
+            const destino = selectRel.value;
             const tbody = document.getElementById('relatorio-tabela-body');
             const viagemObj = db.viagens.find(v => v.destino === destino);
 
-            document.getElementById('rel-titulo-viagem').innerText = destino
-                ? `Relatório de Embarque: ${destino}${viagemObj ? ` (${formatarDataBR(viagemObj.data)})` : ''}`
-                : 'Selecione uma viagem para visualizar a lista';
-
-            document.getElementById('rel-data-emissao').innerText = `Emitido em: ${formatarDataBR(new Date().toISOString().slice(0, 10))}`;
+            if(document.getElementById('rel-titulo-viagem')) {
+                document.getElementById('rel-titulo-viagem').innerText = destino ? `Relatório de Embarque: ${destino}${viagemObj ? ` (${formatarDataBR(viagemObj.data)})` : ''}` : 'Selecione uma viagem';
+            }
+            if(document.getElementById('rel-data-emissao')) {
+                document.getElementById('rel-data-emissao').innerText = `Emitido em: ${formatarDataBR(new Date().toISOString().slice(0, 10))}`;
+            }
             tbody.innerHTML = '';
 
             const selectOpcao = document.getElementById('rel-opcao');
             if(viagemObj && selectOpcao) {
                 selectOpcao.innerHTML = `<option value="${viagemObj.destino}">${viagemObj.destino} (Principal)</option>` + (viagemObj.opcoes || []).map(o => `<option value="${o}">${o}</option>`).join('');
-                if(document.getElementById('rel-ingresso').value === '') {
-                    document.getElementById('rel-ingresso').placeholder = `Padrão: R$ ${Number(viagemObj.valor || 0).toFixed(2)}`;
-                }
+                if(document.getElementById('rel-ingresso').value === '') document.getElementById('rel-ingresso').placeholder = `Padrão: R$ ${Number(viagemObj.valor || 0).toFixed(2)}`;
             }
 
-            const inscritos = db.passageiros
-                .map((p, globalIdx) => ({ p, globalIdx }))
-                .filter(item => (item.p.VIAGEM_DESTINO || item.p.viagem_destino) === destino);
-
+            const inscritos = db.passageiros.map((p, globalIdx) => ({ p, globalIdx })).filter(item => (item.p.VIAGEM_DESTINO || item.p.viagem_destino) === destino);
             if(!inscritos.length) {
-                tbody.innerHTML = `<tr><td colspan="16" class="p-4 text-center text-slate-400 italic">Nenhum passageiro inscrito nesta viagem.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="16" class="p-4 text-center text-slate-400 italic">Nenhum passageiro inscrito.</td></tr>`;
                 return;
             }
 
             const valorPropostoViagem = viagemObj ? Number(viagemObj.valor || 0) : 0;
-
             inscritos.forEach(({ p, globalIdx }, idx) => {
                 const s1 = Number(p.VALOR_1_SINAL || p.valor_1_sinal || 0);
                 const s2 = Number(p.VALOR_2_RESTANTE || p.valor_2_restante || 0);
                 const valorTotal = s1 + s2;
                 const valorIngresso = Number(p.VALOR_INGRESSO || p.valor_ingresso || 0);
-                const nascBR = formatarDataBR(p.NASCIMENTO || p.nasc);
-                const idade = calcularIdade(p.NASCIMENTO || p.nasc);
-                const cidade = p.CIDADE || p.cidade || '-';
-                const passeio = p.ROTEIRO_OPCAO || p.roteiro_opcao || destino || '-';
-                
-                const rawEmb = p.LOCAL_EMBARQUE || p.embarque || '';
-                const embarque = (rawEmb === '-' || rawEmb === 'undefined') ? '' : rawEmb;
-                const rawHor = p.HORARIO_EMBARQUE || p.horario_embarque || '';
-                const horario = (rawHor === '-' || rawHor === 'undefined') ? '' : rawHor;
-
-                const statusBruto = p.STATUS_PAGAMENTO || p.status_pagamento || '';
-                const status = calcularStatusPagamento(s1, s2, valorPropostoViagem, statusBruto);
-
+                const status = calcularStatusPagamento(s1, s2, valorPropostoViagem, p.STATUS_PAGAMENTO || p.status_pagamento);
                 let badgeClass = status === 'Quitado' ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800';
 
                 tbody.innerHTML += `
@@ -1764,123 +1952,85 @@
                         <td class="p-2 border text-center"><span class="px-2 py-0.5 rounded font-bold text-[10px] whitespace-nowrap ${badgeClass}">${status}</span></td>
                         <td class="p-2 border whitespace-nowrap">${p.TELEFONE || p.telefone || '-'}</td>
                         <td class="p-2 border whitespace-nowrap">${p.CPF || p.cpf || '-'}</td>
-                        <td class="p-2 border text-center whitespace-nowrap">${nascBR}</td>
-                        <td class="p-2 border text-center font-semibold">${idade}</td>
-                        <td class="p-2 border">${cidade}</td>
-                        <td class="p-2 border text-amber-900 font-semibold">${passeio}</td>
+                        <td class="p-2 border text-center whitespace-nowrap">${formatarDataBR(p.NASCIMENTO || p.nasc)}</td>
+                        <td class="p-2 border text-center font-semibold">${calcularIdade(p.NASCIMENTO || p.nasc)}</td>
+                        <td class="p-2 border">${p.CIDADE || p.cidade || '-'}</td>
+                        <td class="p-2 border text-amber-900 font-semibold">${p.ROTEIRO_OPCAO || p.roteiro_opcao || destino || '-'}</td>
                         <td class="p-2 border text-right whitespace-nowrap">R$ ${valorIngresso.toFixed(2)}</td>
-                        <td class="p-2 border">${embarque}</td>
-                        <td class="p-2 border text-center whitespace-nowrap">${horario}</td>
+                        <td class="p-2 border">${(p.LOCAL_EMBARQUE || p.embarque || '') === '-' ? '' : (p.LOCAL_EMBARQUE || p.embarque || '')}</td>
+                        <td class="p-2 border text-center whitespace-nowrap">${p.HORARIO_EMBARQUE || p.horario_embarque || ''}</td>
                         <td class="p-2 border text-right whitespace-nowrap">R$ ${s1.toFixed(2)}</td>
                         <td class="p-2 border text-right whitespace-nowrap">R$ ${s2.toFixed(2)}</td>
                         <td class="p-2 border text-right font-bold text-slate-900 whitespace-nowrap">R$ ${valorTotal.toFixed(2)}</td>
                         <td class="p-2 border text-center no-print whitespace-nowrap space-x-1">
-                            <button onclick="editarPassageiroRelatorio(${globalIdx})" class="text-blue-700 bg-blue-50 hover:bg-blue-100 px-2 py-1 rounded text-[11px] font-bold" title="Editar Dados">✏️ Editar</button>
-                            <button onclick="quitarPassageiro(${globalIdx})" class="text-emerald-700 bg-emerald-50 hover:bg-emerald-100 px-2 py-1 rounded text-[11px] font-bold" title="Quitar">✅ Quitar</button>
-                            <button onclick="removerPassageiroViagem(${globalIdx})" class="text-rose-600 bg-rose-50 hover:bg-rose-100 px-2 py-1 rounded text-[11px] font-bold" title="Remover">❌</button>
+                            <button onclick="editarPassageiroRelatorio(${globalIdx})" class="text-blue-700 bg-blue-50 hover:bg-blue-100 px-2 py-1 rounded text-[11px] font-bold">✏️ Editar</button>
+                            <button onclick="quitarPassageiro(${globalIdx})" class="text-emerald-700 bg-emerald-50 hover:bg-emerald-100 px-2 py-1 rounded text-[11px] font-bold">✅ Quitar</button>
+                            <button onclick="removerPassageiroViagem(${globalIdx})" class="text-rose-600 bg-rose-50 hover:bg-rose-100 px-2 py-1 rounded text-[11px] font-bold">❌</button>
                         </td>
                     </tr>
                 `;
             });
         }
 
-        function quitarPassageiro(globalIdx) {
-            const p = db.passageiros[globalIdx];
-            if (!p) return;
-            if(confirm("Deseja marcar este passageiro como Quitado na planilha?")) {
-                p.STATUS_PAGAMENTO = "Quitado";
-                gerarRelatorio();
-                renderContasReceber();
-                renderDashboard();
-                enviarParaPlanilha({
-                    TIPO: "CLIENTE",
-                    ACTION: "EDIT",
-                    CPF_ORIGINAL: p.CPF || p.cpf,
-                    VIAGEM_ORIGINAL: p.VIAGEM_DESTINO || p.viagem_destino,
-                    STATUS_PAGAMENTO: "Quitado"
-                }, null, true);
-            }
-        }
+
+
+
+function quitarPassageiro(globalIdx) {
+    const p = db.passageiros[globalIdx];
+    if (!p) return;
+    
+    if(confirm("Deseja marcar este passageiro como Quitado?")) {
+        // Atualiza localmente no objeto
+        p.STATUS_PAGAMENTO = "Quitado";
+        p.VALOR_2_RESTANTE = 0; // Ou o valor total quitado
+
+        // Atualiza a tela imediatamente
+        gerarRelatorio();
+        renderContasReceber();
+        renderDashboard();
+
+        // CHAMA O APPS SCRIPT COM EDIT_PARTIAL (Atualização cirúrgica)
+        enviarParaPlanilha({
+            TIPO_REGISTRO: "CLIENTE",
+            ACTION: "EDIT_PARTIAL",
+            CPF_ORIGINAL: p.CPF || p.cpf,
+            VIAGEM_ORIGINAL: p.VIAGEM_DESTINO || p.viagem_destino,
+            VALOR_1_SINAL: p.VALOR_1_SINAL,
+            VALOR_2_RESTANTE: p.VALOR_2_RESTANTE,
+            STATUS_PAGAMENTO: "Quitado"
+        }, null, true);
+    }
+}
+
+
+
 
         function removerPassageiroViagem(globalIdx) {
             const p = db.passageiros[globalIdx];
             if (!p) return;
-            if(confirm("Confirmar desistência/remoção deste passageiro desta viagem?")) {
+            if(confirm("Confirmar remoção deste passageiro?")) {
                 const cpf = p.CPF || p.cpf;
                 const viagem = p.VIAGEM_DESTINO || p.viagem_destino;
                 db.passageiros.splice(globalIdx, 1);
                 renderAll();
-                enviarParaPlanilha({
-                    TIPO: "CLIENTE",
-                    ACTION: "DELETE_VIAGEM",
-                    CPF: cpf,
-                    VIAGEM_DESTINO: viagem
-                }, null, true);
+                enviarParaPlanilha({ TIPO_REGISTRO: "CLIENTE", ACTION: "DELETE_VIAGEM", CPF: cpf, VIAGEM_DESTINO: viagem }, null, true);
             }
         }
 
         function exportarRelatorioExcel() {
             const destino = document.getElementById('select-relatorio-passeio').value;
             const inscritos = db.passageiros.filter(p => (p.VIAGEM_DESTINO || p.viagem_destino) === destino);
-            if(!inscritos.length) { alert("Nenhum dado para exportar."); return; }
+            if(!inscritos.length) { alert("Nenhum dado."); return; }
 
             const viagemObj = db.viagens.find(v => v.destino === destino);
             const valorPropostoViagem = viagemObj ? Number(viagemObj.valor || 0) : 0;
-
-            let html = `
-                <table border="1">
-                    <tr><th colspan="15" style="font-size:14px; background:#0f172a; color:#ffffff;">Relatório de Embarque - GRUPO OASIS DF - ${destino}</th></tr>
-                    <tr style="background:#e2e8f0; font-weight:bold;">
-                        <th>N #</th>
-                        <th>NOME</th>
-                        <th>Status</th>
-                        <th>Numero</th>
-                        <th>CPF</th>
-                        <th>Dt Nascimento</th>
-                        <th>Idade</th>
-                        <th>Cidade</th>
-                        <th>Passeio</th>
-                        <th>Valor do Ingresso</th>
-                        <th>Embarque</th>
-                        <th>Horario</th>
-                        <th>Valor 1</th>
-                        <th>Valor 2</th>
-                        <th>Valor Total</th>
-                    </tr>
-            `;
+            let html = `<table border="1"><tr><th colspan="15">Relatório - GRUPO OASIS DF - ${destino}</th></tr><tr style="background:#e2e8f0;font-weight:bold;"><th>N</th><th>Nome</th><th>Status</th><th>Tel</th><th>CPF</th><th>Nasc</th><th>Idade</th><th>Cidade</th><th>Passeio</th><th>Ingresso</th><th>Embarque</th><th>Horário</th><th>Sinal</th><th>Restante</th><th>Total</th></tr>`;
 
             inscritos.forEach((p, idx) => {
                 const s1 = Number(p.VALOR_1_SINAL || p.valor_1_sinal || 0);
                 const s2 = Number(p.VALOR_2_RESTANTE || p.valor_2_restante || 0);
-                const valorTotal = s1 + s2;
-                const valorIngresso = Number(p.VALOR_INGRESSO || p.valor_ingresso || 0);
-                const nascBR = formatarDataBR(p.NASCIMENTO || p.nasc);
-                const idade = calcularIdade(p.NASCIMENTO || p.nasc);
                 const status = calcularStatusPagamento(s1, s2, valorPropostoViagem, p.STATUS_PAGAMENTO || p.status_pagamento);
-                const rawEmb = p.LOCAL_EMBARQUE || p.embarque || '';
-                const embarque = (rawEmb === '-' || rawEmb === 'undefined') ? '' : rawEmb;
-                const rawHor = p.HORARIO_EMBARQUE || p.horario_embarque || '';
-                const horario = (rawHor === '-' || rawHor === 'undefined') ? '' : rawHor;
-
-                html += `
-                    <tr>
-                        <td>${idx + 1}</td>
-                        <td>${p.NOME || p.nome || ''}</td>
-                        <td>${status}</td>
-                        <td>${p.TELEFONE || p.telefone || ''}</td>
-                        <td>${p.CPF || p.cpf || ''}</td>
-                        <td>${nascBR}</td>
-                        <td>${idade}</td>
-                        <td>${p.CIDADE || p.cidade || ''}</td>
-                        <td>${p.ROTEIRO_OPCAO || p.roteiro_opcao || destino || ''}</td>
-                        <td>${valorIngresso.toFixed(2).replace('.', ',')}</td>
-                        <td>${embarque}</td>
-                        <td>${horario}</td>
-                        <td>${s1.toFixed(2).replace('.', ',')}</td>
-                        <td>${s2.toFixed(2).replace('.', ',')}</td>
-                        <td>${valorTotal.toFixed(2).replace('.', ',')}</td>
-                    </tr>
-                `;
+                html += `<tr><td>${idx+1}</td><td>${p.NOME || p.nome || ''}</td><td>${status}</td><td>${p.TELEFONE || p.telefone || ''}</td><td>${p.CPF || p.cpf || ''}</td><td>${formatarDataBR(p.NASCIMENTO || p.nasc)}</td><td>${calcularIdade(p.NASCIMENTO || p.nasc)}</td><td>${p.CIDADE || p.cidade || ''}</td><td>${p.ROTEIRO_OPCAO || p.roteiro_opcao || destino || ''}</td><td>${Number(p.VALOR_INGRESSO || 0).toFixed(2)}</td><td>${p.LOCAL_EMBARQUE || ''}</td><td>${p.HORARIO_EMBARQUE || ''}</td><td>${s1.toFixed(2)}</td><td>${s2.toFixed(2)}</td><td>${(s1+s2).toFixed(2)}</td></tr>`;
             });
             html += `</table>`;
 
@@ -1888,7 +2038,7 @@
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `Relatorio_Embarque_GRUPO_OASIS_DF_${destino.replace(/[^a-zA-Z0-9]/g, '_')}.xls`;
+            a.download = `Relatorio_${destino.replace(/[^a-zA-Z0-9]/g, '_')}.xls`;
             document.body.appendChild(a);
             a.click();
             a.remove();
@@ -1902,20 +2052,26 @@
             renderContasReceber();
             gerarFluxoCaixa();
             atualizarSelectsViagens();
-            if(document.getElementById('select-relatorio-passeio')?.value) {
-                gerarRelatorio();
-            }
+            if(document.getElementById('select-relatorio-passeio')?.value) gerarRelatorio();
         }
 
         function switchTab(tabName) {
             ['dashboard', 'passageiros', 'passeios', 'pagar', 'receber', 'fluxocaixa', 'relatorios'].forEach(t => {
-                document.getElementById(`tab-${t}`).classList.add('hidden');
-                document.getElementById(`nav-${t}`).classList.remove('bg-slate-800', 'text-amber-400');
+                const elTab = document.getElementById(`tab-${t}`);
+                const elNav = document.getElementById(`nav-${t}`);
+                if(elTab) elTab.classList.add('hidden');
+                if(elNav) elNav.classList.remove('bg-slate-800', 'text-amber-400');
             });
-            document.getElementById(`tab-${tabName}`).classList.remove('hidden');
-            document.getElementById(`nav-${tabName}`).classList.add('bg-slate-800', 'text-amber-400');
+            const activeTab = document.getElementById(`tab-${tabName}`);
+            const activeNav = document.getElementById(`nav-${tabName}`);
+            if(activeTab) activeTab.classList.remove('hidden');
+            if(activeNav) activeNav.classList.add('bg-slate-800', 'text-amber-400');
+
             if(tabName === 'fluxocaixa') gerarFluxoCaixa();
             if(tabName === 'relatorios') gerarRelatorio();
+            if(tabName === 'pagar') renderContasPagar();
+            if(tabName === 'receber') renderContasReceber();
+            if(tabName === 'passeios') renderViagens();
         }
 
         function openModal(id) {
@@ -1928,13 +2084,14 @@
                 document.getElementById('modal-passageiro-titulo').innerHTML = '<i class="fa-solid fa-user-plus text-amber-400"></i> Cadastrar / Inscrever Passageiro';
                 document.getElementById('form-passageiro').reset();
             }
-            document.getElementById(id).classList.remove('hidden');
+            const el = document.getElementById(id);
+            if(el) el.classList.remove('hidden');
         }
+
         function closeModal(id) {
-            if(id === 'modal-passageiro') {
-                document.getElementById('edit-passageiro-index').value = '-1';
-            }
-            document.getElementById(id).classList.add('hidden');
+            if(id === 'modal-passageiro') document.getElementById('edit-passageiro-index').value = '-1';
+            const el = document.getElementById(id);
+            if(el) el.classList.add('hidden');
         }
 
         window.onload = function() {
