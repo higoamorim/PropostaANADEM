@@ -1063,7 +1063,222 @@
 
 
 
+function emitirTermoViagem(globalIdx) {
+    const p = db.passageiros[globalIdx];
+    if (!p) return;
 
+    const nome = p.NOME || p.nome || '-';
+    const numero = p.TELEFONE || p.telefone || '-';
+    const cpf = p.CPF || p.cpf || '-';
+    const dtNasc = formatarDataBR(p.NASCIMENTO || p.nasc);
+    const idade = calcularIdade(p.NASCIMENTO || p.nasc);
+    const cidade = p.CIDADE || p.cidade || '-';
+    const destino = p.VIAGEM_DESTINO || p.viagem_destino || 'Evento';
+    const opcao = p.ROTEIRO_OPCAO || p.roteiro_opcao || destino;
+    const passeioCompleto = opcao && opcao !== destino ? `${destino} (${opcao})` : destino;
+    const valor1 = Number(p.VALOR_1_SINAL || p.valor_1_sinal || 0).toFixed(2).replace('.', ',');
+    const valor2 = Number(p.VALOR_2_RESTANTE || p.valor_2_restante || 0).toFixed(2).replace('.', ',');
+
+    const janelaTermo = window.open('', '_blank', 'width=920,height=780,top=60,left=120');
+    if (!janelaTermo) {
+        alert("Por favor, permita os pop-ups do navegador para emitir o termo.");
+        return;
+    }
+
+    janelaTermo.document.write(`
+        <!DOCTYPE html>
+        <html lang="pt-BR">
+        <head>
+            <meta charset="UTF-8">
+            <title>Termo de Viagem - ${nome}</title>
+            <script src="https://cdn.tailwindcss.com"><\/script>
+            <style>
+                body {
+                    background: #ffffff !important;
+                    color: #1e293b !important;
+                    font-family: 'Segoe UI', Arial, sans-serif;
+                    font-size: 11.5px;
+                    line-height: 1.45;
+                    padding: 24px 32px;
+                }
+                .doc-container {
+                    max-width: 780px;
+                    margin: 0 auto;
+                }
+                .section-title {
+                    background-color: #0f172a;
+                    color: #f8fafc;
+                    font-weight: 700;
+                    font-size: 11px;
+                    text-transform: uppercase;
+                    letter-spacing: 0.04em;
+                    padding: 5px 10px;
+                    margin-top: 14px;
+                    margin-bottom: 6px;
+                    border-left: 4px solid #f59e0b;
+                }
+                .info-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-bottom: 10px;
+                }
+                .info-table td {
+                    border: 1px solid #cbd5e1;
+                    padding: 5px 8px;
+                    font-size: 11.5px;
+                }
+                .info-label {
+                    background-color: #f1f5f9;
+                    font-weight: 700;
+                    color: #334155;
+                    width: 26%;
+                }
+                .clausulas p {
+                    margin-bottom: 5px;
+                    text-align: justify;
+                }
+                @media print {
+                    .no-print { display: none !important; }
+                    body { padding: 0 !important; font-size: 10.5px; }
+                    .section-title { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+                    .info-label { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="doc-container">
+                <!-- CABEÇALHO -->
+                <div class="flex items-center justify-between border-b-2 border-slate-900 pb-3 mb-4">
+                    <div class="flex items-center gap-3">
+                        <img src="logo-oasisturdf - Copia.png" alt="GRUPO OASIS DF" onerror="this.style.display='none';" class="h-14 w-auto object-contain">
+                        <div>
+                            <h1 class="text-base font-black text-slate-900 uppercase">GRUPO OASIS DF</h1>
+                            <p class="text-[11px] text-slate-600 font-semibold">Turismo Colaborativo, Trilhas & Excursões</p>
+                            <p class="text-[10px] text-slate-500">Cadastur: 07.306383.33-2 | CNPJ: 64.382.483/0001-19</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="bg-amber-400 text-slate-900 text-[10px] font-black px-2.5 py-1 rounded uppercase">Documento Oficial</span>
+                        <p class="text-[10px] text-slate-500 mt-1">Emissão: <strong>${formatarDataBR(new Date().toISOString().slice(0, 10))}</strong></p>
+                    </div>
+                </div>
+
+                <h2 class="text-center font-black text-sm text-slate-900 uppercase tracking-wide mb-3">
+                    TERMO DE REGISTRO DE INTERESSE E CONFIRMAÇÃO DE VIAGEM
+                </h2>
+
+                <!-- IDENTIFICAÇÃO -->
+                <div class="section-title">Identificação do Participante e Evento Escolhido</div>
+                <table class="info-table">
+                    <tr>
+                        <td class="info-label">Nome</td>
+                        <td colspan="3" class="font-bold text-slate-900">${nome}</td>
+                    </tr>
+                    <tr>
+                        <td class="info-label">Telefone/WhatsApp</td>
+                        <td>${numero}</td>
+                        <td class="info-label">CPF</td>
+                        <td>${cpf}</td>
+                    </tr>
+                    <tr>
+                        <td class="info-label">Data de Nascimento/Idade</td>
+                        <td>${dtNasc} — Idade: <strong>${idade} anos</strong></td>
+                        <td class="info-label">Cidade</td>
+                        <td>${cidade}</td>
+                    </tr>
+                    <tr>
+                        <td class="info-label">Evento / Passeio</td>
+                        <td colspan="3" class="font-bold text-amber-900">${passeioCompleto}</td>
+                    </tr>
+                </table>
+
+                <!-- SOBRE O GRUPO -->
+                <div class="section-title">Sobre o Grupo OASIS Tour</div>
+                <div class="clausulas">
+                    <p>O <strong>Grupo OASIS DF</strong>, tendo como seu condutor responsável, <strong>Higo Gerson Cardoso de Amorim</strong>, registrado sob o Cadastur número <strong>07.306383.33-2</strong>, é um coletivo de amigos dedicado à organização colaborativa de trilhas e passeios, sem fins lucrativos. O valor investido destina-se exclusivamente ao custeio das despesas do evento. Nossa missão é proporcionar momentos de lazer e conexão com a natureza, e outros ambientes, de forma segura e compartilhada.</p>
+                </div>
+
+                <!-- MODALIDADE BATE E VOLTA -->
+                <div class="section-title">Termo de Ciência e Responsabilidade – Modalidade “Bate e Volta”</div>
+                <div class="clausulas">
+                    <p><strong>1 -</strong> Assumo o compromisso de seguir atentamente as orientações do(s) organizador(es) e responsáveis pelo passeio;</p>
+                    <p><strong>2 -</strong> Minha participação dá-se por minha livre e espontânea vontade na data em questão, na qualidade de participante;</p>
+                    <p><strong>3 -</strong> Tenho ciência de que toda atividade em ambientes externos, como cidades turísticas, parques aquáticos e cachoeiras, pode apresentar riscos. Ainda que sejam tomados cuidados e orientações de segurança, imprevistos podem ocorrer;</p>
+                    <p><strong>4 -</strong> Estou ciente de que a participação no passeio envolve riscos inerentes a atividades em ambientes externos. Comprometo-me a seguir as orientações de segurança fornecidas pelos organizadores. Reconheço, no entanto, que a organização tem o dever de fornecer informações claras, minimizar riscos e agir com diligência na realização do evento.</p>
+                    <p><strong>5 -</strong> Atesto que estou apto a participar deste evento, sou maior de idade e responsável por meus atos (menores de idade devem estar acompanhados de seus responsáveis legais, os quais assumirão todas as responsabilidades descritas neste termo);</p>
+                    <p><strong>6 -</strong> Reconheço que as atividades dos organizadores se restringem a contribuir para que o passeio ocorra com sucesso, sendo a responsabilidade final de cada participante;</p>
+                    <p><strong>7 -</strong> Tenho ciência de que minha participação está condicionada ao pagamento da taxa de participação cobrada no anúncio do passeio, para custeio das despesas de realização deste evento;</p>
+                    <p><strong>8 -</strong> O participante autoriza, no ato da inscrição, o uso de sua imagem e voz para fins de divulgação do GRUPO OASIS DF, de forma gratuita e por prazo indeterminado. A recusa quanto ao uso da imagem deverá ser informada previamente, no momento da inscrição. Eventuais solicitações posteriores serão consideradas apenas para futuras publicações, não implicando na remoção de conteúdos já divulgados.</p>
+                    <p><strong>9 -</strong> Tenho ciência de que, caso eu desista de participar na data acima, o valor investido será devolvido (ou deixado de crédito) apenas caso o organizador do evento consiga preencher a minha vaga;</p>
+                    <p><strong>10 -</strong> Comprometo-me a respeitar horários previamente definidos para deslocamentos coletivos, sendo de minha responsabilidade estar presente nos pontos e horários informados, sob pena de perda do transporte, sem direito a reembolso;</p>
+                    <p><strong>11 - DECLARO QUE MINHA PARTICIPAÇÃO É VOLUNTÁRIA; QUE ENTENDO E ACEITO OS RISCOS E TERMOS ACIMA DESCRITOS E QUE MINHA PARTICIPAÇÃO ESTÁ CONDICIONADA À MANIFESTAÇÃO DE ACEITE A ESTES TERMOS.</strong></p>
+                </div>
+
+                <!-- MODALIDADE OASIS DO SEU JEITO -->
+                <div class="section-title">Termo de Ciência e Responsabilidade – Modalidade “OASIS do Seu Jeito”</div>
+                <div class="clausulas">
+                    <p>A modalidade denominada “DO SEU JEITO” consiste em uma experiência de viagem com proposta flexível, na qual estão incluídos exclusivamente os serviços previamente informados no ato da inscrição, especialmente transporte e hospedagem, podendo haver variações conforme o pacote adquirido.</p>
+                    <p>O CONTRATANTE declara estar ciente de que:</p>
+                    <p><strong>I –</strong> A programação durante o período da viagem é parcialmente livre, sendo de sua inteira responsabilidade a escolha de atividades, alimentação, passeios e demais despesas não expressamente incluídas no pacote;</p>
+                    <p><strong>II –</strong> Os atrativos turísticos (como cachoeiras, parques e similares) poderão ser ofertados como opcionais, não estando necessariamente inclusos no valor base do pacote, devendo ser pagos à parte quando de interesse do CONTRATANTE;</p>
+                    <p><strong>III –</strong> A hospedagem poderá ocorrer em quartos compartilhados, com utilização de áreas comuns, respeitando-se as regras do local;</p>
+                    <p><strong>IV –</strong> O Grupo OASIS atua como intermediador e organizador logístico da experiência, não se responsabilizando por decisões individuais do CONTRATANTE durante períodos livres, tampouco por serviços contratados diretamente com terceiros;</p>
+                    <p><strong>V –</strong> O CONTRATANTE compromete-se a respeitar horários previamente definidos para deslocamentos coletivos, sendo de sua responsabilidade estar presente nos pontos e horários informados, sob pena de perda do transporte, sem direito a reembolso;</p>
+                    <p><strong>VI –</strong> A ausência de serviços como alimentação inclusa (café da manhã, almoço ou jantar) faz parte da proposta da modalidade, visando proporcionar maior liberdade de escolha e adequação ao perfil de cada participante.</p>
+                    <p>Por fim, o CONTRATANTE declara estar ciente de que esta modalidade possui caráter econômico e flexível, diferenciando-se dos pacotes turísticos tradicionais, e concorda integralmente com as condições aqui estabelecidas.</p>
+                </div>
+
+                <!-- LGPD, SEGURO E CANCELAMENTO -->
+                <div class="section-title">Proteção de Dados (LGPD), Seguro Aventura e Cancelamento</div>
+                <div class="clausulas">
+                    <p><strong>Proteção de Dados (LGPD):</strong> Estou ciente que meus dados serão utilizados apenas para logística e segurança do passeio, sendo descartados responsavelmente após o evento, conforme a Lei nº 13.709/2018.</p>
+                    <p><strong>Seguro Obrigatório:</strong> Todos os participantes contarão com Seguro Aventura incluso, válido durante todo o período do passeio.</p>
+                    <p><strong>Reserva e Prazos:</strong> A confirmação da vaga ocorre mediante o envio do sinal via PIX para o responsável: <strong>Higo Gerson Cardoso</strong> — PIX: <strong>61 9 9630-0538</strong> (Cartão: Link disponível sob solicitação). O pagamento integral deve ser concluído até 3 dias antes do passeio, salvo condições específicas informadas previamente.</p>
+                    <p><strong>Quórum:</strong> O passeio é viabilizado com o mínimo de 5 e máximo de 20 pessoas. Caso o número mínimo não seja atingido, haverá ressarcimento integral.</p>
+                    <p><strong>Desistência Individual:</strong> Em caso de impossibilidade de comparecer, solicita-se aviso com 24h de antecedência. O reembolso ou crédito ocorrerá caso a vaga seja preenchida por outro participante, por indicação de substituto, ou em outros casos passíveis de avaliação.</p>
+                </div>
+
+                <!-- DECLARAÇÃO DE CIÊNCIA E ASSINATURAS -->
+                <div class="section-title">Declaração de Ciência</div>
+                <div class="bg-amber-50 border border-amber-300 p-3 rounded mb-6">
+                    <p class="text-slate-900">
+                        Confirmo que li e compreendo os termos acima, tendo enviado o comprovante no valor de <strong>R$ ${valor1}</strong> e <strong>R$ ${valor2}</strong> referente ao evento <strong>${passeioCompleto}</strong>.
+                    </p>
+                    <p class="font-bold text-slate-900 mt-1"><center>Estou ciente dos termos acima e confirmo inscrição.</center></p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-8 pt-6 text-center text-xs">
+                    <div>
+                        <div class="border-t border-slate-700 pt-1.5 mx-4">
+                            <p class="font-bold text-slate-900 uppercase">${nome}</p>
+                            <p class="text-[10px] text-slate-500">CPF: ${cpf}</p>
+                            <p class="text-[10px] text-slate-500 italic">(Ciência dada via Formulário web)</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="border-t border-slate-700 pt-1.5 mx-4">
+                            <p class="font-bold text-slate-900 uppercase">Higo Gerson Cardoso de Amorim</p>
+                            <p class="text-[10px] text-slate-500">Condutor responsável</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BOTÕES DO POP-UP -->
+                <div class="no-print flex justify-end gap-3 pt-6 mt-6 border-t border-slate-200">
+                    <button onclick="window.print()" class="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold px-4 py-2 rounded-lg text-sm shadow cursor-pointer">
+                        🖨️ Imprimir / Salvar PDF
+                    </button>
+                    <button onclick="window.close()" class="bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold px-4 py-2 rounded-lg text-sm cursor-pointer">
+                        ✕ Fechar Janela
+                    </button>
+                </div>
+            </div>
+        </body>
+        </html>
+    `);
+    janelaTermo.document.close();
+    janelaTermo.focus();
+}
 
 
 
@@ -2201,11 +2416,16 @@
                         <td class="p-2 border text-right whitespace-nowrap">R$ ${s1.toFixed(2)}</td>
                         <td class="p-2 border text-right whitespace-nowrap">R$ ${s2.toFixed(2)}</td>
                         <td class="p-2 border text-right font-bold text-slate-900 whitespace-nowrap">R$ ${valorTotal.toFixed(2)}</td>
-                        <td class="p-2 border text-center no-print whitespace-nowrap space-x-1">
-                            <button onclick="editarPassageiroRelatorio(${globalIdx})" class="text-blue-700 bg-blue-50 hover:bg-blue-100 px-2 py-1 rounded text-[11px] font-bold">✏️ Editar</button>
-                            <button onclick="quitarPassageiro(${globalIdx})" class="text-emerald-700 bg-emerald-50 hover:bg-emerald-100 px-2 py-1 rounded text-[11px] font-bold">✅ Quitar</button>
-                            <button onclick="removerPassageiroViagem(${globalIdx})" class="text-rose-600 bg-rose-50 hover:bg-rose-100 px-2 py-1 rounded text-[11px] font-bold">❌</button>
-                        </td>
+
+
+<td class="p-2 border text-center no-print whitespace-nowrap space-x-1">
+    <button onclick="emitirTermoViagem(${globalIdx})" title="Emitir Termo" class="text-amber-800 bg-amber-50 hover:bg-amber-100 px-2 py-1 rounded text-[11px] font-bold">📄</button>
+    <button onclick="editarPassageiroRelatorio(${globalIdx})" title="Editar" class="text-blue-700 bg-blue-50 hover:bg-blue-100 px-2 py-1 rounded text-[11px] font-bold">✏️</button>
+    <button onclick="quitarPassageiro(${globalIdx})" title="Quitar" class="text-emerald-700 bg-emerald-50 hover:bg-emerald-100 px-2 py-1 rounded text-[11px] font-bold">✅</button>
+    <button onclick="removerPassageiroViagem(${globalIdx})" title="Remover" class="text-rose-600 bg-rose-50 hover:bg-rose-100 px-2 py-1 rounded text-[11px] font-bold">❌</button>
+</td>
+
+
                     </tr>
                 `;
             });
