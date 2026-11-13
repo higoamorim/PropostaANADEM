@@ -1915,20 +1915,28 @@ function emitirTermoViagem(globalIdx) {
             });
         }
 
-        function darBaixaReceberPassageiro(globalIdx, saldoRestante) {
+
+
+function darBaixaReceberPassageiro(globalIdx, saldoRestante) {
             const p = db.passageiros[globalIdx];
             if (!p) return;
             if (!confirm(`Confirmar o recebimento do saldo de R$ ${saldoRestante.toFixed(2)} de ${p.NOME || p.nome}?`)) return;
 
+            const s1Atual = Number(p.VALOR_1_SINAL || p.valor_1_sinal || 0);
             const novoS2 = Number(p.VALOR_2_RESTANTE || p.valor_2_restante || 0) + saldoRestante;
+            
             p.VALOR_2_RESTANTE = novoS2;
             p.STATUS_PAGAMENTO = 'Quitado';
 
             renderAll();
             enviarParaPlanilha({
-                TIPO_REGISTRO: "CLIENTE", ACTION: "EDIT",
-                CPF_ORIGINAL: p.CPF || p.cpf, VIAGEM_ORIGINAL: p.VIAGEM_DESTINO || p.viagem_destino,
-                VALOR_2_RESTANTE: novoS2, STATUS_PAGAMENTO: 'Quitado'
+                TIPO_REGISTRO: "CLIENTE", 
+                ACTION: "EDIT_PARTIAL",
+                CPF_ORIGINAL: p.CPF || p.cpf, 
+                VIAGEM_ORIGINAL: p.VIAGEM_DESTINO || p.viagem_destino,
+                VALOR_1_SINAL: s1Atual,
+                VALOR_2_RESTANTE: novoS2, 
+                STATUS_PAGAMENTO: 'Quitado'
             });
         }
 
@@ -1936,14 +1944,22 @@ function emitirTermoViagem(globalIdx) {
             const p = db.passageiros[globalIdx];
             if (!p) return;
             if (!confirm(`Deseja dispensar/zerar a cobrança pendente deste passageiro?`)) return;
+            
             p.STATUS_PAGAMENTO = 'Quitado';
             renderAll();
             enviarParaPlanilha({
-                TIPO_REGISTRO: "CLIENTE", ACTION: "EDIT",
-                CPF_ORIGINAL: p.CPF || p.cpf, VIAGEM_ORIGINAL: p.VIAGEM_DESTINO || p.viagem_destino,
+                TIPO_REGISTRO: "CLIENTE", 
+                ACTION: "EDIT_PARTIAL",
+                CPF_ORIGINAL: p.CPF || p.cpf, 
+                VIAGEM_ORIGINAL: p.VIAGEM_DESTINO || p.viagem_destino,
+                VALOR_1_SINAL: Number(p.VALOR_1_SINAL || p.valor_1_sinal || 0),
+                VALOR_2_RESTANTE: Number(p.VALOR_2_RESTANTE || p.valor_2_restante || 0),
                 STATUS_PAGAMENTO: 'Quitado'
             });
         }
+
+
+
 
         function darBaixaReceberManual(id) {
             const item = db.contasReceber.find(x => String(x.id) === String(id));
