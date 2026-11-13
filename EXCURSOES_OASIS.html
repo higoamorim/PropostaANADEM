@@ -1075,6 +1075,9 @@ function emitirTermoViagem(globalIdx) {
     const cidade = p.CIDADE || p.cidade || '-';
     const destino = p.VIAGEM_DESTINO || p.viagem_destino || 'Evento';
     const opcao = p.ROTEIRO_OPCAO || p.roteiro_opcao || destino;
+    const viagemObj = db.viagens.find(v => v.destino === destino);
+    const dataViagem = viagemObj ? formatarDataBR(viagemObj.data) : '';
+
     const passeioCompleto = opcao && opcao !== destino ? `${destino} (${opcao})` : destino;
     const valor1 = Number(p.VALOR_1_SINAL || p.valor_1_sinal || 0).toFixed(2).replace('.', ',');
     const valor2 = Number(p.VALOR_2_RESTANTE || p.valor_2_restante || 0).toFixed(2).replace('.', ',');
@@ -1187,8 +1190,10 @@ function emitirTermoViagem(globalIdx) {
                         <td>${cidade}</td>
                     </tr>
                     <tr>
-                        <td class="info-label">Evento / Passeio</td>
-                        <td colspan="3" class="font-bold text-amber-900">${passeioCompleto}</td>
+
+<td class="info-label">Evento / Passeio</td>
+<td colspan="3" class="font-bold text-amber-900">${passeioCompleto} — ${dataViagem}</td>
+
                     </tr>
                 </table>
 
@@ -1242,7 +1247,7 @@ function emitirTermoViagem(globalIdx) {
                 <div class="section-title">Declaração de Ciência</div>
                 <div class="bg-amber-50 border border-amber-300 p-3 rounded mb-6">
                     <p class="text-slate-900">
-                        Confirmo que li e compreendo os termos acima, tendo enviado o comprovante no valor de <strong>R$ ${valor1}</strong> e <strong>R$ ${valor2}</strong> referente ao evento <strong>${passeioCompleto}</strong>.
+                        Confirmo que li e compreendo os termos acima, tendo enviado o comprovante no valor de <strong>R$ ${valor1}</strong> e <strong>R$ ${valor2}</strong> referente ao evento <strong>${passeioCompleto}</strong> no dia ${dataViagem}.
                     </p>
                     <p class="font-bold text-slate-900 mt-1"><center>Estou ciente dos termos acima e confirmo inscrição.</center></p>
                 </div>
