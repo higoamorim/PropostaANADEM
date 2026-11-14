@@ -706,8 +706,174 @@
 
     <datalist id="lista-nomes-passageiros"></datalist>
 
+
+
+<!-- MODAL EDITAR CONTA A PAGAR -->
+    <div id="modal-editar-pagar" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex justify-center items-center hidden z-50 p-4">
+        <div class="bg-white rounded-xl shadow-xl w-full max-w-lg overflow-hidden">
+            <div class="px-6 py-4 bg-slate-900 text-white flex justify-between items-center">
+                <h3 class="font-bold flex items-center gap-2"><i class="fa-solid fa-pen text-rose-400"></i> Editar Conta a Pagar</h3>
+                <button onclick="closeModal('modal-editar-pagar')" class="text-slate-400"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form onsubmit="salvarEdicaoPagar(event)" class="p-6 space-y-4">
+                <input type="hidden" id="edit-pag-id">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Origem / Viagem Vinculada</label>
+                    <input type="text" id="edit-pag-origem" required class="w-full px-3 py-2 border rounded-lg text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Passageiro ou Fornecedor (Favorecido)</label>
+                    <input type="text" id="edit-pag-favorecido" list="lista-nomes-passageiros" required class="w-full px-3 py-2 border rounded-lg text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Descrição</label>
+                    <input type="text" id="edit-pag-desc" required class="w-full px-3 py-2 border rounded-lg text-sm">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Vencimento</label>
+                        <input type="date" id="edit-pag-venc" required class="w-full px-3 py-2 border rounded-lg text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Valor (R$)</label>
+                        <input type="number" step="0.01" id="edit-pag-valor" required class="w-full px-3 py-2 border rounded-lg text-sm">
+                    </div>
+                </div>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeModal('modal-editar-pagar')" class="px-4 py-2 border rounded-lg text-sm">Cancelar</button>
+                    <button type="submit" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-lg text-sm">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL EDITAR CONTA A RECEBER MANUAL -->
+    <div id="modal-editar-receber" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex justify-center items-center hidden z-50 p-4">
+        <div class="bg-white rounded-xl shadow-xl w-full max-w-lg overflow-hidden">
+            <div class="px-6 py-4 bg-slate-900 text-white flex justify-between items-center">
+                <h3 class="font-bold flex items-center gap-2"><i class="fa-solid fa-pen text-emerald-400"></i> Editar Conta a Receber Manual</h3>
+                <button onclick="closeModal('modal-editar-receber')" class="text-slate-400"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form onsubmit="salvarEdicaoReceber(event)" class="p-6 space-y-4">
+                <input type="hidden" id="edit-rec-id">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Origem</label>
+                    <input type="text" id="edit-rec-origem" required class="w-full px-3 py-2 border rounded-lg text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Passageiro / Cliente</label>
+                    <input type="text" id="edit-rec-cliente" list="lista-nomes-passageiros" required class="w-full px-3 py-2 border rounded-lg text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Descrição</label>
+                    <input type="text" id="edit-rec-desc" required class="w-full px-3 py-2 border rounded-lg text-sm">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Vencimento / Data</label>
+                        <input type="date" id="edit-rec-venc" required class="w-full px-3 py-2 border rounded-lg text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Valor (R$)</label>
+                        <input type="number" step="0.01" id="edit-rec-valor" required class="w-full px-3 py-2 border rounded-lg text-sm">
+                    </div>
+                </div>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeModal('modal-editar-receber')" class="px-4 py-2 border rounded-lg text-sm">Cancelar</button>
+                    <button type="submit" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg text-sm">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
     <!-- SCRIPT DE CONTROLE -->
     <script>
+
+
+
+function abrirEditarPagar(id) {
+            const item = db.contasPagar.find(x => String(x.id) === String(id));
+            if(!item) return;
+            document.getElementById('edit-pag-id').value = item.id;
+            document.getElementById('edit-pag-origem').value = item.origem || '';
+            document.getElementById('edit-pag-favorecido').value = item.favorecido || '';
+            document.getElementById('edit-pag-desc').value = item.descricao || '';
+            document.getElementById('edit-pag-venc').value = formatarDataISO(item.vencimento);
+            document.getElementById('edit-pag-valor').value = item.valor || 0;
+            openModal('modal-editar-pagar');
+        }
+
+        function salvarEdicaoPagar(e) {
+            e.preventDefault();
+            const id = document.getElementById('edit-pag-id').value;
+            const item = db.contasPagar.find(x => String(x.id) === String(id));
+            if(!item) return;
+
+            item.origem = document.getElementById('edit-pag-origem').value.trim();
+            item.favorecido = document.getElementById('edit-pag-favorecido').value.trim();
+            item.descricao = document.getElementById('edit-pag-desc').value.trim();
+            item.vencimento = document.getElementById('edit-pag-venc').value;
+            item.valor = Number(document.getElementById('edit-pag-valor').value);
+
+            localStorage.setItem('oasis_pagar', JSON.stringify(db.contasPagar));
+            closeModal('modal-editar-pagar');
+            renderContasPagar();
+            renderDashboard();
+
+            enviarParaPlanilha({
+                TIPO_REGISTRO: "FINANCEIRO", ACTION: "EDIT", ID: String(item.id), TIPO: "PAGAR",
+                ORIGEM: item.origem, CLIENTE_FORNECEDOR: item.favorecido, DESCRICAO: item.descricao,
+                VENCIMENTO: formatarDataBR(item.vencimento), VALOR: item.valor, STATUS: item.status
+            }, null, true);
+        }
+
+        function abrirEditarReceberManual(id) {
+            const item = db.contasReceber.find(x => String(x.id) === String(id));
+            if(!item) return;
+            document.getElementById('edit-rec-id').value = item.id;
+            document.getElementById('edit-rec-origem').value = item.origem || '';
+            document.getElementById('edit-rec-cliente').value = item.cliente || '';
+            document.getElementById('edit-rec-desc').value = item.descricao || '';
+            document.getElementById('edit-rec-venc').value = formatarDataISO(item.vencimento);
+            document.getElementById('edit-rec-valor').value = item.valor || 0;
+            openModal('modal-editar-receber');
+        }
+
+        function salvarEdicaoReceber(e) {
+            e.preventDefault();
+            const id = document.getElementById('edit-rec-id').value;
+            const item = db.contasReceber.find(x => String(x.id) === String(id));
+            if(!item) return;
+
+            item.origem = document.getElementById('edit-rec-origem').value.trim();
+            item.cliente = document.getElementById('edit-rec-cliente').value.trim();
+            item.descricao = document.getElementById('edit-rec-desc').value.trim();
+            item.vencimento = document.getElementById('edit-rec-venc').value;
+            item.valor = Number(document.getElementById('edit-rec-valor').value);
+
+            localStorage.setItem('oasis_receber', JSON.stringify(db.contasReceber));
+            closeModal('modal-editar-receber');
+            renderContasReceber();
+            renderDashboard();
+
+            enviarParaPlanilha({
+                TIPO_REGISTRO: "FINANCEIRO", ACTION: "EDIT", ID: String(item.id), TIPO: "RECEBER",
+                ORIGEM: item.origem, CLIENTE_FORNECEDOR: item.cliente, DESCRICAO: item.descricao,
+                VENCIMENTO: formatarDataBR(item.vencimento), VALOR: item.valor, STATUS: item.status
+            }, null, true);
+        }
+
+
+
+
 
 
 
@@ -1704,7 +1870,8 @@ function emitirTermoViagem(globalIdx) {
             enviarParaPlanilha({ TIPO_REGISTRO: "VIAGEM", ACTION: "DELETE_VIAGEM_NUVEM", ID: String(id) });
         }
 
-        function renderViagens() {
+
+function renderViagens() {
             const tbody = document.getElementById('table-passeios');
             if (!tbody) return;
             const query = (document.getElementById('search-viagem')?.value || '').toLowerCase();
@@ -1731,26 +1898,49 @@ function emitirTermoViagem(globalIdx) {
             }
 
             tbody.innerHTML = filtradas.map(v => {
-                const qtdInscritos = db.passageiros.filter(p => (p.VIAGEM_DESTINO || p.viagem_destino) === v.destino).length;
-                const badges = (v.opcoes || []).map(o => `<span class="bg-amber-50 text-amber-800 text-[10px] px-2 py-0.5 rounded border border-amber-200">${o}</span>`).join(' ');
+                const qtdInscritosTotal = db.passageiros.filter(p => (p.VIAGEM_DESTINO || p.viagem_destino) === v.destino).length;
+                
+                // Contagem detalhada por opção e principal
+                const qtdPrincipal = db.passageiros.filter(p => {
+                    const dest = p.VIAGEM_DESTINO || p.viagem_destino;
+                    const op = p.ROTEIRO_OPCAO || p.roteiro_opcao;
+                    return dest === v.destino && (!op || op === v.destino);
+                }).length;
+
+                let badges = `<span class="bg-amber-100 text-amber-900 text-[10px] px-2 py-0.5 rounded border border-amber-300 font-bold">${v.destino} (Principal): ${qtdPrincipal}</span>`;
+                
+                (v.opcoes || []).forEach(o => {
+                    const qtdOp = db.passageiros.filter(p => {
+                        const dest = p.VIAGEM_DESTINO || p.viagem_destino;
+                        const op = p.ROTEIRO_OPCAO || p.roteiro_opcao;
+                        return dest === v.destino && op === o;
+                    }).length;
+                    badges += ` <span class="bg-amber-50 text-amber-800 text-[10px] px-2 py-0.5 rounded border border-amber-200">${o}: <strong>${qtdOp}</strong></span>`;
+                });
+
                 return `
                     <tr class="hover:bg-slate-50">
                         <td class="p-3 font-bold text-slate-800">${v.destino}</td>
                         <td class="p-3"><div class="flex flex-wrap gap-1">${badges || '<span class="text-xs text-slate-400">-</span>'}</div></td>
                         <td class="p-3 text-center text-xs whitespace-nowrap font-medium">${formatarDataBR(v.data)}</td>
                         <td class="p-3 text-center text-xs whitespace-nowrap">
-                            <span class="px-2 py-0.5 rounded font-bold ${qtdInscritos >= Number(v.vagas) ? 'bg-rose-100 text-rose-700' : 'bg-blue-50 text-blue-700'}">${qtdInscritos} / ${v.vagas}</span>
+                            <span class="px-2 py-0.5 rounded font-bold ${qtdInscritosTotal >= Number(v.vagas) ? 'bg-rose-100 text-rose-700' : 'bg-blue-50 text-blue-700'}">${qtdInscritosTotal} / ${v.vagas}</span>
                         </td>
                         <td class="p-3 text-right font-bold text-amber-700 whitespace-nowrap">R$ ${Number(v.valor).toFixed(2)}</td>
                         <td class="p-3 text-center whitespace-nowrap space-x-1">
-                            <button onclick="abrirListagemPassageirosViagem('${v.destino.replace(/'/g, "\\'")}')" class="bg-slate-900 hover:bg-slate-800 text-amber-400 text-xs font-bold px-2.5 py-1 rounded shadow-sm"><i class="fa-solid fa-clipboard-list"></i> Lista (${qtdInscritos})</button>
-                            <button onclick="editarViagem('${v.id}')" class="bg-blue-100 hover:bg-blue-200 text-blue-800 text-xs font-bold px-2.5 py-1 rounded"><i class="fa-solid fa-pen"></i> Editar</button>
-                            <button onclick="excluirViagem('${v.id}')" class="bg-rose-100 hover:bg-rose-200 text-rose-800 text-xs font-bold px-2.5 py-1 rounded"><i class="fa-solid fa-trash"></i> Excluir</button>
+                            <button onclick="abrirListagemPassageirosViagem('${v.destino.replace(/'/g, "\\'")}')" class="bg-slate-900 hover:bg-slate-800 text-amber-400 text-xs font-bold px-2.5 py-1 rounded shadow-sm" title="Lista"><i class="fa-solid fa-clipboard-list"></i> (${qtdInscritosTotal})</button>
+                            <button onclick="editarViagem('${v.id}')" class="bg-blue-100 hover:bg-blue-200 text-blue-800 text-xs font-bold px-2.5 py-1 rounded" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                            <button onclick="excluirViagem('${v.id}')" class="bg-rose-100 hover:bg-rose-200 text-rose-800 text-xs font-bold px-2.5 py-1 rounded" title="Excluir"><i class="fa-solid fa-trash"></i></button>
                         </td>
                     </tr>
                 `;
             }).join('');
         }
+
+
+
+
+
 
         function verificarFiltroData(dataISO, mesFiltro, inicioFiltro, fimFiltro) {
             if (!mesFiltro && !inicioFiltro && !fimFiltro) return true;
@@ -1821,7 +2011,7 @@ function emitirTermoViagem(globalIdx) {
             enviarParaPlanilha({ TIPO_REGISTRO: "FINANCEIRO", ACTION: "DELETE", ID: String(id) }, null, true);
         }
 
-        function renderContasPagar() {
+ function renderContasPagar() {
             const tbody = document.getElementById('table-pagar');
             if(!tbody) return;
             const fPass = (document.getElementById('pag-filtro-pass')?.value || '').toLowerCase();
@@ -1871,14 +2061,21 @@ function emitirTermoViagem(globalIdx) {
                         <td class="p-3 text-right font-bold text-rose-600 whitespace-nowrap">R$ ${Number(c.valor).toFixed(2)}</td>
                         <td class="p-3 text-center"><span class="px-2 py-0.5 rounded text-xs font-bold ${c.status === 'Pago' ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">${c.status}</span></td>
                         <td class="p-3 text-center whitespace-nowrap space-x-1 no-print">
-                            ${fav !== '-' ? `<button onclick="abrirDeclaracaoPassageiro('${fav.replace(/'/g, "\\'")}')" class="text-xs bg-slate-800 text-amber-400 hover:bg-slate-700 font-bold px-2.5 py-1 rounded" title="Declaração"><i class="fa-solid fa-file-contract"></i> Declaração</button>` : ''}
-                            <button onclick="darBaixaPagar('${c.id}')" class="text-xs ${c.status === 'Pago' ? 'bg-amber-100 text-amber-800' : 'bg-emerald-600 text-white hover:bg-emerald-700'} font-bold px-2.5 py-1 rounded">${c.status === 'Pago' ? '↩ Reabrir' : '✅ Dar Baixa'}</button>
-                            <button onclick="excluirContaPagar('${c.id}')" class="text-xs bg-rose-100 text-rose-700 hover:bg-rose-200 font-bold px-2.5 py-1 rounded"><i class="fa-solid fa-trash"></i> Excluir</button>
+                            ${fav !== '-' ? `<button onclick="abrirDeclaracaoPassageiro('${fav.replace(/'/g, "\\'")}')" class="text-xs bg-slate-800 text-amber-400 hover:bg-slate-700 px-2.5 py-1 rounded" title="Declaração">📄</button>` : ''}
+                            <button onclick="abrirEditarPagar('${c.id}')" class="text-xs bg-blue-100 text-blue-800 hover:bg-blue-200 px-2.5 py-1 rounded" title="Editar">✏️</button>
+                            <button onclick="darBaixaPagar('${c.id}')" class="text-xs ${c.status === 'Pago' ? 'bg-amber-100 text-amber-800' : 'bg-emerald-600 text-white hover:bg-emerald-700'} px-2.5 py-1 rounded" title="${c.status === 'Pago' ? 'Reabrir' : 'Dar Baixa'}">${c.status === 'Pago' ? '↩' : '✅'}</button>
+                            <button onclick="excluirContaPagar('${c.id}')" class="text-xs bg-rose-100 text-rose-700 hover:bg-rose-200 px-2.5 py-1 rounded" title="Excluir">❌</button>
                         </td>
                     </tr>
                 `;
             }).join('') || `<tr><td colspan="7" class="p-4 text-center text-slate-400 italic">Nenhuma conta a pagar encontrada.</td></tr>`;
         }
+
+
+
+
+
+
 
         function limparFiltrosReceber() {
             document.getElementById('rec-filtro-pass').value = '';
@@ -1999,7 +2196,8 @@ function darBaixaReceberPassageiro(globalIdx, saldoRestante) {
             }, null, true);
         }
 
-        function renderContasReceber() {
+
+function renderContasReceber() {
             const tbody = document.getElementById('table-receber');
             if(!tbody) return;
             const fPass = (document.getElementById('rec-filtro-pass')?.value || '').toLowerCase();
@@ -2092,19 +2290,21 @@ function darBaixaReceberPassageiro(globalIdx, saldoRestante) {
                     ? `<span class="bg-blue-50 text-blue-700 text-xs font-bold px-2 py-0.5 rounded">Viagem</span>`
                     : `<span class="bg-amber-50 text-amber-800 text-xs font-bold px-2 py-0.5 rounded">${r.origem}</span>`;
                 const refClass = r.tipoItem === 'viagem' ? 'p-3 text-blue-600 font-medium' : 'p-3 text-slate-600';
+                
                 const botoesAcao = r.tipoItem === 'viagem'
                     ? `
-                        <button onclick="abrirDeclaracaoPassageiro('${r.cliente.replace(/'/g, "\\'")}', '${r.cpf}')" class="text-xs bg-slate-800 hover:bg-slate-700 text-amber-400 font-bold px-2.5 py-1 rounded" title="Declaração"><i class="fa-solid fa-file-contract"></i> Declaração</button>
+                        <button onclick="abrirDeclaracaoPassageiro('${r.cliente.replace(/'/g, "\\'")}', '${r.cpf}')" class="text-xs bg-slate-800 hover:bg-slate-700 text-amber-400 px-2.5 py-1 rounded" title="Declaração">📄</button>
                         ${r.isQuitado
-                            ? `<button onclick="reabrirReceberPassageiro(${r.globalIdx})" class="text-xs bg-amber-100 text-amber-800 font-bold px-2.5 py-1 rounded">↩ Reabrir</button>`
-                            : `<button onclick="darBaixaReceberPassageiro(${r.globalIdx}, ${r.saldo})" class="text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-2.5 py-1 rounded">✅ Dar Baixa</button>`
+                            ? `<button onclick="reabrirReceberPassageiro(${r.globalIdx})" class="text-xs bg-amber-100 text-amber-800 px-2.5 py-1 rounded" title="Reabrir">↩</button>`
+                            : `<button onclick="darBaixaReceberPassageiro(${r.globalIdx}, ${r.saldo})" class="text-xs bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded" title="Dar Baixa">✅</button>`
                         }
-                        <button onclick="excluirSaldoReceberPassageiro(${r.globalIdx})" class="text-xs bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold px-2.5 py-1 rounded" title="Excluir"><i class="fa-solid fa-trash"></i></button>
+                        <button onclick="excluirSaldoReceberPassageiro(${r.globalIdx})" class="text-xs bg-rose-100 hover:bg-rose-200 text-rose-700 px-2.5 py-1 rounded" title="Excluir">❌</button>
                     `
                     : `
-                        <button onclick="abrirDeclaracaoPassageiro('${r.cliente.replace(/'/g, "\\'")}')" class="text-xs bg-slate-800 hover:bg-slate-700 text-amber-400 font-bold px-2.5 py-1 rounded" title="Declaração"><i class="fa-solid fa-file-contract"></i> Declaração</button>
-                        <button onclick="darBaixaReceberManual('${r.id}')" class="text-xs ${r.isQuitado ? 'bg-amber-100 text-amber-800' : 'bg-emerald-600 text-white hover:bg-emerald-700'} font-bold px-2.5 py-1 rounded">${r.isQuitado ? '↩ Reabrir' : '✅ Dar Baixa'}</button>
-                        <button onclick="excluirReceberManual('${r.id}')" class="text-xs bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold px-2.5 py-1 rounded"><i class="fa-solid fa-trash"></i></button>
+                        <button onclick="abrirDeclaracaoPassageiro('${r.cliente.replace(/'/g, "\\'")}')" class="text-xs bg-slate-800 hover:bg-slate-700 text-amber-400 px-2.5 py-1 rounded" title="Declaração">📄</button>
+                        <button onclick="abrirEditarReceberManual('${r.id}')" class="text-xs bg-blue-100 text-blue-800 hover:bg-blue-200 px-2.5 py-1 rounded" title="Editar">✏️</button>
+                        <button onclick="darBaixaReceberManual('${r.id}')" class="text-xs ${r.isQuitado ? 'bg-amber-100 text-amber-800' : 'bg-emerald-600 text-white hover:bg-emerald-700'} px-2.5 py-1 rounded" title="${r.isQuitado ? 'Reabrir' : 'Dar Baixa'}">${r.isQuitado ? '↩' : '✅'}</button>
+                        <button onclick="excluirReceberManual('${r.id}')" class="text-xs bg-rose-100 hover:bg-rose-200 text-rose-700 px-2.5 py-1 rounded" title="Excluir">❌</button>
                     `;
 
                 return `
@@ -2138,6 +2338,11 @@ function darBaixaReceberPassageiro(globalIdx, saldoRestante) {
 
             tbody.innerHTML = html || `<tr><td colspan="8" class="p-4 text-center text-slate-400 italic">Nenhuma conta a receber encontrada.</td></tr>`;
         }
+
+
+
+
+
 
         function setModoFluxoCaixa(modo) {
             modoFluxoCaixa = modo;
@@ -2497,21 +2702,87 @@ function quitarPassageiro(globalIdx) {
             }
         }
 
-        function exportarRelatorioExcel() {
+
+
+
+
+function exportarRelatorioExcel() {
             const destino = document.getElementById('select-relatorio-passeio').value;
             const inscritos = db.passageiros.filter(p => (p.VIAGEM_DESTINO || p.viagem_destino) === destino);
             if(!inscritos.length) { alert("Nenhum dado."); return; }
 
             const viagemObj = db.viagens.find(v => v.destino === destino);
             const valorPropostoViagem = viagemObj ? Number(viagemObj.valor || 0) : 0;
-            let html = `<table border="1"><tr><th colspan="15">Relatório - GRUPO OASIS DF - ${destino}</th></tr><tr style="background:#e2e8f0;font-weight:bold;"><th>N</th><th>Nome</th><th>Status</th><th>Tel</th><th>CPF</th><th>Nasc</th><th>Idade</th><th>Cidade</th><th>Passeio</th><th>Ingresso</th><th>Embarque</th><th>Horário</th><th>Sinal</th><th>Restante</th><th>Total</th></tr>`;
+            
+            let html = `<table border="1">
+                <tr><th colspan="15" style="background:#0f172a;color:#ffffff;font-size:14px;">Relatório de Embarque - GRUPO OASIS DF - ${destino}</th></tr>
+                <tr style="background:#e2e8f0;font-weight:bold;">
+                    <th>N</th><th>Nome</th><th>Status</th><th>Telefone</th><th>CPF</th><th>Nasc</th><th>Idade</th><th>Cidade</th><th>Passeio</th><th>Ingresso</th><th>Embarque</th><th>Horário</th><th>Sinal</th><th>Restante</th><th>Total</th>
+                </tr>`;
+
+            // Objeto para contar quantas pessoas vão em cada opção de passeio
+            const contagemPorPasseio = {};
 
             inscritos.forEach((p, idx) => {
                 const s1 = Number(p.VALOR_1_SINAL || p.valor_1_sinal || 0);
                 const s2 = Number(p.VALOR_2_RESTANTE || p.valor_2_restante || 0);
                 const status = calcularStatusPagamento(s1, s2, valorPropostoViagem, p.STATUS_PAGAMENTO || p.status_pagamento);
-                html += `<tr><td>${idx+1}</td><td>${p.NOME || p.nome || ''}</td><td>${status}</td><td>${p.TELEFONE || p.telefone || ''}</td><td>${p.CPF || p.cpf || ''}</td><td>${formatarDataBR(p.NASCIMENTO || p.nasc)}</td><td>${calcularIdade(p.NASCIMENTO || p.nasc)}</td><td>${p.CIDADE || p.cidade || ''}</td><td>${p.ROTEIRO_OPCAO || p.roteiro_opcao || destino || ''}</td><td>${Number(p.VALOR_INGRESSO || 0).toFixed(2)}</td><td>${p.LOCAL_EMBARQUE || ''}</td><td>${p.HORARIO_EMBARQUE || ''}</td><td>${s1.toFixed(2)}</td><td>${s2.toFixed(2)}</td><td>${(s1+s2).toFixed(2)}</td></tr>`;
+                const passeioEscolhido = (p.ROTEIRO_OPCAO || p.roteiro_opcao || destino || 'Não especificado').trim();
+
+                // Incrementa a contagem desse passeio
+                contagemPorPasseio[passeioEscolhido] = (contagemPorPasseio[passeioEscolhido] || 0) + 1;
+                
+                let telBruto = (p.TELEFONE || p.telefone || '').replace(/\D/g, '');
+                let telFormatado = telBruto;
+                if (telBruto) {
+                    if (!telBruto.startsWith('55')) telBruto = '55' + telBruto;
+                    if (telBruto.length >= 12) {
+                        telFormatado = `+${telBruto.slice(0, 2)} ${telBruto.slice(2, 4)} ${telBruto.slice(4, -4)}-${telBruto.slice(-4)}`;
+                    } else {
+                        telFormatado = '+' + telBruto;
+                    }
+                } else {
+                    telFormatado = '-';
+                }
+
+                html += `<tr>
+                    <td>${idx+1}</td>
+                    <td>${p.NOME || p.nome || ''}</td>
+                    <td>${status}</td>
+                    <td style="mso-number-format:'\\@';">${telFormatado}</td>
+                    <td>${p.CPF || p.cpf || ''}</td>
+                    <td>${formatarDataBR(p.NASCIMENTO || p.nasc)}</td>
+                    <td>${calcularIdade(p.NASCIMENTO || p.nasc)}</td>
+                    <td>${p.CIDADE || p.cidade || ''}</td>
+                    <td>${passeioEscolhido}</td>
+                    <td>${Number(p.VALOR_INGRESSO || 0).toFixed(2)}</td>
+                    <td>${p.LOCAL_EMBARQUE || ''}</td>
+                    <td>${p.HORARIO_EMBARQUE || ''}</td>
+                    <td>${s1.toFixed(2)}</td>
+                    <td>${s2.toFixed(2)}</td>
+                    <td>${(s1+s2).toFixed(2)}</td>
+                </tr>`;
             });
+
+            // Linha em branco de separação
+            html += `<tr><td colspan="15"></td></tr>`;
+
+            // Quadro de Resumo por Passeio / Opção
+            html += `<tr><th colspan="3" style="background:#0f172a;color:#fbbf24;text-align:left;">RESUMO DE PARTICIPANTES POR PASSEIO</th></tr>`;
+            html += `<tr style="background:#e2e8f0;font-weight:bold;"><th colspan="2">Opção / Passeio</th><th>Qtd. Pessoas</th></tr>`;
+
+            Object.entries(contagemPorPasseio).forEach(([nomePasseio, qtd]) => {
+                html += `<tr>
+                    <td colspan="2">${nomePasseio}</td>
+                    <td style="text-align:center;font-weight:bold;">${qtd}</td>
+                </tr>`;
+            });
+
+            html += `<tr style="background:#fef3c7;font-weight:bold;">
+                <td colspan="2">TOTAL GERAL DA VIAGEM</td>
+                <td style="text-align:center;">${inscritos.length}</td>
+            </tr>`;
+
             html += `</table>`;
 
             const blob = new Blob(['\ufeff' + html], { type: 'application/vnd.ms-excel;charset=utf-8;' });
@@ -2523,6 +2794,14 @@ function quitarPassageiro(globalIdx) {
             a.click();
             a.remove();
         }
+
+
+
+
+
+
+
+
 
         function renderAll() {
             renderDashboard();
