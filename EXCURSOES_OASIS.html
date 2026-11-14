@@ -2017,7 +2017,7 @@ function renderViagens() {
             enviarParaPlanilha({ TIPO_REGISTRO: "FINANCEIRO", ACTION: "DELETE", ID: String(id) }, null, true);
         }
 
- function renderContasPagar() {
+function renderContasPagar() {
             const tbody = document.getElementById('table-pagar');
             if(!tbody) return;
             const fPass = (document.getElementById('pag-filtro-pass')?.value || '').toLowerCase();
@@ -2054,7 +2054,7 @@ function renderViagens() {
 
             if (document.getElementById('pag-rel-subtitulo')) document.getElementById('pag-rel-subtitulo').innerText = subPeriodo;
             if (document.getElementById('pag-rel-emissao')) document.getElementById('pag-rel-emissao').innerText = `Emitido em: ${formatarDataBR(new Date().toISOString().slice(0, 10))}`;
-            if (document.getElementById('pag-rel-total-header')) document.getElementById('pag-rel-total-header').innerText = `Total Listado: R$ ${totalFiltrado.toFixed(2)}`;
+            if (document.getElementById('pag-rel-total-header')) document.getElementById('pag-rel-total-header').innerText = `Total Listado: ${formatarMoeda(totalFiltrado)}`;
 
             tbody.innerHTML = filtrados.map(c => {
                 const fav = c.favorecido || '-';
@@ -2076,8 +2076,6 @@ function renderViagens() {
                 `;
             }).join('') || `<tr><td colspan="7" class="p-4 text-center text-slate-400 italic">Nenhuma conta a pagar encontrada.</td></tr>`;
         }
-
-
 
 
 
@@ -2201,6 +2199,7 @@ function darBaixaReceberPassageiro(globalIdx, saldoRestante) {
                 STATUS_PAGAMENTO: 'Em aberto'
             }, null, true);
         }
+
 
 
 function renderContasReceber() {
@@ -2336,10 +2335,11 @@ function renderContasReceber() {
 
             if (document.getElementById('rec-rel-subtitulo')) document.getElementById('rec-rel-subtitulo').innerText = subPeriodo;
             if (document.getElementById('rec-rel-emissao')) document.getElementById('rec-rel-emissao').innerText = `Emitido em: ${formatarDataBR(new Date().toISOString().slice(0, 10))}`;
+
             if (document.getElementById('rec-rel-total-header')) {
                 document.getElementById('rec-rel-total-header').innerText = fStatus === 'quitado'
-                    ? `Total Quitado: R$ ${totalQuitadoList.toFixed(2)}`
-                    : `Saldo Pendente: R$ ${totalSaldoPendente.toFixed(2)}`;
+                    ? `Total Quitado: ${formatarMoeda(totalQuitadoList)}`
+                    : `Saldo Pendente: ${formatarMoeda(totalSaldoPendente)}`;
             }
 
             tbody.innerHTML = html || `<tr><td colspan="8" class="p-4 text-center text-slate-400 italic">Nenhuma conta a receber encontrada.</td></tr>`;
